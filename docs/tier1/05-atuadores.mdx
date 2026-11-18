@@ -1,0 +1,749 @@
+---
+id: atuadores
+title: 🦾 Atuadores e Controle
+description: Os motores que fazem humanoides se moverem e como são controlados
+tier: 1
+module_number: 5
+estimated_time: 20
+sidebar_position: 5
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# 🦾 Atuadores e Controle
+
+<div className="hero-badges">
+  <span className="badge badge-tier1">Tier 1 - Módulo 5</span>
+  <span className="badge badge-time">⏱️ 20 minutos</span>
+  <span className="badge badge-level">📊 Fundamentos</span>
+</div>
+
+## 🎯 O que você vai aprender
+
+Neste módulo, você vai descobrir os "músculos" dos robôs humanoides: servomotores, atuadores hidráulicos, quasi-direct drive e como sistemas de controle coordenam dezenas de juntas simultaneamente.
+
+---
+
+## 💪 Atuadores: Os Músculos do Robô
+
+### O que é um Atuador?
+
+**Definição:** Dispositivo que converte energia em movimento mecânico
+
+<div className="feature-grid">
+
+<div className="feature-card">
+<div className="feature-icon">⚡</div>
+<h3>Entrada</h3>
+<p>Energia elétrica, hidráulica ou pneumática</p>
+</div>
+
+<div className="feature-card">
+<div className="feature-icon">🔄</div>
+<h3>Processamento</h3>
+<p>Controlador define força/velocidade</p>
+</div>
+
+<div className="feature-card">
+<div className="feature-icon">🦿</div>
+<h3>Saída</h3>
+<p>Movimento rotacional ou linear</p>
+</div>
+
+</div>
+
+**Analogia Humana:**
+- **Atuador = Músculo**
+- **Encoder = Propriocepção (sentir posição)**
+- **Controlador = Cerebelo (coordenação motora)**
+
+---
+
+## ⚙️ Tipos de Atuadores
+
+### 1. Servomotores (Servo Motors)
+
+<div className="actuator-card featured">
+
+#### 🎯 **O Mais Comum em Robótica**
+
+**O que é:** Motor elétrico + caixa de redução + encoder + controlador integrado
+
+**Como funciona:**
+1. Você envia comando: "Mover para 90°"
+2. Controlador lê encoder: "Estou em 45°"
+3. Motor gira até atingir 90°
+4. Mantém posição com feedback contínuo
+
+**Componentes:**
+```
+┌──────────────────────────┐
+│ Servo Motor              │
+│                          │
+│  ┌─────┐  ┌─────┐       │
+│  │Motor│→ │Caixa│ → Eixo│
+│  │ DC  │  │Redu-│   Saída
+│  └─────┘  │ção │       │
+│           └─────┘       │
+│              ↓          │
+│         ┌────────┐      │
+│         │Encoder │      │
+│         └────────┘      │
+│              ↓          │
+│      ┌──────────────┐   │
+│      │Controlador   │   │
+│      │(PID)         │   │
+│      └──────────────┘   │
+└──────────────────────────┘
+```
+
+</div>
+
+**Tipos de Servos:**
+
+<Tabs>
+<TabItem value="hobby" label="Hobby/RC" default>
+
+### Servos RC (Radio Control)
+
+**Características:**
+- Tensão: 4.8V - 7.4V
+- Torque: 1 - 30 kg·cm
+- Ângulo: 180° (limitado)
+- Interface: PWM (1-2ms)
+- Preço: $5 - $100
+
+**Modelos Populares:**
+- **SG90**: 1.8 kg·cm, $2 (micro)
+- **MG996R**: 11 kg·cm, $8 (metal gear)
+- **Dynamixel AX-12A**: 15 kg·cm, $45 (robotics)
+
+**Uso em Humanoides:** ❌ **Não recomendado** - Torque insuficiente para peso do robô
+
+</TabItem>
+
+<TabItem value="industrial" label="Servos Industriais">
+
+### Servos de Alta Performance
+
+**Características:**
+- Tensão: 24V - 48V
+- Torque: 50 - 500 kg·cm
+- Ângulo: 360° contínuo
+- Interface: CANbus, EtherCAT
+- Preço: $500 - $5,000
+
+**Modelos em Humanoides:**
+- **Dynamixel Pro H54-200**: 200 kg·cm, $1,500
+- **Maxon EC-4pole**: 300 kg·cm, $2,000
+- **Kollmorgen AKM**: 500 kg·cm, $3,500
+
+**Uso:** ✅ Atlas (versões antigas), humanoides de pesquisa
+
+**Vantagens:**
+- ✅ Controle preciso de posição
+- ✅ Feedback em tempo real
+- ✅ Fácil de programar
+
+**Desvantagens:**
+- ❌ Pesado (caixa de redução grande)
+- ❌ Backdrivability ruim (difícil mover manualmente)
+- ❌ Latência em controle de força
+
+</TabItem>
+
+<TabItem value="qdd" label="Quasi-Direct Drive">
+
+### QDD - A Revolução Moderna
+
+**O que é:** Motor de alto torque + redução mínima (5:1 a 10:1)
+
+**Diferença Fundamental:**
+- **Servo tradicional:** Redução 50:1 a 300:1
+- **QDD:** Redução 6:1 típica
+
+**Por que isso importa:**
+```
+Redução alta (100:1):
+  + Torque alto com motor pequeno
+  - Lento
+  - Não "sente" forças externas (ruim para contato)
+
+Redução baixa (6:1):
+  + Rápido e responsivo
+  + Backdrivable (pode mover manualmente)
+  + Sente colisões instantaneamente
+  - Motor precisa ser mais potente
+```
+
+**Exemplos de QDD:**
+- **MIT Cheetah Motor**: Usado no Unitree H1
+- **Tmotor AK80-9**: 9 N·m, $400, open-source
+- **RoboDrive ILM**: 360 N·m (quadril)
+
+**Especificações Típicas:**
+```
+Tmotor AK80-9:
+  Torque: 9 N·m (continuo), 27 N·m (pico)
+  Velocidade: 360 RPM (sem carga)
+  Peso: 485g
+  Tensão: 24V
+  Controle: Posição, Velocidade, Torque
+  Interface: CANbus
+```
+
+**Por que Unitree H1 usa QDD:**
+- ✅ Locomoção dinâmica (saltos, corrida)
+- ✅ Reação rápida a perturbações
+- ✅ Controle de impedância (compliance)
+
+</TabItem>
+</Tabs>
+
+---
+
+### 2. Atuadores Hidráulicos
+
+<div className="actuator-card">
+
+#### 💧 **Força Máxima**
+
+**O que é:** Pistão movido por fluido pressurizado
+
+**Como funciona:**
+1. Bomba hidráulica gera pressão (3000 PSI típico)
+2. Válvula direciona fluido para pistão
+3. Pistão empurra com força enorme
+
+**Vantagens:**
+- ✅ **Relação potência/peso imbatível**
+- ✅ Torque altíssimo (10,000+ N·m)
+- ✅ Durabilidade em ambientes extremos
+
+**Desvantagens:**
+- ❌ Barulhento (bomba hidráulica)
+- ❌ Pesado (fluido + bomba + bateria)
+- ❌ Manutenção complexa (vazamentos)
+- ❌ Eficiência energética baixa (~30%)
+
+</div>
+
+**Exemplo Clássico: Boston Dynamics Atlas (2013-2023)**
+```
+Especificações:
+  28 juntas hidráulicas
+  Pressão: 3000 PSI
+  Peso: 89 kg (incluindo bomba)
+  Autonomia: 20 minutos (bomba consome muito)
+  Barulho: 80 dB (como liquidificador)
+```
+
+**Por que Atlas migrou para elétrico (2024):**
+- Hidráulica era excelente para DARPA Challenge (terreno extremo)
+- Aplicações industriais preferem elétrico (silencioso, limpo)
+
+---
+
+### 3. Atuadores Pneumáticos
+
+<div className="actuator-card">
+
+#### 💨 **Músculos de Ar**
+
+**O que é:** Pistão ou músculo artificial inflado com ar comprimido
+
+**Tipos:**
+
+#### **Pistões Pneumáticos**
+- Cilindros que expandem/contraem
+- Força: Moderada
+- Uso: Grippers simples
+
+#### **Músculos Pneumáticos (PAM)**
+- Tubos que encolhem quando inflados
+- Imitam músculos biológicos
+- Compliance natural
+
+</div>
+
+**Vantagens:**
+- ✅ Leve
+- ✅ Seguro (compliance natural)
+- ✅ Barato
+
+**Desvantagens:**
+- ❌ Controle impreciso
+- ❌ Precisa de compressor
+- ❌ Lento
+
+**Uso em Humanoides:** ⚠️ Raro - Usado em protótipos de pesquisa (ex: ECCEROBOT)
+
+---
+
+### 4. Atuadores Lineares Elétricos
+
+<div className="actuator-card">
+
+#### 📏 **Movimento em Linha Reta**
+
+**O que é:** Motor que converte rotação em movimento linear
+
+**Mecanismo:**
+- Fuso de esfera (ball screw)
+- Motor gira → Porca se move linearmente
+
+**Aplicações:**
+- ✅ Extensão de coluna vertebral
+- ✅ Grippers paralelos
+- ⚠️ Raramente usado em pernas (rotacional é melhor)
+
+</div>
+
+---
+
+## 🎛️ Modos de Controle
+
+### Pirâmide de Controle
+
+```
+         ┌──────────────┐
+         │  Controle de │  ← Mais difícil, mais útil
+         │  Impedância  │
+         ├──────────────┤
+         │  Controle de │
+         │  Torque      │
+         ├──────────────┤
+         │  Controle de │
+         │  Velocidade  │
+         ├──────────────┤
+         │  Controle de │  ← Mais fácil, menos flexível
+         │  Posição     │
+         └──────────────┘
+```
+
+<Tabs>
+<TabItem value="position" label="Posição" default>
+
+### Controle de Posição
+
+**Comando:** "Vá para ângulo X"
+
+**Exemplo:**
+```python
+servo.set_position(joint_id=3, angle=90)  # Joelho a 90°
+```
+
+**Algoritmo PID (Proporcional-Integral-Derivativo):**
+```python
+def pid_control(target, current, dt):
+    error = target - current
+
+    # Proporcional: Quanto mais longe, mais força
+    P = Kp * error
+
+    # Integral: Corrige erro acumulado
+    integral += error * dt
+    I = Ki * integral
+
+    # Derivativo: Amortece oscilação
+    D = Kd * (error - last_error) / dt
+
+    output = P + I + D
+    return output
+
+# Exemplo de ganhos
+Kp = 10.0   # Força proporcional
+Ki = 0.1    # Correção lenta
+Kd = 2.0    # Amortecimento
+```
+
+**Uso:**
+- ✅ Poses estáticas (ficar em pé parado)
+- ✅ Movimentos planejados (dança, tai-chi)
+- ❌ Interação com ambiente (empurrar caixa)
+
+</TabItem>
+
+<TabItem value="velocity" label="Velocidade">
+
+### Controle de Velocidade
+
+**Comando:** "Gire a X rad/s"
+
+**Exemplo:**
+```python
+servo.set_velocity(joint_id=5, velocity=3.14)  # π rad/s
+```
+
+**Uso:**
+- ✅ Rodinhas (continuous rotation)
+- ⚠️ Raramente usado em humanoides
+
+</TabItem>
+
+<TabItem value="torque" label="Torque">
+
+### Controle de Torque
+
+**Comando:** "Aplique X N·m de força"
+
+**Exemplo:**
+```python
+servo.set_torque(joint_id=8, torque=50.0)  # 50 N·m no quadril
+```
+
+**Por que é poderoso:**
+- ✅ Controle fino de força
+- ✅ Reação a perturbações
+- ✅ Locomoção dinâmica
+
+**Exemplo - Subir Escada:**
+```python
+# Sensor detecta degrau à frente
+if terrain == "stair":
+    # Aplicar torque extra no joelho para levantar perna
+    knee_torque = 80  # N·m
+else:
+    # Terreno plano, torque normal
+    knee_torque = 40
+
+motor.set_torque(knee_joint, knee_torque)
+```
+
+**Requisito:** Atuador precisa ter sensor de torque
+
+</TabItem>
+
+<TabItem value="impedance" label="Impedância">
+
+### Controle de Impedância (Compliance)
+
+**O que é:** Controlar rigidez da junta
+
+**Analogia:**
+- **Rigidez alta** = Braço de ferro (não cede)
+- **Rigidez baixa** = Braço relaxado (cede facilmente)
+
+**Equação:**
+```
+Torque = K_stiffness × (θ_target - θ_atual) + D_damping × (ω_target - ω_atual)
+
+Onde:
+  K_stiffness: Rigidez (N·m/rad)
+  D_damping: Amortecimento (N·m·s/rad)
+```
+
+**Exemplo Prático:**
+```python
+# Braço segurando bandeja
+def impedance_control(target_pos, current_pos, velocity):
+    # Rigidez moderada: Resiste a movimento mas cede se forçado
+    K = 50  # N·m/rad
+    D = 10  # N·m·s/rad
+
+    error_pos = target_pos - current_pos
+    error_vel = 0 - velocity  # Queremos velocidade zero
+
+    torque = K * error_pos + D * error_vel
+    return torque
+
+# Se humano empurrar bandeja:
+# - Braço cede (não quebra)
+# - Depois volta à posição original
+```
+
+**Aplicações:**
+- ✅ Interação segura com humanos
+- ✅ Manipulação de objetos frágeis
+- ✅ Andar em terreno irregular
+
+**Unitree H1:** Controle de impedância em todas as juntas (graças a QDD)
+
+</TabItem>
+</Tabs>
+
+---
+
+## 🕹️ Arquitetura de Controle
+
+### Níveis de Controle em Humanoide
+
+```
+┌────────────────────────────────────┐
+│  Nível Alto: Planejamento          │ ← "Ande até a porta"
+│  (Computador principal)            │
+└────────────────┬───────────────────┘
+                 ↓
+┌────────────────────────────────────┐
+│  Nível Médio: Geração de Trajetória│ ← "Mova perna 30cm, 2s"
+│  (ROS2, Python)                    │
+└────────────────┬───────────────────┘
+                 ↓
+┌────────────────────────────────────┐
+│  Nível Baixo: Controle de Motor    │ ← "Joelho: 90°→110° em 0.1s"
+│  (Controlador embarcado, 1kHz)     │
+└────────────────┬───────────────────┘
+                 ↓
+              [ Motor ]
+```
+
+### Exemplo Real - Unitree H1
+
+**Hardware:**
+```
+Computador Principal (opcional):
+  - NVIDIA Jetson Orin
+  - Executa: IA, visão, planejamento
+  - Frequência: 30 Hz
+
+Controlador Embarcado:
+  - MCU ARM (Cortex-M7 ou similar)
+  - Executa: Controle de balanço, torque
+  - Frequência: 1000 Hz (1 ms loop)
+
+Drivers de Motor (um por junta):
+  - FOC (Field-Oriented Control)
+  - Lê encoder, aplica PWM
+  - Frequência: 20 kHz
+```
+
+**Comunicação:**
+```
+Jetson ←[Ethernet]→ MCU ←[CANbus]→ Motores (21 nós)
+
+Latência total:
+  Comando do Jetson → Movimento do motor: ~3-5 ms
+```
+
+---
+
+## ⚡ Especificações por Junta
+
+### Torque Necessário por Região
+
+<div className="comparison-table">
+
+| Junta | Torque (N·m) | Por quê? | Tipo de Atuador |
+|-------|-------------|----------|-----------------|
+| **Tornozelo** | 80-150 | Equilibra corpo inteiro | QDD / Servo industrial |
+| **Joelho** | 150-250 | Levanta corpo ao subir | QDD / Hidráulico |
+| **Quadril (pitch)** | 200-360 | Move perna inteira | QDD potente |
+| **Quadril (roll)** | 100-150 | Estabilização lateral | QDD |
+| **Quadril (yaw)** | 50-100 | Rotação da perna | Servo industrial |
+| **Coluna** | 100-200 | Inclinar tronco | QDD / Linear |
+| **Ombro** | 50-100 | Levantar braço | Servo industrial |
+| **Cotovelo** | 30-60 | Dobrar braço | Servo |
+| **Punho** | 10-30 | Rotação da mão | Servo pequeno |
+| **Dedos** | 1-5 | Aperto | Micro servo |
+
+</div>
+
+**Cálculo de Torque - Exemplo Joelho:**
+```
+Torque = Força × Distância
+
+Cenário: Levantar de agachamento
+  Massa acima do joelho: 40 kg
+  Distância do centro de massa ao joelho: 0.3 m
+  Aceleração: 2 m/s² (movimento rápido)
+
+Torque = 40 kg × (9.81 + 2) m/s² × 0.3 m
+       = 141.6 N·m
+
+Adicionar margem de segurança: 150-200 N·m
+```
+
+---
+
+## 🔋 Eficiência Energética
+
+### Consumo por Tipo
+
+<Tabs>
+<TabItem value="electric" label="Elétrico" default>
+
+**Servos / QDD Elétricos**
+
+**Eficiência:** 70-90%
+
+**Consumo típico - Unitree H1:**
+```
+Em pé parado: 50W (mantém torque)
+Caminhando: 200-400W
+Correndo: 800-1200W
+Bateria: 48V, 15Ah = 720 Wh
+Autonomia caminhando: ~2 horas
+```
+
+**Fatores que afetam:**
+- ✅ Caixa de redução eficiente
+- ✅ Controle otimizado (não força contra gravidade desnecessariamente)
+- ❌ Peso do robô
+
+</TabItem>
+
+<TabItem value="hydraulic" label="Hidráulico">
+
+**Atuadores Hidráulicos**
+
+**Eficiência:** 20-40% (muito baixa!)
+
+**Por que tão ruim:**
+```
+Energia da bateria (100%)
+  → Bomba hidráulica (perde 40%)
+  → Válvulas (perde 20%)
+  → Pistão (perde 10%)
+  = 30% chega ao movimento
+
+Além disso: Bomba sempre ligada (consumo constante)
+```
+
+**Consumo típico - Atlas Hidráulico:**
+```
+Bomba sempre ligada: 2-3 kW
+Autonomia: 20 minutos
+```
+
+**Por isso Atlas mudou para elétrico!**
+
+</TabItem>
+</Tabs>
+
+---
+
+## 🛠️ Construindo um Sistema de Atuação DIY
+
+### Opção 1: Hobby (Pequeno Humanoide, &lt;50cm)
+
+**Componentes:**
+```
+16 Servos MG996R: $8 × 16 = $128
+Controlador PCA9685: $12
+Bateria 7.4V 3000mAh: $25
+Total: ~$165
+```
+
+**O que você pode fazer:**
+- ✅ Poses estáticas
+- ✅ Caminhada lenta
+- ❌ Saltos ou corrida
+
+---
+
+### Opção 2: Semi-Profissional (Humanoide 1m)
+
+**Componentes:**
+```
+6x Dynamixel MX-64: $200 × 6 = $1,200 (pernas)
+6x Dynamixel MX-28: $150 × 6 = $900 (braços)
+4x Dynamixel AX-12: $45 × 4 = $180 (mãos)
+Controlador OpenCM9.04: $50
+Bateria 12V 20Ah LiPo: $200
+Total: ~$2,530
+```
+
+**O que você pode fazer:**
+- ✅ Caminhada estável
+- ✅ Manipulação de objetos
+- ⚠️ Locomoção dinâmica limitada
+
+---
+
+### Opção 3: Profissional (QDD, pesquisa)
+
+**Componentes:**
+```
+10x Tmotor AK80-9: $400 × 10 = $4,000 (core joints)
+6x Tmotor AK70-10: $350 × 6 = $2,100 (outros)
+Controlador ODrive Pro: $200 × 8 = $1,600
+Bateria 48V 30Ah: $800
+Total: ~$8,500
+```
+
+**O que você pode fazer:**
+- ✅ Locomoção dinâmica
+- ✅ Controle de força
+- ✅ Publicar papers!
+
+---
+
+## 💡 Tendências Futuras
+
+<div className="feature-grid">
+
+<div className="feature-card">
+<div className="feature-icon">🧲</div>
+<h3>Motores Mais Densos</h3>
+<p>Torque density de 10 N·m/kg → 20 N·m/kg nos próximos 5 anos</p>
+</div>
+
+<div className="feature-card">
+<div className="feature-icon">🔌</div>
+<h3>Eletrônica Integrada</h3>
+<p>Driver + motor + encoder em um único pacote</p>
+</div>
+
+<div className="feature-card">
+<div className="feature-icon">🤖</div>
+<h3>Controle por IA</h3>
+<p>Redes neurais substituindo PID tradicional</p>
+</div>
+
+<div className="feature-card">
+<div className="feature-icon">💸</div>
+<h3>Custo Caindo</h3>
+<p>QDD open-source (Tmotor) democratizando acesso</p>
+</div>
+
+</div>
+
+---
+
+## 🎓 Conceitos-Chave
+
+:::tip Lembre-se
+1. **QDD é o padrão ouro atual** para humanoides de alta performance
+2. **Controle de torque > controle de posição** para locomoção dinâmica
+3. **Hidráulica está morrendo** (muito barulho, pouca eficiência)
+4. **Backdrivability** (poder mover manualmente) é crítico para segurança
+:::
+
+:::info Você Sabia?
+O MIT Cheetah Motor (usado no H1) foi **open-sourced** em 2020! Qualquer pessoa pode construir um QDD seguindo os planos. Isso democratizou humanoides de alta performance.
+:::
+
+---
+
+## 🔗 Próximo Módulo
+
+Motores precisam de **cérebros** para coordenar. Vamos aprender sobre computação embarcada:
+
+<div className="next-module-cta">
+  <a href="/HG1/docs/tier1/computacao" className="cta-button">
+    💻 Módulo 6: Computação Embarcada →
+  </a>
+</div>
+
+---
+
+<div className="module-footer">
+  <div className="footer-section">
+    <h4>🎯 Teste Seus Conhecimentos</h4>
+    <p>Por que Unitree H1 escolheu QDD ao invés de servos tradicionais?</p>
+    <details>
+      <summary>Ver Resposta</summary>
+      <p><strong>3 razões principais:</strong> 1) Locomoção dinâmica precisa de resposta rápida (QDD tem latência baixa), 2) Backdrivability permite sentir colisões, 3) Controle de torque direto para compliance.</p>
+    </details>
+  </div>
+
+  <div className="footer-section">
+    <h4>📚 Recursos</h4>
+    <ul>
+      <li><a href="https://build-its-inprogress.blogspot.com/2020/02/tmotor-ak80-9-quasi-direct-drive.html" target="_blank">Tmotor AK80-9 Guide</a></li>
+      <li><a href="https://www.youtube.com/watch?v=QD3kRKLFu-E" target="_blank">MIT Cheetah Motor Explained</a></li>
+      <li><a href="https://emanual.robotis.com/" target="_blank">Dynamixel Documentation</a></li>
+    </ul>
+  </div>
+</div>

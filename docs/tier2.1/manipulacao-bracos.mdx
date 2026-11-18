@@ -1,0 +1,643 @@
+---
+sidebar_position: 5
+title: 5. Manipulação com Braços
+description: Uso dos braços e garras
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# 🦾 Manipulação com Braços
+
+:::tip Objetivo
+Dominar o uso dos braços e garras do Unitree G1 para manipulação precisa de objetos, desde pegar itens simples até tarefas complexas de coordenação bimanual.
+:::
+
+---
+
+## 🎯 Anatomia dos Braços do G1
+
+O G1 possui **2 braços de 7 DOF** (7 graus de liberdade cada), permitindo manipulação similar à humana.
+
+### Especificações Técnicas
+
+```
+BRAÇO G1 (cada):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+• DOF Total: 7 (shoulder: 3, elbow: 1, wrist: 3)
+• Alcance: 0.65m da base do ombro
+• Payload: 3 kg por braço (6 kg bimanual)
+• Velocidade: até 1.5 m/s (movimento rápido)
+• Precisão: ±2mm (posicionamento final)
+• Força máxima: 50N (garra fechada)
+```
+
+### Sistema de Coordenadas
+
+```
+       Z (para cima)
+       ↑
+       |
+       |_____ Y (lateral esquerda)
+      /
+     /
+    X (para frente)
+
+Origem: Centro do torso do G1
+```
+
+---
+
+## 🤏 Sistema de Garras
+
+O G1 possui **garras paralelas de 2 dedos** em cada mão.
+
+<Tabs>
+<TabItem value="specs" label="Especificações">
+
+### Garra Paralela
+
+```
+GARRA G1:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+• Abertura máxima: 120mm
+• Abertura mínima: 0mm (fechada)
+• Força de preensão: 10-50N (ajustável)
+• Sensores de força: Sim (feedback tátil)
+• Sensores de posição: Encoders (resolução 0.1mm)
+```
+
+**Capacidades:**
+- ✅ Pegar objetos de 5mm a 120mm de largura
+- ✅ Detectar escorregamento (slip detection)
+- ✅ Ajuste automático de força
+- ❌ Não articula dedos individuais (limitação)
+
+</TabItem>
+
+<TabItem value="control" label="Controle">
+
+### Controlar Garra
+
+```python
+from unitree_sdk import G1Manipulator
+
+manip = G1Manipulator()
+
+# Abrir garra
+manip.open_gripper(
+    arm="left",           # "left" ou "right"
+    width=100,            # mm (0-120)
+    speed=50,             # mm/s
+    force=20              # N (força máxima)
+)
+
+# Fechar até sentir objeto
+manip.close_gripper(
+    arm="right",
+    force=15,             # N
+    detect_object=True    # Para quando detecta objeto
+)
+
+# Verificar se está segurando algo
+if manip.is_holding_object("right"):
+    print("✅ Objeto seguro!")
+```
+
+### Modos de Preensão
+
+```python
+# 1. FORCE CONTROL - Controlar força
+manip.set_gripper_mode("force")
+manip.set_gripper_force("left", force=25)  # 25N constante
+
+# 2. POSITION CONTROL - Controlar abertura
+manip.set_gripper_mode("position")
+manip.set_gripper_width("right", width=50)  # 50mm fixo
+
+# 3. ADAPTIVE - Adaptar à forma do objeto
+manip.set_gripper_mode("adaptive")
+manip.grasp_object("left")  # Ajusta automaticamente
+```
+
+</TabItem>
+
+<TabItem value="examples" label="Exemplos">
+
+### Pegar Objetos Comuns
+
+```python
+# Copo (cilíndrico)
+manip.grasp_cylinder(
+    arm="right",
+    diameter=80,      # mm
+    height=120,       # mm
+    approach="top"    # ou "side"
+)
+
+# Caixa (prismática)
+manip.grasp_box(
+    arm="left",
+    width=100,
+    length=150,
+    height=50,
+    approach="top"
+)
+
+# Esfera (bola)
+manip.grasp_sphere(
+    arm="right",
+    diameter=70,
+    squeeze_force=30  # N
+)
+
+# Objeto irregular (genérico)
+manip.grasp_object(
+    arm="left",
+    max_width=90,
+    force=20,
+    adaptive=True     # Ajusta à forma
+)
+```
+
+</TabItem>
+</Tabs>
+
+---
+
+## 🎮 Controle de Posição dos Braços
+
+### Forward Kinematics (FK)
+
+**Você especifica ângulos das juntas → G1 calcula posição final**
+
+```python
+# Mover braço para pose específica de juntas
+joint_angles = {
+    "shoulder_pitch": 30,   # graus
+    "shoulder_roll": 15,
+    "shoulder_yaw": 0,
+    "elbow_pitch": 90,
+    "wrist_pitch": 45,
+    "wrist_roll": 0,
+    "wrist_yaw": 0
+}
+
+manip.move_joints(
+    arm="right",
+    angles=joint_angles,
+    speed=30,              # graus/s
+    blocking=True          # Aguardar conclusão
+)
+```
+
+### Inverse Kinematics (IK)
+
+**Você especifica posição final → G1 calcula ângulos necessários**
+
+```python
+# Mover mão para coordenada XYZ
+target_position = {
+    "x": 0.4,   # 40cm à frente
+    "y": -0.2,  # 20cm para direita
+    "z": 1.0    # 1m de altura
+}
+
+target_orientation = {
+    "roll": 0,
+    "pitch": 90,   # Mão apontando para baixo
+    "yaw": 0
+}
+
+manip.move_to_pose(
+    arm="left",
+    position=target_position,
+    orientation=target_orientation,
+    speed=0.2,            # m/s
+    planning=True         # Evitar auto-colisão
+)
+```
+
+### Espaço de Trabalho (Workspace)
+
+```
+ÁREA ALCANÇÁVEL (vista de cima):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+        Frente (X+)
+            ↑
+            |
+    ┌───────●───────┐
+    │    /  |  \    │  ← 0.65m raio
+    │   /   |   \   │
+    │  /    |    \  │
+    │ /     G1    \ │
+    │/      ██     \│
+    ●───────██──────●
+     \      ██     /
+      \     ||    /
+       \    ||   /
+        \   ||  /
+         \  || /
+          \ ||/
+           \|/
+            ●
+
+Zona IDEAL: 0.3m - 0.5m à frente
+Zona LIMITE: até 0.65m
+```
+
+---
+
+## 🎯 Tarefas de Manipulação
+
+### Pegar e Colocar (Pick and Place)
+
+<Tabs>
+<TabItem value="basic" label="Básico">
+
+**Sequência completa:**
+
+```python
+from unitree_sdk import G1Manipulator, G1Vision
+
+manip = G1Manipulator()
+vision = G1Vision()
+
+# 1. DETECTAR OBJETO
+objects = vision.detect_objects()
+cup = vision.find_object_by_name("cup")
+
+if not cup:
+    print("❌ Copo não encontrado!")
+    exit()
+
+print(f"📍 Copo detectado em: {cup.position}")
+
+# 2. APROXIMAR BRAÇO
+manip.move_to_pre_grasp(
+    arm="right",
+    target=cup.position,
+    approach_distance=0.1  # Parar 10cm antes
+)
+
+# 3. ABRIR GARRA
+manip.open_gripper("right", width=cup.diameter + 20)
+
+# 4. APROXIMAR FINAL
+manip.move_to_pose(
+    arm="right",
+    position=cup.position,
+    speed=0.05  # Devagar!
+)
+
+# 5. FECHAR GARRA
+manip.close_gripper("right", force=15)
+
+# 6. VERIFICAR PREENSÃO
+if not manip.is_holding_object("right"):
+    print("❌ Falha ao pegar copo!")
+    manip.move_to_home("right")
+    exit()
+
+# 7. LEVANTAR OBJETO
+manip.lift_object(
+    arm="right",
+    height=0.2,  # Subir 20cm
+    speed=0.1
+)
+
+# 8. MOVER PARA DESTINO
+destination = {"x": 0.3, "y": 0.2, "z": 1.0}
+manip.move_to_pose("right", position=destination)
+
+# 9. SOLTAR OBJETO
+manip.place_object(
+    arm="right",
+    lower_distance=0.15,  # Descer 15cm
+    release_force=5       # Abrir suavemente
+)
+
+# 10. RETRAIR BRAÇO
+manip.move_to_home("right")
+
+print("✅ Pick and place completo!")
+```
+
+</TabItem>
+
+<TabItem value="advanced" label="Avançado">
+
+**Com tratamento de erros e replanejamento:**
+
+```python
+import time
+
+def robust_pick_and_place(object_name, destination):
+    max_attempts = 3
+
+    for attempt in range(max_attempts):
+        try:
+            # Detectar objeto
+            obj = vision.find_object_by_name(object_name)
+
+            if not obj:
+                print(f"⚠️ Tentativa {attempt+1}: Objeto não encontrado")
+                time.sleep(1)
+                continue
+
+            # Escolher melhor braço (mais próximo)
+            arm = manip.get_optimal_arm(obj.position)
+
+            # Planejar trajetória (evitar obstáculos)
+            trajectory = manip.plan_trajectory(
+                arm=arm,
+                start=manip.get_current_pose(arm),
+                goal=obj.position,
+                avoid_obstacles=True
+            )
+
+            if not trajectory:
+                print("⚠️ Não conseguiu planejar caminho livre")
+                continue
+
+            # Executar pick
+            success = manip.execute_pick(
+                arm=arm,
+                trajectory=trajectory,
+                object_properties=obj
+            )
+
+            if not success:
+                print(f"⚠️ Tentativa {attempt+1}: Falha ao pegar")
+                manip.move_to_home(arm)
+                time.sleep(1)
+                continue
+
+            # Executar place
+            success = manip.execute_place(
+                arm=arm,
+                destination=destination,
+                release_height=0.05  # 5cm acima da superfície
+            )
+
+            if success:
+                print(f"✅ Sucesso na tentativa {attempt+1}!")
+                return True
+
+        except Exception as e:
+            print(f"❌ Erro na tentativa {attempt+1}: {e}")
+            manip.emergency_stop()
+            time.sleep(2)
+
+    print("❌ Falha após todas as tentativas")
+    return False
+
+# Usar
+robust_pick_and_place("bottle", {"x": 0.5, "y": 0.0, "z": 0.8})
+```
+
+</TabItem>
+</Tabs>
+
+### Manipulação Bimanual
+
+**Coordenar ambos os braços simultaneamente:**
+
+```python
+# Pegar caixa grande (requer 2 mãos)
+box = vision.find_object_by_name("large_box")
+
+# Calcular pontos de preensão
+left_grasp = box.get_grasp_point("left_side")
+right_grasp = box.get_grasp_point("right_side")
+
+# COORDENAÇÃO SÍNCRONA
+manip.bimanual_pick(
+    left_target=left_grasp,
+    right_target=right_grasp,
+    sync=True,              # Mover ambos juntos
+    force_left=30,
+    force_right=30
+)
+
+# Mover caixa para nova posição
+manip.bimanual_move(
+    left_destination={"x": 0.4, "y": 0.2, "z": 1.0},
+    right_destination={"x": 0.4, "y": -0.2, "z": 1.0},
+    maintain_orientation=True  # Manter caixa nivelada
+)
+
+# Colocar suavemente
+manip.bimanual_place(
+    lower_height=0.2,
+    release_simultaneously=True
+)
+```
+
+### Operação de Ferramentas
+
+```python
+# Usar martelo (exemplo)
+hammer = vision.find_object_by_name("hammer")
+
+# Pegar pelo cabo
+manip.grasp_tool(
+    arm="right",
+    tool=hammer,
+    grip_point="handle",    # Especificar onde segurar
+    orientation="vertical"
+)
+
+# Executar movimento de martelar
+for i in range(5):
+    manip.execute_motion(
+        arm="right",
+        motion_type="hammer",
+        amplitude=0.2,      # 20cm de movimento
+        frequency=2.0       # 2 Hz
+    )
+    time.sleep(0.5)
+
+manip.release_tool("right")
+```
+
+---
+
+## 🛡️ Segurança e Compliance
+
+### Detecção de Colisão
+
+```python
+# Habilitar detecção de colisão
+manip.enable_collision_detection(
+    sensitivity=0.8,     # 0-1, quanto maior mais sensível
+    auto_stop=True,      # Parar imediatamente
+    retract_on_collision=True  # Voltar após colisão
+)
+
+# Definir zonas proibidas (keep-out zones)
+manip.add_forbidden_zone(
+    center={"x": 0.0, "y": 0.0, "z": 0.5},  # Cabeça do G1
+    radius=0.2,
+    name="head_protection"
+)
+```
+
+### Controle de Impedância
+
+**Tornar braço "mole" para interação humana segura:**
+
+```python
+# Modo colaborativo (human-friendly)
+manip.set_compliance_mode(
+    arm="left",
+    stiffness=10,      # 0-100, quanto menor mais "mole"
+    damping=30,        # Amortecimento
+    inertia=5
+)
+
+# Agora você pode mover o braço manualmente!
+# G1 não resistirá, mas manterá posição aproximada
+
+# Voltar ao modo rígido
+manip.set_compliance_mode("left", stiffness=80)
+```
+
+### Limites de Força
+
+```python
+# Configurar limites de segurança
+manip.set_force_limits(
+    arm="right",
+    max_force_cartesian=50,    # Newtons (força na ponta)
+    max_torque_joints=20        # Nm (torque nas juntas)
+)
+
+# Se exceder, G1 para automaticamente
+manip.enable_force_monitoring(alert_threshold=0.8)
+```
+
+---
+
+## 📊 Calibração e Precisão
+
+### Calibrar Braço
+
+```python
+# Calibração automática (recomendado fazer 1x por semana)
+manip.calibrate_arm(
+    arm="left",
+    method="auto",          # ou "manual"
+    reference="external"    # Usar marcadores externos
+)
+
+# Verificar precisão
+accuracy = manip.test_accuracy(
+    arm="right",
+    num_samples=10
+)
+
+print(f"Precisão média: {accuracy['mean_error']:.2f}mm")
+print(f"Desvio padrão: {accuracy['std_error']:.2f}mm")
+
+if accuracy['mean_error'] > 5:
+    print("⚠️ Precisão baixa! Recalibrar.")
+```
+
+### Compensação de Carga
+
+```python
+# Informar sobre carga extra (ex: garra customizada)
+manip.set_payload(
+    arm="right",
+    mass=0.5,              # kg
+    center_of_mass=[0, 0, 0.1]  # metros do punho
+)
+
+# G1 ajusta controle automaticamente para compensar peso
+```
+
+---
+
+## 💡 Dicas de Uso
+
+### Otimizar Velocidade vs Precisão
+
+```python
+# RÁPIDO mas menos preciso (navegação)
+manip.set_motion_profile(
+    speed=0.8,          # 80% velocidade máxima
+    acceleration=0.6,
+    jerk=0.8,
+    precision_mode=False
+)
+
+# DEVAGAR mas muito preciso (pick delicado)
+manip.set_motion_profile(
+    speed=0.2,
+    acceleration=0.3,
+    jerk=0.1,
+    precision_mode=True
+)
+```
+
+### Poses Pré-Definidas
+
+```python
+# Poses úteis (built-in)
+manip.move_to_home("left")      # Neutro, braços ao lado
+manip.move_to_ready("right")    # Pronto para pegar (à frente)
+manip.move_to_carry("left")     # Carregar objeto (perto do corpo)
+manip.move_to_store("right")    # Guardar (braço retraído)
+
+# Criar poses customizadas
+manip.save_pose(
+    name="my_custom_pose",
+    arm="left",
+    pose=manip.get_current_pose("left")
+)
+
+# Usar depois
+manip.move_to_named_pose("left", "my_custom_pose")
+```
+
+---
+
+## ✅ Checklist de Prática
+
+- [ ] Abriu/fechou garra em diferentes larguras (20mm, 60mm, 120mm)
+- [ ] Pegou objeto leve (< 500g) com sucesso
+- [ ] Pegou objeto pesado (1-3 kg) com ajuste de força
+- [ ] Executou pick-and-place completo (5 vezes consecutivas)
+- [ ] Usou ambos os braços sincronizados para pegar caixa
+- [ ] Testou detecção de colisão (encostar no braço durante movimento)
+- [ ] Moveu braço em modo compliance (manualmente)
+- [ ] Calibrou braços e verificou precisão
+
+---
+
+## 🐛 Troubleshooting Comum
+
+| Problema | Causa | Solução |
+|----------|-------|---------|
+| Garra não fecha completamente | Objeto muito grosso | Verificar `max_width`, ajustar preensão |
+| Objeto escorrega | Força insuficiente | Aumentar `force` de 15N para 25-30N |
+| Braço treme ao segurar peso | Carga não declarada | Usar `set_payload()` para compensar |
+| "IK failed" erro | Posição fora do alcance | Verificar se destino está dentro de 0.65m |
+| Movimento muito lento | Perfil conservador | Aumentar `speed` em `set_motion_profile()` |
+| Colisão com próprio corpo | Falta de planejamento | Usar `planning=True` em `move_to_pose()` |
+
+---
+
+## 🔗 Próximos Passos
+
+:::tip Próximo Módulo
+**[📡 Sensores e Percepção →](./sensores-percepcao)**
+
+Entenda como G1 "enxerga" o mundo: LIDAR, câmeras e sensores táteis.
+:::
+
+---
+
+**⏱️ Tempo:** 60-75 min | **🎮 Hands-on:** Essencial | **⚠️ Objetos:** Ter 3-5 objetos de tamanhos variados

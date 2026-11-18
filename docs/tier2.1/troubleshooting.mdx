@@ -1,0 +1,391 @@
+---
+sidebar_position: 9
+title: 9. Troubleshooting
+description: Resolver problemas comuns
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# 🐛 Troubleshooting
+
+:::tip Objetivo
+Diagnosticar e resolver os problemas mais comuns do Unitree G1 de forma rápida e eficaz.
+:::
+
+---
+
+## 🔍 Diagnóstico Rápido
+
+```python
+from unitree_sdk import G1Diagnostics
+
+diag = G1Diagnostics()
+
+# Executar diagnóstico automático
+report = diag.run_full_diagnostic()
+
+for issue in report.issues:
+    print(f"{issue.severity} [{issue.component}]: {issue.description}")
+    print(f"  Solução: {issue.suggested_fix}\n")
+```
+
+---
+
+## ⚡ Problemas de Energia
+
+### G1 Não Liga
+
+<Tabs>
+<TabItem value="battery" label="Bateria">
+
+**Sintomas:** LED de power apagado, sem resposta
+
+**Diagnóstico:**
+```bash
+# Verificar bateria com multímetro
+# Voltagem normal: 22-25V
+# Voltagem crítica: < 18V
+```
+
+**Soluções:**
+1. Conectar carregador → Aguardar 10 min → Tentar ligar
+2. Se LED vermelho pisca: Bateria em proteção térmica (aguardar esfriar)
+3. Se nenhum LED: Bateria completamente descarregada (carregar 2-4h)
+4. Verificar fusível interno (contatar suporte se queimado)
+
+</TabItem>
+
+<TabItem value="power" label="Botão Power">
+
+**Sintomas:** Bateria carregada mas G1 não responde
+
+**Soluções:**
+```python
+# Reset de hardware
+# 1. Manter botão power pressionado por 15s
+# 2. Soltar e aguardar 5s
+# 3. Pressionar novamente (3s) para ligar
+
+# Via software (se parcialmente responsivo)
+diag.force_reboot(safe_mode=True)
+```
+
+</TabItem>
+</Tabs>
+
+---
+
+## 🚶 Problemas de Locomoção
+
+### G1 Não Anda / Caminha Torto
+
+| Sintoma | Causa Provável | Solução Rápida |
+|---------|----------------|----------------|
+| Não sai do lugar | Modo errado | `g1.set_gait_mode("walk")` |
+| Anda em círculos | IMU descalibrada | `g1.calibrate_imu()` em superfície plana |
+| Tropeça frequentemente | Encoders desalinhados | `g1.calibrate_joint_encoders()` |
+| Treme ao andar | Gains muito altos | `g1.tune_walking_parameters(stability="high")` |
+| Para aleatoriamente | Sensores sujos | Limpar LIDAR + câmeras |
+
+```python
+# Diagnóstico de locomoção
+issues = diag.diagnose_locomotion()
+
+if "imu_drift" in issues:
+    print("Recalibrando IMU...")
+    g1.calibrate_imu(duration=30)
+
+if "uneven_gait" in issues:
+    print("Ajustando parâmetros de caminhada...")
+    g1.auto_tune_gait()
+```
+
+---
+
+## 🦾 Problemas de Manipulação
+
+### Braço Não Se Move
+
+```python
+# Verificar estado dos motores do braço
+arm_status = diag.check_arm_motors("right")
+
+for motor, state in arm_status.items():
+    if not state.enabled:
+        print(f"Motor {motor} desabilitado: {state.reason}")
+
+        # Tentar reabilitar
+        if state.reason == "thermal_protection":
+            print("Aguardando resfriamento...")
+            time.sleep(300)  # 5 min
+            g1.enable_motor(motor)
+
+        elif state.reason == "emergency_stop":
+            print("Liberando E-Stop...")
+            g1.release_estop()
+            g1.enable_motor(motor)
+```
+
+### Garra Não Fecha
+
+**Checklist:**
+```python
+# 1. Verificar obstrução
+if manip.is_gripper_blocked("right"):
+    print("Objeto preso na garra! Remover manualmente.")
+
+# 2. Testar motor da garra
+manip.test_gripper_motor("right")
+
+# 3. Calibrar garra
+manip.calibrate_gripper(
+    arm="right",
+    full_open_width=120,  # mm
+    full_close_width=0
+)
+
+# 4. Verificar sensores de força
+force = manip.get_gripper_force("right")
+if force.sensor_error:
+    print("Sensor de força com defeito!")
+```
+
+---
+
+## 📡 Problemas de Sensores
+
+### LIDAR Sem Dados
+
+```bash
+# 1. Verificar conexão USB
+lsusb | grep Ouster
+
+# 2. Verificar permissões
+ls -l /dev/ttyUSB*
+
+# 3. Reiniciar driver LIDAR
+sudo systemctl restart unitree-lidar
+
+# 4. Testar comunicação
+ros2 topic echo /scan --once
+```
+
+### Câmera com Imagem Preta
+
+```python
+# Diagnóstico de câmera
+camera_diag = diag.diagnose_camera("rgb_d")
+
+if camera_diag.issue == "not_initialized":
+    vision.initialize()
+    vision.reset_camera()
+
+elif camera_diag.issue == "low_light":
+    vision.set_exposure(auto=True)
+    vision.set_gain(auto=True)
+
+elif camera_diag.issue == "driver_crashed":
+    vision.restart_driver()
+```
+
+---
+
+## 🌐 Problemas de Conectividade
+
+### App Não Conecta ao G1
+
+<Tabs>
+<TabItem value="wifi" label="WiFi">
+
+```python
+# Verificar status WiFi
+wifi = g1.get_wifi_status()
+print(f"SSID: {wifi.ssid}")
+print(f"Signal: {wifi.signal_strength}%")
+print(f"IP: {wifi.ip_address}")
+
+if wifi.signal_strength < 30:
+    print("⚠️ Sinal fraco! Aproximar do router.")
+
+# Recon ectar WiFi
+g1.reconnect_wifi(
+    ssid="MinhaRedeWiFi",
+    password="senha123"
+)
+```
+
+</TabItem>
+
+<TabItem value="bluetooth" label="Bluetooth">
+
+```python
+# Reset Bluetooth
+g1.reset_bluetooth()
+
+# Listar dispositivos pareados
+devices = g1.list_paired_devices()
+for dev in devices:
+    print(f"{dev.name}: {dev.mac_address}")
+
+# Remover pareamentos antigos
+g1.forget_all_devices()
+
+# Parear novamente
+g1.enable_pairing_mode(duration=60)  # 60s
+```
+
+</TabItem>
+</Tabs>
+
+---
+
+## 🔥 Problemas de Superaquecimento
+
+### Motores Muito Quentes
+
+```python
+# Monitorar temperaturas
+temps = g1.get_motor_temperatures()
+
+overheating = {k: v for k, v in temps.items() if v > 70}
+
+if overheating:
+    print(f"⚠️ Motores superaquecidos: {list(overheating.keys())}")
+
+    # Ação imediata
+    g1.enable_cooling_mode()
+    g1.reduce_max_speed(factor=0.5)
+    g1.limit_max_torque(percent=60)
+
+    # Aguardar resfriamento
+    while max(g1.get_motor_temperatures().values()) > 55:
+        print(f"Resfriando... Max temp: {max(temps.values())}°C")
+        time.sleep(30)
+
+    print("✅ Temperatura normalizada")
+```
+
+**Prevenção:**
+- Evitar uso contínuo > 2 horas sem pausa
+- Não operar em ambiente > 30°C
+- Manter ventilação adequada
+- Reduzir carga se movimentos repetitivos
+
+---
+
+## 📊 Códigos de Erro Comuns
+
+| Código | Significado | Solução |
+|--------|-------------|---------|
+| E001 | Motor overload | Reduzir carga, verificar obstrução |
+| E002 | IMU calibration failed | Recalibrar em superfície plana estável |
+| E003 | Battery undervoltage | Carregar bateria imediatamente |
+| E004 | Communication timeout | Verificar conexões, reiniciar sistema |
+| E005 | Joint limit exceeded | Reset posição, verificar colisão |
+| E010 | LIDAR error | Limpar sensor, verificar USB |
+| E015 | Camera initialization failed | Reiniciar driver de câmera |
+| E020 | Emergency stop activated | Liberar E-Stop, verificar causa |
+| E025 | Fall detected | Levantar G1 manualmente, verificar IMU |
+| E030 | Thermal protection | Aguardar resfriamento (30+ min) |
+
+```python
+# Decodificar código de erro
+error_code = "E005"
+error_info = diag.decode_error(error_code)
+
+print(f"Erro: {error_info.description}")
+print(f"Severidade: {error_info.severity}")
+print(f"Solução: {error_info.solution}")
+print(f"Documentação: {error_info.docs_url}")
+```
+
+---
+
+## 🔧 Reset e Factory Restore
+
+### Soft Reset (Preserva Dados)
+
+```python
+# Reset de software (mantém calibrações)
+g1.soft_reset(
+    restart_services=True,
+    clear_temp_files=True,
+    keep_user_data=True
+)
+```
+
+### Hard Reset (Limpa Tudo)
+
+```python
+# ATENÇÃO: Apaga todas as configurações!
+g1.factory_reset(
+    keep_calibrations=False,  # Perder calibrações customizadas
+    keep_maps=False,          # Perder mapas salvos
+    keep_logs=True,           # Manter logs para diagnóstico
+    confirm=True
+)
+
+# Após factory reset:
+# 1. Recalibrar IMU
+# 2. Recalibrar encoders
+# 3. Reconfigurar WiFi
+# 4. Criar novos mapas
+```
+
+---
+
+## 🆘 Quando Contactar Suporte
+
+**Contactar suporte Unitree se:**
+- ✅ Motor não responde após todos troubleshooting steps
+- ✅ Danos físicos visíveis (rachaduras, peças quebradas)
+- ✅ Cheiro de queimado ou fumaça
+- ✅ Erro E099 (erro crítico de hardware)
+- ✅ G1 caiu de altura > 50cm
+- ✅ Líquido derramado em componentes eletrônicos
+
+**Informações para fornecer:**
+```python
+# Gerar relatório de diagnóstico completo
+support_report = diag.generate_support_report(
+    include_logs=True,
+    include_sensor_data=True,
+    anonymize=False
+)
+
+# Salvar relatório
+support_report.save("/tmp/g1_support_report.zip")
+
+print(f"Enviar arquivo para: support@unitree.com")
+print(f"Serial Number: {g1.get_serial_number()}")
+```
+
+---
+
+## ✅ Checklist de Troubleshooting
+
+Antes de contactar suporte, verificar:
+
+- [ ] Bateria carregada (> 20%)
+- [ ] Todos os cabos conectados firmemente
+- [ ] Sensores limpos (LIDAR, câmeras)
+- [ ] Firmware atualizado para última versão
+- [ ] IMU e encoders calibrados
+- [ ] Soft reset executado
+- [ ] Logs de erro revisados
+- [ ] Tentou soluções deste guia
+
+---
+
+## 🔗 Próximos Passos
+
+:::tip Próximo Módulo
+**[🎮 Exercícios Práticos →](./exercicios-praticos)**
+
+Teste seu conhecimento com desafios hands-on do G1!
+:::
+
+---
+
+**⏱️ Tempo:** 20-40 min | **🔧 Ferramentas:** Multímetro opcional | **📋 Nivel:** Intermediário

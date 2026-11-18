@@ -1,0 +1,650 @@
+---
+sidebar_position: 3
+title: 3. Comandos de Voz
+description: Controle por linguagem natural
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# 🎤 Comandos de Voz
+
+:::tip Objetivo
+Dominar o sistema de comandos de voz do MindOn para controlar o G1 através de linguagem natural, configurar wake words, e criar interações conversacionais complexas.
+:::
+
+---
+
+## 🎯 Fundamentos do Sistema de Voz
+
+O MindOn utiliza um **pipeline de NLU (Natural Language Understanding)** de última geração para processar comandos de voz em tempo real.
+
+### Arquitetura de Processamento
+
+```
+PIPELINE DE VOZ MINDON:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Wake Word Detection (on-device)
+   └─> "Hey G1" ou customizado
+   └─> Latência: <200ms
+
+2. Speech-to-Text (Whisper Large)
+   └─> Cloud: 95% accuracy
+   └─> Edge: 88% accuracy (Whisper-small)
+
+3. Intent Recognition (LLM)
+   └─> Llama 3.1 70B (cloud) ou 8B (device)
+   └─> Contexto conversacional
+
+4. Task Planning (MindOn Core)
+   └─> Decomposição de tarefas
+   └─> Validação de segurança
+
+5. Execution + Feedback
+   └─> Controle motor + Skills
+   └─> Resposta verbal (TTS)
+```
+
+### Diferença: Comandos Simples vs Complexos
+
+```
+COMANDO SIMPLES (direto):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+"Ande para frente"
+    ↓
+Intent: move_forward
+Action: cmd_vel linear_x=0.5
+Latência: ~500ms
+
+
+COMANDO COMPLEXO (multi-step):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+"Traga minha mochila da cozinha"
+    ↓
+Plano MindOn:
+    1. navigate_to_room("kitchen")
+    2. find_object("backpack")
+    3. pick_object("backpack")
+    4. navigate_to_person()
+    5. handover_object("backpack")
+Latência: 30-120s (execução completa)
+```
+
+---
+
+## 🎙️ Wake Word Configuration
+
+### Wake Words Padrão
+
+O MindOn vem com 3 wake words pré-configuradas:
+
+<Tabs>
+<TabItem value="default" label="Padrão">
+
+### "Hey G1" (Recomendado)
+
+**Configuração:**
+
+```python
+from mindon_sdk import VoiceInterface
+
+voice = VoiceInterface()
+
+# Ativar wake word padrão
+voice.set_wake_word(
+    phrase="hey g1",
+    sensitivity=0.7,      # 0-1, quanto maior mais sensível
+    language="pt-BR"
+)
+
+# Testar
+voice.test_wake_word()  # Fale "Hey G1" para validar
+```
+
+**Características:**
+- ✅ Baixa taxa de falsos positivos (<2%)
+- ✅ Funciona com sotaques variados
+- ✅ On-device (sem latência)
+- ⚠️ Pode confundir com "Hey Siri" em ambiente ruidoso
+
+</TabItem>
+
+<TabItem value="custom" label="Customizado">
+
+### Wake Word Personalizado
+
+**Criar sua própria wake word:**
+
+```python
+# Treinar wake word customizada (requer 10 amostras)
+voice.create_custom_wake_word(
+    phrase="robô",          # 2-3 sílabas recomendado
+    num_samples=10,         # Falar 10 vezes
+    add_noise_samples=True  # Treinar com ruído
+)
+
+# G1 pedirá para você repetir a palavra 10 vezes
+# "Por favor, diga 'robô': (1/10)"
+
+# Após treino
+voice.set_wake_word(phrase="robô", model="custom")
+```
+
+**Dicas para wake word efetiva:**
+- ✅ 2-3 sílabas (ex: "robô", "assistente")
+- ✅ Fonemas distintos
+- ❌ Evitar palavras comuns ("ok", "sim")
+- ❌ Evitar nomes de pessoas
+
+</TabItem>
+
+<TabItem value="multi" label="Multi-Wake">
+
+### Múltiplas Wake Words
+
+**Contexto-aware:**
+
+```python
+# Wake word muda baseado em contexto
+voice.set_contextual_wake_words({
+    "default": "hey g1",
+    "security": "comando seguro",    # Modo segurança
+    "quiet": "psiu",                 # Modo silencioso
+    "emergency": "emergência"        # Para emergências
+})
+
+# Mudar contexto
+voice.set_wake_context("quiet")
+
+# Agora G1 responde apenas a "psiu" (sussurrado)
+```
+
+</TabItem>
+</Tabs>
+
+### Sensibilidade e Falsos Positivos
+
+```python
+# Ajustar sensibilidade
+voice.configure_detection(
+    sensitivity=0.8,           # 0-1
+    false_positive_threshold=0.05,  # Máx 5% FP
+    noise_suppression=True,    # Filtrar ruído ambiente
+    min_confidence=0.85        # Confiança mínima
+)
+
+# Zonas de silêncio (não escutar)
+voice.set_quiet_zones([
+    ("22:00", "07:00"),       # Noite
+    ("bathroom", "always")    # Nunca no banheiro
+])
+```
+
+---
+
+## 🗣️ Comandos de Voz - Categorias
+
+### Navegação e Locomoção
+
+<Tabs>
+<TabItem value="basic-nav" label="Básico">
+
+**Comandos diretos:**
+
+```python
+# Exemplos de comandos reconhecidos
+commands = [
+    "Ande para frente",
+    "Vire à esquerda",
+    "Pare",
+    "Volte para trás",
+    "Siga-me",
+    "Vá mais rápido",
+    "Caminhe devagar"
+]
+
+# Implementação
+@voice.on_command(intent="navigate")
+def handle_navigation(command):
+    if "frente" in command:
+        robot.walk(direction="forward", speed=0.5)
+    elif "esquerda" in command:
+        robot.turn(angle=-90)
+    elif "pare" in command:
+        robot.stop()
+```
+
+</TabItem>
+
+<TabItem value="semantic-nav" label="Semântico">
+
+**Navegação por locais:**
+
+```python
+# Comandos semânticos
+commands = [
+    "Vá para a cozinha",
+    "Volte para a sala",
+    "Me encontre no quarto",
+    "Vá até a porta da frente",
+    "Suba as escadas",
+]
+
+# MindOn mapeia automaticamente
+voice.map_semantic_locations({
+    "cozinha": (5.0, 2.0),
+    "sala": (0.0, 0.0),
+    "quarto": (8.0, 4.0),
+    "porta da frente": (2.0, -3.0)
+})
+
+# Agora "Vá para cozinha" funciona automaticamente!
+```
+
+</TabItem>
+
+<TabItem value="contextual-nav" label="Contextual">
+
+**Navegação contextual:**
+
+```python
+# Referências relativas
+"Vá até aquela porta"        # Usa visão para identificar
+"Me siga"                    # Tracking de pessoa
+"Fique a 2 metros de mim"   # Distância específica
+"Dê uma volta pela casa"    # Exploração autônoma
+
+# Implementação com contexto
+@voice.on_command(context_required=True)
+def contextual_nav(command, context):
+    if "aquela" in command:
+        # Usar last_pointed_object do contexto
+        target = context.get_pointed_object()
+        robot.navigate_to(target.position)
+```
+
+</TabItem>
+</Tabs>
+
+### Manipulação e Interação
+
+```python
+# Comandos de manipulação
+manipulation_commands = {
+    # Pegar objetos
+    "Pegue o copo": {
+        "intent": "pick",
+        "object": "cup",
+        "parameters": {"force": "gentle"}
+    },
+
+    # Entregar
+    "Traga-me a garrafa": {
+        "intent": "fetch_and_deliver",
+        "object": "bottle",
+        "recipient": "speaker"
+    },
+
+    # Colocar
+    "Coloque isso na mesa": {
+        "intent": "place",
+        "object": "held_object",
+        "location": "table"
+    },
+
+    # Organizar
+    "Organize os livros": {
+        "intent": "organize",
+        "object_class": "books",
+        "action": "stack"
+    },
+
+    # Abrir/Fechar
+    "Abra a porta": {
+        "intent": "manipulate_door",
+        "action": "open"
+    },
+}
+
+# Registrar handlers
+@voice.on_intent("pick")
+def handle_pick(object_name, parameters):
+    obj = vision.find_object(object_name)
+    if obj:
+        manipulator.pick_object(obj, **parameters)
+        voice.speak(f"Peguei o {object_name}")
+    else:
+        voice.speak(f"Não encontrei {object_name}")
+```
+
+### Perguntas e Consultas
+
+```python
+# Comandos informativos
+query_commands = [
+    "Que horas são?",
+    "Qual a temperatura aqui?",
+    "Cadê meu celular?",
+    "Quanto tempo até minha reunião?",
+    "O que você está vendo?",
+    "Há alguém na porta?",
+]
+
+# Implementação
+@voice.on_intent("query")
+def handle_query(question):
+    if "horas" in question:
+        time = datetime.now().strftime("%H:%M")
+        voice.speak(f"São {time}")
+
+    elif "temperatura" in question:
+        temp = sensors.get_temperature()
+        voice.speak(f"A temperatura é {temp}°C")
+
+    elif "cadê" in question or "onde" in question:
+        # Usar memória episódica
+        object_name = extract_object_from_query(question)
+        location = memory.recall_object_location(object_name)
+        voice.speak(f"Última vez que vi, estava em {location}")
+```
+
+---
+
+## 🌍 Suporte Multi-idioma
+
+### Idiomas Disponíveis
+
+```
+TIER 1 (Suporte completo - 95%+ accuracy):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+• 🇺🇸 English (US)
+• 🇧🇷 Português (BR)
+• 🇨🇳 中文 (Mandarin)
+• 🇪🇸 Español (ES/LATAM)
+
+TIER 2 (Suporte bom - 88%+ accuracy):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+• 🇫🇷 Français
+• 🇩🇪 Deutsch
+• 🇯🇵 日本語
+• 🇰🇷 한국어
+
+TIER 3 (Experimental - 75%+ accuracy):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+• 🇮🇹 Italiano
+• 🇷🇺 Русский
+```
+
+### Configurar Idioma
+
+<Tabs>
+<TabItem value="single" label="Único">
+
+**Idioma único:**
+
+```python
+# Setar idioma principal
+voice.set_language("pt-BR")
+
+# Configurar variante regional
+voice.set_language_config(
+    language="pt-BR",
+    dialect="brasileiro",    # vs "portugal"
+    formality="informal"     # vs "formal"
+)
+```
+
+</TabItem>
+
+<TabItem value="multi" label="Multi-língua">
+
+**Code-switching automático:**
+
+```python
+# Habilitar detecção automática de idioma
+voice.enable_multilingual_mode(
+    languages=["pt-BR", "en-US", "es-ES"],
+    auto_switch=True
+)
+
+# Agora G1 entende mistura:
+# "Hey G1, bring me aquela garrafa"
+# → Detecta inglês + português e executa corretamente
+```
+
+</TabItem>
+
+<TabItem value="translate" label="Tradução">
+
+**Tradução em tempo real:**
+
+```python
+# G1 como intérprete
+voice.enable_translation_mode(
+    source_language="en-US",
+    target_language="pt-BR"
+)
+
+# Pessoa fala inglês → G1 traduz para português
+# G1 ouve português → responde em inglês
+```
+
+</TabItem>
+</Tabs>
+
+---
+
+## 🧠 Contexto e Memória Conversacional
+
+### Manter Contexto
+
+```python
+# Conversação com contexto
+conversation = [
+    ("Usuário", "Vá para a cozinha"),
+    ("G1", "Indo para cozinha..."),
+
+    ("Usuário", "Pegue o copo azul"),
+    # G1 entende que copo está NA COZINHA (contexto)
+
+    ("G1", "Peguei o copo"),
+
+    ("Usuário", "Traga para mim"),
+    # G1 entende "para mim" = usuário que deu comando
+]
+
+# Implementar tracking de contexto
+context = voice.get_conversation_context()
+print(context)
+# {
+#   "current_location": "kitchen",
+#   "held_object": "blue_cup",
+#   "last_speaker": "user_1",
+#   "conversation_history": [...]
+# }
+```
+
+### Referências Anafóricas
+
+```python
+# G1 entende referências
+examples = [
+    "Pegue o copo vermelho. Agora lave ELE",
+    # "ELE" = copo vermelho
+
+    "Vá para sala. Depois vá para cozinha. Agora volte para LÁ",
+    # "LÁ" = sala
+
+    "Mostre-me ISSO",
+    # "ISSO" = último objeto mostrado/apontado
+]
+
+# Configurar resolução anafórica
+voice.enable_anaphora_resolution(
+    max_history=10,          # Lembrar 10 últimos turnos
+    confidence_threshold=0.8
+)
+```
+
+---
+
+## ⚙️ Correção de Erros e Clarificação
+
+### Estratégias de Correção
+
+<Tabs>
+<TabItem value="clarify" label="Clarificação">
+
+**Pedir confirmação quando incerto:**
+
+```python
+# Configurar threshold de confiança
+voice.set_clarification_policy(
+    confidence_threshold=0.7,  # Pedir confirmação se < 70%
+    clarification_style="explicit"  # ou "implicit"
+)
+
+# Exemplo de interação
+# Usuário: "Pegue o copo" (múltiplos copos visíveis)
+# G1: "Há 3 copos. Qual deles? Vermelho, azul ou verde?"
+# Usuário: "O verde"
+# G1: "Ok, pegando copo verde"
+```
+
+</TabItem>
+
+<TabItem value="retry" label="Retry">
+
+**Retry com reformulação:**
+
+```python
+# Configurar retry automático
+voice.configure_retry(
+    max_retries=2,
+    retry_strategy="rephrase"  # ou "repeat"
+)
+
+# Exemplo
+# Usuário: "Pegue o negócio ali"  [vago]
+# G1: "Não entendi. Você quer que eu pegue qual objeto?"
+# Usuário: "O controle remoto"
+# G1: "Entendido, pegando controle remoto"
+```
+
+</TabItem>
+
+<TabItem value="correction" label="Correção">
+
+**Permitir correção do usuário:**
+
+```python
+# Usuário pode corrigir G1
+# Usuário: "Vá para a cozinha"
+# G1: *começa a andar*
+# Usuário: "Não! Quarto!"
+# G1: *para, replaneja*
+# G1: "Ok, indo para o quarto"
+
+# Implementar interrupção
+@voice.on_interrupt()
+def handle_interrupt(new_command):
+    robot.stop()
+    voice.speak("Desculpe, corrigindo...")
+    execute_command(new_command)
+```
+
+</TabItem>
+</Tabs>
+
+### Feedback Durante Execução
+
+```python
+# G1 dá updates verbais
+@robot.on_task_progress()
+def give_feedback(progress):
+    milestones = {
+        0.25: "Chegando na cozinha...",
+        0.50: "Procurando o objeto...",
+        0.75: "Pegando...",
+        1.00: "Pronto!"
+    }
+
+    if progress in milestones:
+        voice.speak(milestones[progress])
+```
+
+---
+
+## 🎚️ Configurações Avançadas
+
+### Volume e Velocidade de Fala
+
+```python
+# Ajustar TTS (Text-to-Speech)
+voice.configure_tts(
+    volume=0.7,              # 0-1
+    speech_rate=1.0,         # 0.5-2.0 (1.0 = normal)
+    pitch=1.0,               # 0.5-2.0
+    voice_style="friendly"   # "professional", "friendly", "casual"
+)
+
+# Voz contextual
+voice.set_contextual_tts({
+    "urgent": {"rate": 1.3, "volume": 0.9},
+    "quiet": {"rate": 0.8, "volume": 0.4},
+    "default": {"rate": 1.0, "volume": 0.7}
+})
+```
+
+### Personalização de Voz
+
+```python
+# Voice cloning (MindOn Pro apenas)
+voice.clone_voice(
+    reference_audio="my_voice.wav",  # 30s de áudio
+    voice_name="minha_voz"
+)
+
+# G1 agora fala com sua voz!
+voice.set_tts_voice("minha_voz")
+```
+
+---
+
+## ✅ Checklist de Prática
+
+- [ ] Configurou wake word personalizada
+- [ ] Testou 10 comandos de navegação diferentes
+- [ ] Executou pick-and-place via comando de voz
+- [ ] Configurou idioma secundário (multilíngue)
+- [ ] Testou contexto conversacional (3+ turnos)
+- [ ] Configurou threshold de clarificação
+- [ ] Ajustou volume e velocidade de TTS
+- [ ] Criou comando de voz customizado
+
+---
+
+## 🐛 Troubleshooting Comum
+
+| Problema | Causa | Solução |
+|----------|-------|---------|
+| Wake word não detecta | Sensibilidade baixa | Aumentar `sensitivity` para 0.8-0.9 |
+| Muitos falsos positivos | Sensibilidade alta | Reduzir para 0.6-0.7, adicionar `noise_suppression` |
+| Não entende comandos | Ruído ambiente | Ativar `noise_suppression=True` |
+| Sotaque não reconhecido | Modelo não treinado | Treinar custom wake word com 20+ amostras |
+| Latência alta (>2s) | Usando cloud LLM | Mudar para on-device: `voice.set_llm_mode("edge")` |
+| Responde em inglês | Idioma errado | Verificar `voice.get_language()`, setar `pt-BR` |
+
+---
+
+## 🔗 Próximos Passos
+
+:::tip Próximo Módulo
+**[📚 Skills Library →](./skills-library)**
+
+Explore a biblioteca de 500+ skills pré-construídas do MindOn.
+:::
+
+---
+
+**⏱️ Tempo:** 45-60 min | **🎮 Hands-on:** Essencial | **🎤 Requisito:** Ambiente silencioso para testes

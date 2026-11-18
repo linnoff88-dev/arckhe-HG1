@@ -1,0 +1,415 @@
+---
+sidebar_position: 10
+title: 10. Exercícios Práticos
+description: Desafios e missões
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# 🎮 Exercícios Práticos
+
+:::tip Objetivo
+Consolidar conhecimento do Tier 2.1 através de desafios práticos progressivos com o Unitree G1.
+:::
+
+---
+
+## 📋 Preparação
+
+### Ambiente Necessário
+
+```
+REQUISITOS:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ Espaço: 3m x 3m mínimo (livre de obstáculos)
+✅ Objetos: 3-5 itens variados (copos, caixas, garrafas)
+✅ Bateria G1: > 50%
+✅ Sensores: Limpos e calibrados
+✅ Tempo: 2-3 horas
+```
+
+---
+
+## 🌟 Nível 1: Fundamentos
+
+### Exercício 1.1: Caminhada Básica
+
+**Objetivo:** Fazer G1 caminhar em padrão quadrado
+
+**Instruções:**
+```python
+from unitree_sdk import G1Controller
+
+g1 = G1Controller()
+
+# TODO: Completar código para fazer G1 andar em quadrado 2m x 2m
+# Dica: Usar g1.walk_forward() e g1.turn()
+
+# Sua solução aqui:
+```
+
+<details>
+<summary>💡 Solução</summary>
+
+```python
+for i in range(4):
+    # Andar 2 metros para frente
+    g1.walk_forward(distance=2.0, speed=0.5)
+
+    # Girar 90° para esquerda
+    g1.turn(angle=90, direction="left")
+
+    # Aguardar estabilização
+    time.sleep(1)
+
+print("✅ Quadrado completo!")
+```
+</details>
+
+**Critérios de Sucesso:**
+- [ ] G1 completou 4 lados
+- [ ] Voltou para posição inicial (±20cm)
+- [ ] Não colidiu com obstáculos
+- [ ] Manteve velocidade estável
+
+---
+
+### Exercício 1.2: Manipulação Simples
+
+**Objetivo:** Pegar copo da mesa e colocar no chão
+
+**Setup:**
+- Copo (8-10cm diâmetro) em mesa de 0.7-1m altura
+- Espaço vazio no chão próximo
+
+```python
+from unitree_sdk import G1Manipulator, G1Vision
+
+manip = G1Manipulator()
+vision = G1Vision()
+
+# TODO: Detectar copo, pegar e colocar no chão
+# Dica: Usar vision.find_object_by_name("cup")
+
+# Sua solução aqui:
+```
+
+<details>
+<summary>💡 Solução</summary>
+
+```python
+# 1. Detectar copo
+cup = vision.find_object_by_name("cup")
+if not cup:
+    print("❌ Copo não encontrado!")
+    exit()
+
+# 2. Aproximar e pegar
+manip.move_to_pre_grasp("right", cup.position, approach_distance=0.1)
+manip.open_gripper("right", width=cup.diameter + 20)
+manip.move_to_pose("right", position=cup.position, speed=0.05)
+manip.close_gripper("right", force=15)
+
+if not manip.is_holding_object("right"):
+    print("❌ Falha ao pegar copo!")
+    exit()
+
+# 3. Mover para chão
+ground_position = {"x": cup.position.x, "y": cup.position.y, "z": 0.1}
+manip.move_to_pose("right", position=ground_position, speed=0.1)
+
+# 4. Soltar
+manip.place_object("right", lower_distance=0.05)
+manip.move_to_home("right")
+
+print("✅ Exercício completo!")
+```
+</details>
+
+**Critérios de Sucesso:**
+- [ ] Copo detectado corretamente
+- [ ] Pegou sem derrubar
+- [ ] Colocou no chão suavemente
+- [ ] Braço retornou à posição home
+
+---
+
+## 🔥 Nível 2: Intermediário
+
+### Exercício 2.1: Navegação Autônoma
+
+**Objetivo:** Criar mapa e navegar para 3 pontos específicos
+
+**Missão:**
+1. Mapear sala completa
+2. Salvar 3 locais: "ponto_A", "ponto_B", "ponto_C"
+3. Navegar: A → B → C → A
+
+```python
+from unitree_sdk import G1Navigator
+
+nav = G1Navigator()
+
+# TODO: Implementar missão de navegação
+# Dicas:
+# - nav.start_mapping()
+# - nav.save_location(name, x, y, theta)
+# - nav.go_to(name)
+```
+
+**Bônus:**
+- Adicionar obstáculo móvel durante navegação (cadeira)
+- G1 deve desviar automaticamente
+
+**Critérios de Sucesso:**
+- [ ] Mapa cobre 80%+ da sala
+- [ ] 3 locais salvos corretamente
+- [ ] Navegou para todos os pontos (erro < 30cm)
+- [ ] Desviou de obstáculo imprevisto
+
+---
+
+### Exercício 2.2: Pick-and-Place com Seleção
+
+**Objetivo:** Pegar objetos específicos por cor
+
+**Setup:**
+- 3 objetos de cores diferentes (vermelho, azul, verde)
+- Mesa com espaço delimitado para cada cor
+
+**Desafio:**
+```python
+# Regra: Colocar cada objeto na zona correspondente
+# Vermelho → Zona A
+# Azul → Zona B
+# Verde → Zona C
+
+from unitree_sdk import G1Manipulator, G1Vision
+
+# TODO: Detectar objetos por cor e organizar
+```
+
+<details>
+<summary>💡 Dica</summary>
+
+```python
+# Usar segmentação por cor HSV
+objects = vision.detect_objects_by_color(
+    colors=["red", "blue", "green"],
+    confidence=0.7
+)
+
+for obj in objects:
+    zone = get_zone_for_color(obj.color)
+    manip.pick_and_place(obj, destination=zone)
+```
+</details>
+
+**Critérios de Sucesso:**
+- [ ] Detectou 3 objetos corretamente
+- [ ] Classificou cores com precisão
+- [ ] Colocou cada objeto na zona certa
+- [ ] Tempo total < 5 minutos
+
+---
+
+## 🚀 Nível 3: Avançado
+
+### Exercício 3.1: Missão de Resgate
+
+**Cenário:**
+G1 deve encontrar e resgatar 3 "sobreviventes" (objetos específicos) espalhados pela sala
+
+**Regras:**
+- Mapa inicial desconhecido (criar em tempo real)
+- Objetos em locais aleatórios
+- Trazer todos para "base de resgate" (ponto inicial)
+- Detectar e evitar "perigos" (obstáculos marcados)
+
+```python
+from unitree_sdk import G1Controller, G1Vision, G1Navigator
+
+class RescueMission:
+    def __init__(self):
+        self.g1 = G1Controller()
+        self.vision = G1Vision()
+        self.nav = G1Navigator()
+        self.survivors_found = 0
+        self.rescue_base = (0.0, 0.0)
+
+    def execute(self):
+        # TODO: Implementar lógica de missão
+        pass
+
+mission = RescueMission()
+mission.execute()
+```
+
+**Pontuação:**
+- Cada "sobrevivente" resgatado: +10 pontos
+- Tempo < 10 min: +5 pontos
+- Sem colisões: +5 pontos
+- Mapa completo e eficiente: +5 pontos
+
+**Meta:** 30+ pontos
+
+---
+
+### Exercício 3.2: Assistente Doméstico
+
+**Objetivo:** G1 como assistente autônomo
+
+**Tarefas Integradas:**
+1. **Limpeza de Mesa:**
+   - Identificar objetos em mesa
+   - Classificar (lixo / para guardar)
+   - Descartar lixo em lixeira
+   - Guardar objetos em gaveta
+
+2. **Atendimento de Pedido:**
+   - Ouvir comando de voz: "Traga-me uma garrafa d'água"
+   - Localizar geladeira (mapeada)
+   - Abrir porta da geladeira (desafio!)
+   - Pegar garrafa específica
+   - Trazer para pessoa
+
+3. **Monitoramento:**
+   - Detectar se porta principal foi aberta
+   - Ir até porta e capturar foto
+   - Enviar notificação
+
+```python
+class HomeAssistant:
+    def __init__(self):
+        self.g1 = G1Controller()
+        self.tasks = []
+
+    def clean_table(self):
+        # TODO
+        pass
+
+    def fetch_item(self, item_name):
+        # TODO
+        pass
+
+    def monitor_door(self):
+        # TODO
+        pass
+
+assistant = HomeAssistant()
+```
+
+**Critérios de Sucesso:**
+- [ ] Completou 2/3 tarefas com sucesso
+- [ ] Demonstrou autonomia (mínima intervenção humana)
+- [ ] Reagiu a situações inesperadas gracefully
+- [ ] Tempo total < 20 minutos
+
+---
+
+## 🏆 Desafio Final: Competição
+
+### The G1 Olympics
+
+**Evento 1: Corrida de Obstáculos (5 min)**
+- Percurso com: cone, rampa, estreito, porta
+- Mais rápido ganha
+- Penalidades por colisão
+
+**Evento 2: Precisão de Manipulação (3 min)**
+- Empilhar 5 copos em torre
+- Altura máxima sem derrubar ganha
+- Deduções por quedas
+
+**Evento 3: Navegação Autônoma Cega (7 min)**
+- Mapa fornecido, mas G1 deve executar sem LIDAR
+- Usar apenas câmeras + encoders
+- Chegar em ponto final (erro < 50cm)
+
+**Classificação:**
+```
+OURO: 85-100 pontos
+PRATA: 70-84 pontos
+BRONZE: 55-69 pontos
+```
+
+---
+
+## 📊 Checklist de Completude do Tier 2.1
+
+Você está pronto para Tier 3.0 se:
+
+### Caminhada e Navegação
+- [ ] Fez G1 andar em todos os 4 modos (walk, trot, climb, balance)
+- [ ] Criou mapa funcional de ambiente
+- [ ] Navegou autonomamente para 5+ locais diferentes
+- [ ] G1 desviou de obstáculos dinâmicos com sucesso
+
+### Manipulação
+- [ ] Pick-and-place com 90%+ taxa de sucesso
+- [ ] Usou ambos os braços coordenadamente
+- [ ] Ajustou força de preensão para objetos delicados
+- [ ] Recuperou de falhas de preensão automaticamente
+
+### Sensores
+- [ ] Processou imagens de câmera em tempo real
+- [ ] Detectou objetos com LIDAR
+- [ ] Leu e interpretou dados de IMU
+- [ ] Implementou fusão de sensores básica
+
+### Segurança
+- [ ] Configurou zonas de segurança
+- [ ] Testou E-Stop (hardware + software)
+- [ ] Monitorou temperaturas dos motores
+- [ ] Criou plano de emergência para seu ambiente
+
+### Manutenção
+- [ ] Limpou sensores corretamente
+- [ ] Calibrou IMU e encoders
+- [ ] Fez backup de configurações
+- [ ] Executou diagnóstico completo
+
+### Troubleshooting
+- [ ] Resolveu 3+ problemas sem documentação
+- [ ] Interpretou códigos de erro corretamente
+- [ ] Executou soft reset com sucesso
+- [ ] Gerou relatório de diagnóstico
+
+---
+
+## 🎓 Certificado de Conclusão
+
+```
+╔══════════════════════════════════════════════╗
+║                                              ║
+║         CERTIFICADO DE CONCLUSÃO             ║
+║                                              ║
+║              TIER 2.1 COMPLETO               ║
+║          Operação Avançada G1                ║
+║                                              ║
+║  Você dominou:                               ║
+║  ✅ Locomoção bípede dinâmica                ║
+║  ✅ Manipulação de objetos                   ║
+║  ✅ Percepção multi-sensor                   ║
+║  ✅ Segurança operacional                    ║
+║  ✅ Manutenção preventiva                    ║
+║                                              ║
+║  Próximo: Tier 3.0 - Programação Básica     ║
+║                                              ║
+╚══════════════════════════════════════════════╝
+```
+
+---
+
+## 🔗 Próximos Passos
+
+:::tip Avançar para Tier 3.0
+**[🐍 Programação Python Básica do G1 →](/docs/tier3/introducao-ros2)**
+
+Aprenda a programar o G1 do zero usando Python e ROS2!
+:::
+
+---
+
+**⏱️ Tempo Total:** 2-4 horas | **🎯 Nível:** Prático | **🏆 XP:** 500 pontos

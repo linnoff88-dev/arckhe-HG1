@@ -1,0 +1,742 @@
+---
+sidebar_position: 10
+title: 10. Projeto Final
+description: Robô autônomo completo
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# 🏆 Projeto Final
+
+:::tip Objetivo do Módulo
+Integrar **todos** os conceitos aprendidos em um projeto end-to-end: robô humanoide autônomo que navega em ambiente real, detecta objetos com visão computacional, manipula-os com precisão e reporta status. Este é seu portfólio para empresas como Tesla, Boston Dynamics, Figure AI e similares.
+:::
+
+**Duração estimada:** 6-8 horas
+**Pré-requisitos:** Módulos 1-9 completos
+
+---
+
+## 🎯 Especificação do Projeto
+
+### Robô de Serviço Autônomo em Escritório
+
+**Cenário:** Humanoide deve organizar objetos em um escritório
+
+**Tarefa completa:**
+1. Navegar autonomamente até mesa
+2. Detectar e classificar objetos (caneca, livro, lixo)
+3. Pegar cada objeto
+4. Classificar destino (prateleira ou lixeira)
+5. Navegar até destino
+6. Colocar objeto no local correto
+7. Retornar para charging station
+8. Reportar missão completa
+
+**Requisitos técnicos:**
+- ✅ Navegação autônoma com Nav2 e SLAM
+- ✅ Detecção de objetos com YOLO
+- ✅ Tracking visual durante manipulação
+- ✅ Grasping adaptativo (força controlada)
+- ✅ Planning de alto nível com LLM (opcional)
+- ✅ Error recovery (retry automático)
+- ✅ Logging e monitoring
+
+---
+
+## 🏗️ Arquitetura do Sistema
+
+### Diagrama de Componentes
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    MISSÃO: "Organizar Mesa"                     │
+└──────────────────────────┬──────────────────────────────────────┘
+                           │
+                           ▼
+                  ┌─────────────────┐
+                  │ TASK PLANNER    │
+                  │  (LLM/Manual)   │
+                  └────────┬────────┘
+                           │
+        ┌──────────────────┼──────────────────┐
+        │                  │                  │
+        ▼                  ▼                  ▼
+┌──────────────┐  ┌──────────────┐  ┌──────────────┐
+│   NAVEGAÇÃO  │  │     VISÃO    │  │ MANIPULAÇÃO  │
+│              │  │              │  │              │
+│ - Nav2       │  │ - YOLO       │  │ - MoveIt     │
+│ - SLAM       │  │ - Tracking   │  │ - Grasping   │
+│ - Costmaps   │  │ - Depth      │  │ - Force Ctrl │
+└──────────────┘  └──────────────┘  └──────────────┘
+        │                  │                  │
+        └──────────────────┴──────────────────┘
+                           │
+                           ▼
+                    ┌──────────────┐
+                    │   EXECUTOR   │
+                    │ (State Mach) │
+                    └──────────────┘
+```
+
+---
+
+## 📝 Implementação Passo a Passo
+
+### 1. Setup do Projeto
+
+```bash
+# Criar workspace
+mkdir -p ~/humanoid_project_ws/src
+cd ~/humanoid_project_ws/src
+
+# Criar pacote
+ros2 pkg create --build-type ament_python humanoid_office_assistant \
+  --dependencies rclpy geometry_msgs sensor_msgs nav_msgs \
+  moveit_msgs tf2_ros cv_bridge
+
+# Estrutura do projeto
+cd humanoid_office_assistant
+mkdir -p launch config rviz
+```
+
+**Estrutura de arquivos:**
+```
+humanoid_office_assistant/
+├── launch/
+│   ├── full_system.launch.py
+│   └── sim_only.launch.py
+├── config/
+│   ├── nav2_params.yaml
+│   ├── moveit_config.yaml
+│   └── vision_params.yaml
+├── humanoid_office_assistant/
+│   ├── __init__.py
+│   ├── task_executor.py
+│   ├── vision_detector.py
+│   ├── grasp_planner.py
+│   └── state_machine.py
+├── rviz/
+│   └── office.rviz
+└── package.xml
+```
+
+### 2. State Machine (Máquina de Estados)
+
+```python
+# humanoid_office_assistant/state_machine.py
+from enum import Enum
+import rclpy
+from rclpy.node import Node
+
+class MissionState(Enum):
+    """Estados da missão."""
+    INIT = 0
+    NAVIGATE_TO_TABLE = 1
+    SCAN_OBJECTS = 2
+    PICK_OBJECT = 3
+    CLASSIFY_DESTINATION = 4
+    NAVIGATE_TO_DEST = 5
+    PLACE_OBJECT = 6
+    CHECK_MORE_OBJECTS = 7
+    RETURN_HOME = 8
+    MISSION_COMPLETE = 9
+    ERROR = 10
+
+class OfficeAssistantStateMachine(Node):
+    """
+    Máquina de estados para coordenar missão completa.
+    """
+
+    def __init__(self):
+        super().__init__('office_assistant_sm')
+
+        # Estado atual
+        self.state = MissionState.INIT
+        self.previous_state = None
+
+        # Componentes (injetados)
+        self.navigator = None  # NavigationClient
+        self.vision = None     # VisionDetector
+        self.manipulator = None  # GraspPlanner
+
+        # Estado da missão
+        self.detected_objects = []
+        self.current_object = None
+        self.objects_processed = 0
+
+        # Timer para executar máquina de estados
+        self.create_timer(0.5, self.execute_state_machine)
+
+        self.get_logger().info('State Machine iniciada')
+
+    def execute_state_machine(self):
+        """Loop principal da máquina de estados."""
+
+        # Log transições
+        if self.state != self.previous_state:
+            self.get_logger().info(
+                f'Estado: {self.previous_state} → {self.state.name}'
+            )
+            self.previous_state = self.state
+
+        # ========================================
+        # EXECUTAR AÇÃO DO ESTADO ATUAL
+        # ========================================
+
+        if self.state == MissionState.INIT:
+            self.state_init()
+
+        elif self.state == MissionState.NAVIGATE_TO_TABLE:
+            self.state_navigate_to_table()
+
+        elif self.state == MissionState.SCAN_OBJECTS:
+            self.state_scan_objects()
+
+        elif self.state == MissionState.PICK_OBJECT:
+            self.state_pick_object()
+
+        elif self.state == MissionState.CLASSIFY_DESTINATION:
+            self.state_classify_destination()
+
+        elif self.state == MissionState.NAVIGATE_TO_DEST:
+            self.state_navigate_to_dest()
+
+        elif self.state == MissionState.PLACE_OBJECT:
+            self.state_place_object()
+
+        elif self.state == MissionState.CHECK_MORE_OBJECTS:
+            self.state_check_more_objects()
+
+        elif self.state == MissionState.RETURN_HOME:
+            self.state_return_home()
+
+        elif self.state == MissionState.MISSION_COMPLETE:
+            self.state_mission_complete()
+
+        elif self.state == MissionState.ERROR:
+            self.state_error()
+
+    # ========================================
+    # IMPLEMENTAÇÃO DE CADA ESTADO
+    # ========================================
+
+    def state_init(self):
+        """Inicialização."""
+        self.get_logger().info('Iniciando missão: Organizar Mesa')
+
+        # Verificar que todos os componentes estão prontos
+        if not self.navigator or not self.vision or not self.manipulator:
+            self.get_logger().error('Componentes não inicializados!')
+            self.state = MissionState.ERROR
+            return
+
+        # Resetar braços para home position
+        self.manipulator.move_to_home()
+
+        # Próximo estado
+        self.state = MissionState.NAVIGATE_TO_TABLE
+
+    def state_navigate_to_table(self):
+        """Navegar até a mesa."""
+        table_pose = (2.0, 1.0, 0.0)  # x, y, theta
+
+        success = self.navigator.navigate_to_pose(*table_pose)
+
+        if success:
+            self.state = MissionState.SCAN_OBJECTS
+        else:
+            self.get_logger().error('Falha ao navegar para mesa')
+            self.state = MissionState.ERROR
+
+    def state_scan_objects(self):
+        """Detectar objetos na mesa."""
+        self.detected_objects = self.vision.detect_objects()
+
+        if len(self.detected_objects) == 0:
+            self.get_logger().info('Nenhum objeto detectado. Missão completa.')
+            self.state = MissionState.RETURN_HOME
+        else:
+            self.get_logger().info(
+                f'{len(self.detected_objects)} objetos detectados'
+            )
+            self.state = MissionState.PICK_OBJECT
+
+    def state_pick_object(self):
+        """Pegar próximo objeto."""
+        if len(self.detected_objects) == 0:
+            self.state = MissionState.RETURN_HOME
+            return
+
+        # Pegar primeiro objeto da lista
+        self.current_object = self.detected_objects.pop(0)
+
+        self.get_logger().info(
+            f'Pegando objeto: {self.current_object.class_name}'
+        )
+
+        success = self.manipulator.grasp_object(self.current_object)
+
+        if success:
+            self.objects_processed += 1
+            self.state = MissionState.CLASSIFY_DESTINATION
+        else:
+            self.get_logger().warn('Falha ao pegar objeto. Tentando próximo.')
+            # Continuar com próximo objeto
+            self.state = MissionState.PICK_OBJECT
+
+    def state_classify_destination(self):
+        """Classificar para onde levar objeto."""
+        # Lógica simples: lixo → trash_bin, resto → shelf
+        if self.current_object.class_name in ['paper', 'trash', 'wrapper']:
+            self.current_object.destination = 'trash_bin'
+            self.current_object.dest_pose = (3.0, -1.0, 0.0)
+        else:
+            self.current_object.destination = 'shelf'
+            self.current_object.dest_pose = (1.0, 3.0, 0.0)
+
+        self.get_logger().info(
+            f'Destino: {self.current_object.destination}'
+        )
+
+        self.state = MissionState.NAVIGATE_TO_DEST
+
+    def state_navigate_to_dest(self):
+        """Navegar até destino."""
+        dest_pose = self.current_object.dest_pose
+
+        success = self.navigator.navigate_to_pose(*dest_pose)
+
+        if success:
+            self.state = MissionState.PLACE_OBJECT
+        else:
+            self.get_logger().error('Falha ao navegar para destino')
+            self.state = MissionState.ERROR
+
+    def state_place_object(self):
+        """Colocar objeto no destino."""
+        success = self.manipulator.place_object(self.current_object)
+
+        if success:
+            self.get_logger().info('Objeto colocado com sucesso')
+            self.state = MissionState.CHECK_MORE_OBJECTS
+        else:
+            self.get_logger().error('Falha ao colocar objeto')
+            self.state = MissionState.ERROR
+
+    def state_check_more_objects(self):
+        """Verificar se há mais objetos."""
+        if len(self.detected_objects) > 0:
+            # Voltar para mesa para pegar próximo
+            self.state = MissionState.NAVIGATE_TO_TABLE
+        else:
+            self.state = MissionState.RETURN_HOME
+
+    def state_return_home(self):
+        """Retornar para charging station."""
+        home_pose = (0.0, 0.0, 0.0)
+
+        success = self.navigator.navigate_to_pose(*home_pose)
+
+        if success:
+            self.state = MissionState.MISSION_COMPLETE
+        else:
+            self.get_logger().error('Falha ao retornar home')
+            self.state = MissionState.ERROR
+
+    def state_mission_complete(self):
+        """Missão completa!"""
+        self.get_logger().info(
+            f'🎉 MISSÃO COMPLETA! '
+            f'{self.objects_processed} objetos organizados.'
+        )
+
+        # Parar máquina de estados
+        # (em produção: aguardar próxima missão)
+
+    def state_error(self):
+        """Estado de erro."""
+        self.get_logger().error('Estado de erro. Recuperando...')
+
+        # Tentar recovery
+        self.manipulator.move_to_home()
+
+        # Em produção: implementar recovery strategies
+
+def main():
+    rclpy.init()
+    sm = OfficeAssistantStateMachine()
+    rclpy.spin(sm)
+    sm.destroy_node()
+    rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()
+```
+
+### 3. Executor Principal
+
+```python
+# humanoid_office_assistant/task_executor.py
+import rclpy
+from rclpy.node import Node
+
+class OfficeAssistantExecutor(Node):
+    """
+    Executor principal que inicializa todos os componentes
+    e coordena a missão.
+    """
+
+    def __init__(self):
+        super().__init__('office_assistant_executor')
+
+        # ========================================
+        # INICIALIZAR COMPONENTES
+        # ========================================
+
+        # Navegação
+        self.navigator = NavigationClient()
+
+        # Visão
+        self.vision = VisionDetector()
+
+        # Manipulação
+        self.manipulator = GraspPlanner()
+
+        # Máquina de estados
+        self.state_machine = OfficeAssistantStateMachine()
+
+        # Injetar componentes na state machine
+        self.state_machine.navigator = self.navigator
+        self.state_machine.vision = self.vision
+        self.state_machine.manipulator = self.manipulator
+
+        self.get_logger().info('Office Assistant Executor iniciado')
+
+        # Service para iniciar missão
+        self.create_service(
+            StartMission,
+            'start_mission',
+            self.start_mission_callback
+        )
+
+    def start_mission_callback(self, request, response):
+        """Iniciar missão via service call."""
+        self.get_logger().info('Iniciando missão...')
+
+        # Resetar state machine
+        self.state_machine.state = MissionState.INIT
+
+        response.success = True
+        response.message = "Missão iniciada"
+        return response
+
+def main():
+    rclpy.init()
+
+    executor = OfficeAssistantExecutor()
+
+    # Spin state machine e executor em paralelo
+    from rclpy.executors import MultiThreadedExecutor
+
+    mt_executor = MultiThreadedExecutor()
+    mt_executor.add_node(executor)
+    mt_executor.add_node(executor.state_machine)
+
+    try:
+        mt_executor.spin()
+    except KeyboardInterrupt:
+        pass
+    finally:
+        executor.destroy_node()
+        rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()
+```
+
+---
+
+## 🧪 Testes e Validação
+
+### Teste Unitário: Navegação
+
+```python
+# tests/test_navigation.py
+import unittest
+from humanoid_office_assistant.navigation import NavigationClient
+
+class TestNavigation(unittest.TestCase):
+    def test_navigate_to_pose(self):
+        """Testar navegação até pose."""
+        nav = NavigationClient()
+        success = nav.navigate_to_pose(1.0, 1.0, 0.0)
+        self.assertTrue(success)
+
+    def test_invalid_pose(self):
+        """Testar pose inválida (fora do mapa)."""
+        nav = NavigationClient()
+        success = nav.navigate_to_pose(100.0, 100.0, 0.0)
+        self.assertFalse(success)
+
+if __name__ == '__main__':
+    unittest.main()
+```
+
+### Teste de Integração
+
+```python
+# tests/test_integration.py
+def test_full_mission():
+    """Teste end-to-end da missão completa."""
+
+    executor = OfficeAssistantExecutor()
+
+    # Simular objetos na mesa
+    mock_objects = [
+        DetectedObject(class_name='cup', pose=...),
+        DetectedObject(class_name='paper', pose=...),
+    ]
+    executor.vision.detected_objects = mock_objects
+
+    # Executar missão
+    executor.start_mission()
+
+    # Aguardar conclusão
+    while executor.state_machine.state != MissionState.MISSION_COMPLETE:
+        time.sleep(0.5)
+
+    # Verificar resultado
+    assert executor.state_machine.objects_processed == 2
+```
+
+---
+
+## 📊 Métricas de Performance
+
+### Benchmarks Esperados
+
+| Métrica | Valor Alvo | Como Medir |
+|---------|------------|------------|
+| Tempo por objeto | < 60s | Timer de pick + place |
+| Taxa de sucesso | > 80% | Objetos organizados / total |
+| Precisão de grasp | ±2cm | Distância gripper → objeto |
+| Precisão de navegação | ±5cm | Distância goal → posição final |
+| FPS de visão | > 15 FPS | Topic rate `/camera/image_raw` |
+| Latência de LLM | < 3s | Tempo de resposta API |
+
+### Logging de Métricas
+
+```python
+class MetricsLogger(Node):
+    """Logger de métricas da missão."""
+
+    def __init__(self):
+        super().__init__('metrics_logger')
+
+        self.metrics = {
+            'objects_detected': 0,
+            'objects_picked': 0,
+            'objects_placed': 0,
+            'navigation_success_rate': 0.0,
+            'avg_pick_time': 0.0,
+            'total_mission_time': 0.0
+        }
+
+        self.start_time = time.time()
+
+    def log_metric(self, name, value):
+        """Registrar métrica."""
+        self.metrics[name] = value
+        self.get_logger().info(f'Métrica: {name} = {value}')
+
+    def save_metrics(self):
+        """Salvar métricas em arquivo JSON."""
+        import json
+
+        filename = f'metrics_{int(time.time())}.json'
+        with open(filename, 'w') as f:
+            json.dump(self.metrics, f, indent=2)
+
+        self.get_logger().info(f'Métricas salvas em {filename}')
+```
+
+---
+
+## 🎥 Demo e Apresentação
+
+### Vídeo Demo (Script)
+
+1. **Intro (0:00-0:15)**
+   - "Robô autônomo organizando escritório"
+   - Mostrar ambiente: mesa com objetos, lixeira, prateleira
+
+2. **Navegação (0:15-0:30)**
+   - Robô navega até mesa usando Nav2
+   - Mostrar RViz com path planning
+
+3. **Detecção (0:30-0:45)**
+   - YOLO detectando objetos
+   - Mostrar bounding boxes na tela
+
+4. **Manipulação (0:45-1:15)**
+   - Pegar copo com gripper
+   - Mostrar MoveIt planning
+   - Navegar até prateleira
+   - Colocar copo
+
+5. **Classificação (1:15-1:30)**
+   - Pegar lixo
+   - Navegar até lixeira
+   - Descartar
+
+6. **Conclusão (1:30-2:00)**
+   - Retornar para home
+   - Mostrar métricas finais
+   - "Missão completa: 3 objetos organizados em 90 segundos"
+
+---
+
+## ✅ Checklist Final do Projeto
+
+Antes de considerar o projeto completo:
+
+### Funcionalidades Core
+- [ ] Navegação autônoma funciona em 100% dos testes
+- [ ] YOLO detecta pelo menos 3 classes de objetos
+- [ ] Grasping bem-sucedido em >80% das tentativas
+- [ ] State machine completa sem travamentos
+- [ ] Error recovery funciona (retry automático)
+
+### Qualidade de Código
+- [ ] Código comentado e documentado
+- [ ] Segue convenções de Python (PEP 8)
+- [ ] Testes unitários com &gt;70% coverage
+- [ ] Launch files funcionam em simulação e real
+- [ ] Logging adequado (INFO, WARN, ERROR)
+
+### Performance
+- [ ] Sistema roda em tempo real (&gt;10 FPS visão)
+- [ ] Missão completa em &lt;5 minutos
+- [ ] CPU usage &lt;80%
+- [ ] Sem memory leaks
+
+### Documentação
+- [ ] README.md com instruções de instalação
+- [ ] Vídeo demo de 2-3 minutos
+- [ ] Diagramas de arquitetura
+- [ ] Explicação de decisões de design
+
+---
+
+## 🎓 Conclusão da Academia
+
+### O Que Você Aprendeu
+
+Ao completar este projeto, você demonstrou competência em:
+
+**Tier 3 - Programação:**
+1. ✅ Python avançado (NumPy, OOP, async)
+2. ✅ ROS2 completo (topics, services, actions, params, TF2)
+3. ✅ Visão computacional (OpenCV, YOLO, tracking)
+4. ✅ Navegação autônoma (Nav2, SLAM, AMCL)
+5. ✅ Manipulação (MoveIt, IK, grasping)
+6. ✅ IA (Reinforcement Learning, LLMs, imitation learning)
+7. ✅ Integração de sistemas (multi-node, deployment)
+8. ✅ Projeto end-to-end
+
+**Habilidades transversais:**
+- Debugging de sistemas complexos
+- Otimização de performance
+- Documentação técnica
+- Trabalho com simulação e hardware real
+
+### Próximos Passos na Carreira
+
+**1. Contribuir para Open Source**
+- [MoveIt 2](https://github.com/moveit/moveit2)
+- [Nav2](https://github.com/ros-planning/navigation2)
+- [YOLO](https://github.com/ultralytics/ultralytics)
+
+**2. Aplicar para Vagas**
+
+Empresas contratando:
+- **Tesla (Optimus Team)** - Palo Alto, CA
+- **Boston Dynamics** - Waltham, MA
+- **Figure AI** - Sunnyvale, CA
+- **Agility Robotics** - Albany, OR
+- **1X Technologies** - San Francisco, CA
+
+Skills para destacar no CV:
+- ROS2 (Humble)
+- MoveIt, Nav2, Gazebo
+- Python, C++
+- Computer Vision (OpenCV, YOLO)
+- RL (Stable-Baselines3, PyTorch)
+
+**3. Continuar Aprendendo**
+- Cursos avançados:
+  - [CS287 Advanced Robotics (UC Berkeley)](https://people.eecs.berkeley.edu/~pabbeel/cs287-fa19/)
+  - [Mobile Manipulation (CMU)](https://manipulation.csail.mit.edu/)
+- Papers recentes:
+  - [Eureka (NVIDIA, 2023)](https://arxiv.org/abs/2310.12931) - RL com LLMs
+  - [RT-2 (Google, 2023)](https://arxiv.org/abs/2307.15818) - VLMs para robótica
+
+**4. Construir Portfólio**
+- GitHub com código do projeto
+- Vídeo demo no YouTube
+- Blog post técnico (Medium, Dev.to)
+- LinkedIn post sobre jornada
+
+---
+
+## 🏅 Certificado
+
+:::success Parabéns!
+Você completou a **Academia de Humanoides** - Tier 3.0!
+
+**Estatísticas da jornada:**
+- **Tier 1:** 3h (Fundamentos teóricos)
+- **Tier 2:** 3.5h (Operação prática)
+- **Tier 3:** 4.5h (Programação avançada)
+- **Total:** **11 horas** de conteúdo técnico de alto nível
+
+**Projetos completados:**
+- Tier 1: Análise de humanoides comerciais
+- Tier 2: Operação de robô simulado
+- Tier 3: Robô autônomo end-to-end
+
+**Você está pronto para:**
+- Trabalhar em empresas de robótica humanoides
+- Contribuir para projetos open-source
+- Iniciar pesquisa acadêmica em robótica
+- Construir seu próprio robô humanoide
+:::
+
+---
+
+## 🌟 Recursos Finais
+
+### Comunidades
+- [ROS Discourse](https://discourse.ros.org/)
+- [r/robotics](https://reddit.com/r/robotics)
+- [ROS Discord](https://discord.gg/ros)
+- [Humanoid Robotics Discord](https://discord.gg/humanoid-robotics)
+
+### Competições
+- [RoboCup Humanoid League](https://humanoid.robocup.org/)
+- [DARPA Robotics Challenge](https://www.darpa.mil/program/darpa-robotics-challenge)
+- [ANA Avatar XPRIZE](https://www.xprize.org/prizes/avatar)
+
+### Seguir no Twitter/X
+- [@OpenAI Robotics](https://twitter.com/OpenAI)
+- [@BostonDynamics](https://twitter.com/BostonDynamics)
+- [@Tesla AI](https://twitter.com/Tesla_AI)
+- [@Figure AI](https://twitter.com/Figure_robot)
+
+---
+
+**Obrigado por completar a Academia de Humanoides!**
+
+Agora vá construir o futuro da robótica. 🚀🤖

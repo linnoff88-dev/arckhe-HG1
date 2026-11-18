@@ -1,0 +1,530 @@
+---
+id: modelos
+title: 🤖 Principais Modelos de Humanoides
+description: Conheça os robôs humanoides mais importantes do mercado atual
+tier: 1
+module_number: 3
+estimated_time: 20
+sidebar_position: 3
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# 🤖 Principais Modelos de Humanoides
+
+<div className="hero-badges">
+  <span className="badge badge-tier1">Tier 1 - Módulo 3</span>
+  <span className="badge badge-time">⏱️ 20 minutos</span>
+  <span className="badge badge-level">📊 Fundamentos</span>
+</div>
+
+## 🎯 O que você vai aprender
+
+Neste módulo, você vai conhecer os principais robôs humanoides comerciais e de pesquisa disponíveis hoje, suas características técnicas, aplicações e diferenças fundamentais.
+
+---
+
+## 🏆 Classificação dos Humanoides
+
+### Por Maturidade Tecnológica
+
+<Tabs>
+<TabItem value="commercial" label="💼 Comercial" default>
+
+### Humanoides Comercialmente Disponíveis
+
+Robôs que você pode comprar hoje (com orçamento adequado):
+
+| Modelo | Empresa | País | Preço | Status |
+|--------|---------|------|-------|--------|
+| **Unitree H1** | Unitree Robotics | 🇨🇳 China | $90,000 | ✅ Vendendo |
+| **Unitree G1** | Unitree Robotics | 🇨🇳 China | $16,000 | ✅ Vendendo |
+| **NAO** | SoftBank Robotics | 🇫🇷 França | $9,000 | ✅ Vendendo |
+| **Pepper** | SoftBank Robotics | 🇫🇷 França | $20,000 | ⚠️ Descontinuado |
+| **Digit** | Agility Robotics | 🇺🇸 EUA | ~$250,000 | ✅ Piloto |
+
+</TabItem>
+
+<TabItem value="prototype" label="🔬 Protótipo">
+
+### Em Desenvolvimento Avançado
+
+Robôs que estão quase prontos para o mercado:
+
+| Modelo | Empresa | Foco | Lançamento Previsto |
+|--------|---------|------|---------------------|
+| **Optimus Gen 3** | Tesla | Manufatura | 2025-2026 |
+| **Figure 02** | Figure AI | Industrial | 2025 |
+| **Phoenix Gen 7** | Sanctuary AI | Tarefas gerais | 2025 |
+| **Apollo** | Apptronik | Logística | 2025 |
+| **Beomni 2.0** | Beyond Imagination | Serviços | 2025 |
+
+</TabItem>
+
+<TabItem value="research" label="🎓 Pesquisa">
+
+### Plataformas de Pesquisa
+
+Robôs usados principalmente em universidades:
+
+| Modelo | Instituição | Ano | Contribuição |
+|--------|-------------|-----|--------------|
+| **ATLAS** | Boston Dynamics/DARPA | 2013 | Locomoção dinâmica |
+| **iCub** | IIT (Itália) | 2004 | Cognição infantil |
+| **TALOS** | PAL Robotics | 2017 | Manipulação + locomoção |
+| **Cassie** | Agility Robotics | 2017 | Locomoção bípede |
+| **Walker X** | UBTECH | 2021 | Serviços domésticos |
+
+</TabItem>
+</Tabs>
+
+---
+
+## 🔍 Análise Detalhada dos Principais Modelos
+
+### 1️⃣ Unitree H1
+
+<div className="robot-card featured">
+
+#### 🏅 **O Mais Acessível de Alta Performance**
+
+**Fabricante:** Unitree Robotics (China) - Conhecida pelos robôs quadrúpedes Go1/Go2
+**Lançamento:** Setembro 2023
+**Preço:** $90,000 USD
+
+**Especificações Técnicas:**
+- **Altura:** 180 cm (humano adulto médio)
+- **Peso:** 47 kg (leve!)
+- **Graus de Liberdade:** 21 (sem mãos) / 31 (com mãos)
+- **Velocidade:** 5.4 km/h caminhando, 3.3 m/s correndo (teste)
+- **Payload:** 15 kg
+- **Autonomia:** 2+ horas
+
+**Atuadores:**
+- Quasi-direct drive (torque alto, baixa latência)
+- Torque máximo: 360 N·m (quadril)
+- Controle de torque em tempo real
+
+**Sensores:**
+- 1x câmera RealSense D435i (profundidade)
+- 1x LIDAR 3D
+- IMU de 6 eixos
+- Encoders de alta resolução
+
+**Computação:**
+- NVIDIA Jetson Orin (opcional)
+- Processador ARM integrado
+
+**Software:**
+- SDK em Python/C++
+- ROS2 nativo
+- Simulador Gazebo/Isaac Sim
+- Código de controle parcialmente aberto
+
+</div>
+
+**Aplicações Típicas:**
+- ✅ Pesquisa em universidades
+- ✅ Desenvolvimento de algoritmos de locomoção
+- ✅ Validação de IA embodied
+- ⚠️ Não tem mãos robustas (ainda)
+
+:::tip Por que H1 é Popular?
+É o primeiro humanoide de **qualidade profissional** a custo acessível. Antes, robôs similares custavam $500k+. A Unitree democratizou o acesso!
+:::
+
+---
+
+### 2️⃣ Unitree G1
+
+<div className="robot-card">
+
+#### 💰 **O Mais Barato do Mercado**
+
+**Fabricante:** Unitree Robotics
+**Lançamento:** Maio 2024
+**Preço:** $16,000 USD (versão básica)
+
+**Especificações:**
+- **Altura:** 127 cm (compacto)
+- **Peso:** 35 kg
+- **DoF:** 23-43 (dependendo da configuração de mãos)
+- **Velocidade:** 2 m/s
+- **Payload:** 2 kg
+- **Dobrável:** Cabe em mochila!
+
+**Diferenciais:**
+- **Mãos dextras:** 5 dedos, 3 juntas por dedo
+- **Design modular:** Adicione sensores conforme necessidade
+- **Portabilidade:** Pode ser transportado facilmente
+
+</div>
+
+**Para quem é:**
+- 🎓 Estudantes e laboratórios com orçamento limitado
+- 🏠 Entusiastas de robótica
+- 🧪 Prototipagem rápida de aplicações
+
+:::info G1 vs H1
+- **G1**: Menor, mais barato, mãos melhores, menos potente
+- **H1**: Maior, profissional, mais rápido, sem mãos dextras
+:::
+
+---
+
+### 3️⃣ Tesla Optimus (Gen 3)
+
+<div className="robot-card featured">
+
+#### ⚡ **O Mais Avançado em IA**
+
+**Fabricante:** Tesla (EUA)
+**Lançamento:** Protótipos internos (2024), comercial previsto 2026
+**Preço:** Meta < $30,000 (produção em massa)
+
+**Especificações (Gen 3 - 2024):**
+- **Altura:** 173 cm
+- **Peso:** 56 kg
+- **DoF:** 28 total
+- **Mãos:** 11 DoF cada (22 total)
+- **Velocidade:** 8 km/h (esperado)
+- **Autonomia:** 8+ horas (bateria de carro elétrico)
+
+**Tecnologia Única:**
+- **Atuadores Tesla-designed:** Torque density altíssimo
+- **IA integrada:** Mesmo chip FSD (Full Self-Driving) dos carros
+- **Visão pura:** Sem LIDAR, apenas câmeras (como carros Tesla)
+- **Aprendizado imitativo:** Aprende observando humanos
+
+**Pipeline de Desenvolvimento:**
+```
+Captura de movimento humano (fábrica Tesla)
+    ↓
+Treinamento em simulador (milhões de iterações)
+    ↓
+Transferência para robô real
+    ↓
+Refinamento em ambiente real
+```
+
+</div>
+
+**Status Atual:**
+- ✅ Trabalhando em fábricas Tesla (tarefas específicas)
+- ⏳ Manipulação de objetos variados (em progresso)
+- ⏳ Navegação em ambientes complexos (em progresso)
+- ❌ Não comercializado ainda
+
+**Visão de Elon Musk:**
+> "Optimus será eventualmente mais valioso que os carros. Um robô humanóide de propósito geral a $20k poderia revolucionar a economia."
+
+---
+
+### 4️⃣ Figure 01 / Figure 02
+
+<div className="robot-card">
+
+#### 🏭 **O Especialista Industrial**
+
+**Fabricante:** Figure AI (EUA) - Fundada por veteranos do Google/Tesla
+**Investidores:** Microsoft, OpenAI, NVIDIA, Jeff Bezos
+**Lançamento:** Figure 01 (2023), Figure 02 (2024)
+
+**Especificações Figure 02:**
+- **Altura:** 168 cm
+- **Peso:** 70 kg (robusto)
+- **DoF:** 16 (corpo) + 16 (mãos) = 32
+- **Payload:** 20 kg
+- **Velocidade:** 1.2 m/s
+- **Autonomia:** 5 horas
+
+**Integração OpenAI:**
+- GPT-4 integrado para linguagem natural
+- "Figure, pegue aquela caixa azul" → robô executa
+- Raciocínio visual + linguístico
+
+**Foco de Aplicação:**
+- **Armazéns:** Picking and placing
+- **Manufatura:** Tarefas repetitivas
+- **Logística:** Movimentação de carga
+
+</div>
+
+**Parceria com BMW:**
+- Piloto em fábrica da BMW (2024)
+- Tarefas: Inserir componentes, inspecionar peças
+- Meta: 1000 robôs até 2026
+
+:::tip Estratégia da Figure
+Enquanto Tesla foca em volume e custo baixo, a Figure foca em **robustez e confiabilidade para ambientes industriais**. Preço estimado: $150k-250k.
+:::
+
+---
+
+### 5️⃣ Boston Dynamics Atlas
+
+<div className="robot-card">
+
+#### 🤸 **O Atleta dos Humanoides**
+
+**Fabricante:** Boston Dynamics (Hyundai) - EUA
+**Lançamento:** 2013 (hidráulico), 2024 (elétrico)
+
+**Versão Hidráulica (2013-2024):**
+- Altura: 150 cm
+- Peso: 89 kg
+- Atuação: Hidráulica de alta pressão
+- **Feitos épicos:** Backflips, parkour, corrida em obstáculos
+
+**Nova Versão Elétrica (2024):**
+- Atuação 100% elétrica
+- Mais leve (~60 kg estimado)
+- Juntas com rotação além de 360° (design bizarro mas eficiente)
+- Foco: Aplicações industriais
+
+**Por que Atlas é Especial:**
+- **Locomoção dinâmica**: Melhor do mundo em equilíbrio/agilidade
+- **Controle em tempo real**: Reage a empurrões, terrenos irregulares
+- **Manipulação**: Levanta objetos pesados enquanto se move
+
+</div>
+
+**Status Comercial:**
+- ❌ Nunca foi vendido (apenas pesquisa)
+- 🔄 Nova versão elétrica: possível comercialização futura
+- 🎯 Foco em tarefas de alta complexidade (construção, resgate)
+
+**Vídeos Icônicos:**
+- Parkour (2018): https://youtu.be/LikxFZZO2sk
+- Dançando (2020): https://youtu.be/fn3KWM1kuAw
+- Nova versão (2024): https://youtu.be/29ECwExc-_M
+
+---
+
+### 6️⃣ Sanctuary Phoenix (Gen 7)
+
+<div className="robot-card">
+
+#### 🧠 **O Generalista com IA**
+
+**Fabricante:** Sanctuary AI (Canadá)
+**Lançamento:** Gen 7 (2024)
+**Investidores:** Microsoft, OpenAI, Accenture
+
+**Especificações:**
+- **Altura:** 170 cm
+- **Peso:** 70 kg
+- **Mãos:** 20 DoF cada (mais dextras do mercado)
+- **Velocidade:** 4.8 km/h
+- **Autonomia:** 4 horas
+
+**Tecnologia Carbon AI:**
+- Sistema de IA proprietário
+- Aprende novas tarefas em horas (não semanas)
+- Integração com LLMs (GPT/Claude)
+- Controle telepresença opcional
+
+**Aplicação Piloto:**
+- **Canadian Tire** (rede de lojas)
+- Tarefas: Reposição de estoque, etiquetagem
+- Resultados: 95% de acurácia em tarefas repetitivas
+
+</div>
+
+**Filosofia:**
+> "Criar a primeira inteligência geral em forma humanoide" - Geordie Rose, CEO
+
+**Diferenciais:**
+- Foco em **tarefas gerais** (não especializadas)
+- Mãos táteis com sensores de pressão
+- Aprendizado por demonstração
+
+---
+
+## 📊 Comparação Lado a Lado
+
+<div className="comparison-table">
+
+| Característica | Unitree H1 | Tesla Optimus | Figure 02 | Atlas (Elétrico) | Sanctuary Phoenix |
+|----------------|-----------|--------------|-----------|------------------|-------------------|
+| **Preço** | $90k | &lt;$30k (meta) | $150k+ | ? | ? |
+| **Disponível?** | ✅ Sim | ❌ Não | ⚠️ Piloto | ❌ Não | ⚠️ Piloto |
+| **Velocidade** | 5.4 km/h | 8 km/h | 4.3 km/h | ? | 4.8 km/h |
+| **Mãos** | ❌ Básicas | ✅ 11 DoF | ✅ 16 DoF | ✅ Sim | ✅✅ 20 DoF |
+| **IA Integrada** | ⚠️ SDK | ✅✅ FSD | ✅ GPT-4 | ⚠️ Básica | ✅ Carbon AI |
+| **Autonomia** | 2h | 8h | 5h | ? | 4h |
+| **Robustez** | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ |
+| **Destreza** | ⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+| **Open Source** | ⚠️ Parcial | ❌ Não | ❌ Não | ❌ Não | ❌ Não |
+
+</div>
+
+---
+
+## 🌍 Modelos por Região
+
+### 🇨🇳 China: Volume e Custo
+
+**Estratégia:** Democratizar acesso com preços agressivos
+
+- **Unitree**: H1 ($90k), G1 ($16k)
+- **UBTECH**: Walker S ($35k comercial)
+- **Fourier Intelligence**: GR-1 ($150k)
+- **AGIBOT**: Raise-A1 ($30k previsto)
+
+**Vantagem:** Cadeia de suprimentos eficiente (mesma de drones/EVs)
+
+### 🇺🇸 EUA: IA e Aplicação
+
+**Estratégia:** IA avançada para tarefas complexas
+
+- **Tesla**: Optimus (manufatura)
+- **Figure AI**: Figure 02 (industrial)
+- **Agility Robotics**: Digit (logística)
+- **Apptronik**: Apollo (geral)
+
+**Vantagem:** Liderança em IA (OpenAI, Google, Anthropic)
+
+### 🇪🇺 Europa: Pesquisa e Serviços
+
+**Estratégia:** Robôs sociais e cognitivos
+
+- **PAL Robotics** (Espanha): TALOS
+- **SoftBank Robotics** (França): NAO, Pepper
+- **IIT** (Itália): iCub
+
+**Vantagem:** Tradição em pesquisa de HRI (Human-Robot Interaction)
+
+---
+
+## 🎯 Qual Modelo Escolher?
+
+<Tabs>
+<TabItem value="student" label="🎓 Sou Estudante" default>
+
+### Para Aprendizado e Pesquisa
+
+**Recomendação: Unitree G1 ($16k)**
+
+**Por quê?**
+- ✅ Mais barato
+- ✅ SDK completo
+- ✅ Comunidade ativa
+- ✅ ROS2 nativo
+- ✅ Simuladores disponíveis
+
+**Alternativa:** NAO ($9k) se foco for HRI/educação
+
+</TabItem>
+
+<TabItem value="industry" label="🏭 Empresa Industrial">
+
+### Para Aplicação Comercial
+
+**Recomendação: Figure 02 ou Digit**
+
+**Por quê?**
+- ✅ Suporte técnico profissional
+- ✅ Foco em ROI (retorno sobre investimento)
+- ✅ Casos de uso comprovados
+- ✅ Roadmap claro
+
+**Em 2025:** Considerar Tesla Optimus se lançar
+
+</TabItem>
+
+<TabItem value="research" label="🔬 Laboratório de Pesquisa">
+
+### Para Pesquisa Avançada
+
+**Recomendação: Unitree H1**
+
+**Por quê?**
+- ✅ Equilíbrio preço/performance
+- ✅ Hardware de qualidade
+- ✅ Flexibilidade de customização
+- ✅ Publicações usando H1 crescendo
+
+**Alternativa:** TALOS se precisar manipulação pesada
+
+</TabItem>
+</Tabs>
+
+---
+
+## 🔮 Tendências 2024-2025
+
+### O que Esperar
+
+<div className="feature-grid">
+
+<div className="feature-card">
+<div className="feature-icon">📉</div>
+<h3>Queda de Preços</h3>
+<p>Modelos básicos chegarão a $10k com competição chinesa. Modelos profissionais: $50k-100k.</p>
+</div>
+
+<div className="feature-card">
+<div className="feature-icon">🧠</div>
+<h3>IA como Commodity</h3>
+<p>Todos terão GPT/Claude integrado. Diferencial será hardware e dados de treinamento.</p>
+</div>
+
+<div className="feature-card">
+<div className="feature-icon">🏭</div>
+<h3>Primeiras Frotas</h3>
+<p>Armazéns da Amazon, fábricas da Tesla/BMW terão 100+ humanoides trabalhando.</p>
+</div>
+
+<div className="feature-card">
+<div className="feature-icon">🌐</div>
+<h3>Padrões Abertos</h3>
+<p>APIs padronizadas (tipo ROS-H para humanoides) facilitarão desenvolvimento cross-platform.</p>
+</div>
+
+</div>
+
+---
+
+## 📚 Recursos para Aprofundar
+
+### Vídeos Comparativos
+- [All Humanoid Robots 2024 Comparison](https://youtu.be/...)
+- [Tesla Optimus vs Figure 01 Analysis](https://youtu.be/...)
+- [Unitree H1 Full Review](https://youtu.be/...)
+
+### Especificações Técnicas Oficiais
+- [Unitree H1 Datasheet](https://www.unitree.com/h1)
+- [Figure AI Technical Specs](https://www.figure.ai/specifications)
+- [Boston Dynamics Atlas](https://www.bostondynamics.com/atlas)
+
+### Comunidades
+- r/humanoidrobots (Reddit)
+- Unitree Discord
+- ROS Humanoid Working Group
+
+---
+
+## 🔗 Próximo Módulo
+
+Agora que você conhece os modelos, vamos entender **como eles percebem o mundo**:
+
+<div className="next-module-cta">
+  <a href="/HG1/docs/tier1/sensores" className="cta-button">
+    🎯 Módulo 4: Sensores →
+  </a>
+</div>
+
+---
+
+<div className="module-footer">
+  <div className="footer-section">
+    <h4>🎯 Teste Rápido</h4>
+    <p>Qual humanoide você compraria com $100k para pesquisa em locomoção?</p>
+    <details>
+      <summary>Ver Resposta Sugerida</summary>
+      <p><strong>Unitree H1</strong> - Melhor custo-benefício, atuadores quasi-direct drive excelentes para pesquisa em controle, SDK aberto.</p>
+    </details>
+  </div>
+</div>
