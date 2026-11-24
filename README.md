@@ -1,4 +1,4 @@
-﻿# ðŸ¤– Academia de Humanoides (HG1)
+# ðŸ¤– Academia de Humanoides (HG1)
 
 > **Domine RobÃ´s Humanoides do Zero ao AvanÃ§ado**
 > Plataforma educacional 100% gratuita e open-source sobre robÃ³tica humanoide
@@ -6,9 +6,9 @@
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Built with Docusaurus](https://img.shields.io/badge/Built%20with-Docusaurus%203-brightgreen.svg)](https://docusaurus.io/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue.svg)](https://www.typescriptlang.org/)
-[![Deploy Status](https://github.com/inematds/HG1/actions/workflows/deploy.yml/badge.svg)](https://github.com/inematds/HG1/actions)
+[![Deploy Status](https://github.com/linnoff88-dev/HG1/actions/workflows/deploy.yml/badge.svg)](https://github.com/linnoff88-dev/HG1/actions)
 
-ðŸŒ **[Acesse o site](https://inematds.github.io/HG1/)**
+ðŸŒ **[Acesse o site](https://linnoff88-dev.github.io/
 
 ---
 
@@ -82,7 +82,7 @@ pnpm 8.0+
 
 ```bash
 # Clone o repositÃ³rio
-git clone https://github.com/inematds/HG1.git
+git clone https://github.com/linnoff88-dev/HG1.git
 cd HG1
 
 # Instale as dependÃªncias
@@ -207,7 +207,7 @@ Cada `git push` na branch `main` dispara:
 
 1. VÃ¡ em **Settings** â†’ **Pages**
 2. Source: **GitHub Actions**
-3. URL: `https://inematds.github.io/HG1/`
+3. URL: `https://linnoff88-dev.github.io/
 
 ---
 
@@ -253,7 +253,7 @@ Este projeto estÃ¡ licenciado sob a **LicenÃ§a MIT** - veja o arquivo [LICEN
 
 ### Projetos que Inspiraram
 
-- **FETD, FEI, FEP** - PadrÃ£o de design e estrutura de cursos (inematds.github.io)
+- **FETD, FEI, FEP** - PadrÃ£o de design e estrutura de cursos (linnoff88-dev.github.io)
 - **Unitree Robotics** - DocumentaÃ§Ã£o tÃ©cnica e especificaÃ§Ãµes
 - **Boston Dynamics** - VÃ­deos e materiais educacionais
 - **Tesla AI** - Blog e updates sobre Optimus
@@ -268,8 +268,8 @@ Este projeto estÃ¡ licenciado sob a **LicenÃ§a MIT** - veja o arquivo [LICEN
 
 ## ðŸ“ž Contato
 
-- **GitHub Issues:** [Reporte bugs ou sugira features](https://github.com/inematds/HG1/issues)
-- **Discussions:** [Perguntas e discussÃµes](https://github.com/inematds/HG1/discussions)
+- **GitHub Issues:** [Reporte bugs ou sugira features](https://github.com/linnoff88-dev/HG1/issues)
+- **Discussions:** [Perguntas e discussÃµes](https://github.com/linnoff88-dev/HG1/discussions)
 - **Email:** [nmaldaner@example.com](mailto:nmaldaner@example.com)
 
 ---
@@ -288,10 +288,10 @@ Este projeto estÃ¡ licenciado sob a **LicenÃ§a MIT** - veja o arquivo [LICEN
 
 **ðŸ¤– Feito com â¤ï¸ pela comunidade de robÃ³tica**
 
-[ðŸŒŸ Star no GitHub](https://github.com/inematds/HG1) â€¢ [ðŸ› Reportar Bug](https://github.com/inematds/HG1/issues) â€¢ [ðŸ’¡ Sugerir Feature](https://github.com/inematds/HG1/issues/new)
+[ðŸŒŸ Star no GitHub](https://github.com/linnoff88-dev/HG1) â€¢ [ðŸ› Reportar Bug](https://github.com/linnoff88-dev/HG1/issues) â€¢ [ðŸ’¡ Sugerir Feature](https://github.com/linnoff88-dev/HG1/issues/new)
 
 </div>
 
 ---
 
-Projeto adaptado da comunidade INEMA TDS - Marca Arckhe
+Projeto adaptado da comunidade ARCKHÉ TDS - Marca Arckhe

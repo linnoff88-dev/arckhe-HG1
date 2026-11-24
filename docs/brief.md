@@ -294,7 +294,7 @@ O MVP será considerado bem-sucedido se:
 - **Vídeos:** Embeds do YouTube com lite-youtube-embed (performance)
 
 **Infrastructure:**
-- **Repository:** GitHub público (github.com/inematds/HG1)
+- **Repository:** GitHub público (github.com/linnoff88-dev/HG1)
 - **CI/CD:** GitHub Actions (build automático em push para main)
 - **CDN:** GitHub Pages CDN (global distribution)
 
@@ -432,7 +432,7 @@ HG1/
 
 ### B. Stakeholder Input
 
-- **Inematds (Owner):** Visão de democratizar conhecimento sobre humanoides, foco em acessibilidade e progressão clara
+- **linnoff88-dev (Owner):** Visão de democratizar conhecimento sobre humanoides, foco em acessibilidade e progressão clara
 - **Potenciais Early Adopters:** Feedback informal indica interesse alto em conteúdo estruturado e prático
 
 ### C. References

@@ -46,7 +46,7 @@ Este tier contém 10 módulos completos e detalhados focados especificamente no 
 - **Adaptive gait controller**
 
 ### 6. Manipulação com Braços do G1 (720 linhas)
-- G1 arm kinematics
+- G1 arm kARCKHÉtics
 - Gripper control (dexterous hands)
 - Pick and place específico G1
 - Force control

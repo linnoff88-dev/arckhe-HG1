@@ -8,13 +8,13 @@ const config: Config = {
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
-  url: 'https://inematds.github.io',
+  url: 'https://linnoff88-dev.github.io',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/HG1/',
 
   // GitHub pages deployment config.
-  organizationName: 'inematds', // Your GitHub org/user name.
+  organizationName: 'linnoff88-dev', // Your GitHub org/user name.
   projectName: 'HG1', // Your repo name.
   trailingSlash: false,
 
@@ -36,7 +36,7 @@ const config: Config = {
         docs: {
           sidebarPath: './sidebars.ts',
           // Please change this to your repo.
-          editUrl: 'https://github.com/inematds/HG1/tree/main/',
+          editUrl: 'https://github.com/linnoff88-dev/HG1/tree/main/',
         },
         blog: false, // Disable blog for MVP
         theme: {
@@ -63,7 +63,7 @@ const config: Config = {
           label: 'Tier 1: Fundamentos',
         },
         {
-          href: 'https://github.com/inematds/HG1',
+          href: 'https://github.com/linnoff88-dev/HG1',
           label: 'GitHub',
           position: 'right',
         },
@@ -90,11 +90,11 @@ const config: Config = {
             },
             {
               label: 'GitHub',
-              href: 'https://github.com/inematds/HG1',
+              href: 'https://github.com/linnoff88-dev/HG1',
             },
             {
               label: 'Contribuir',
-              href: 'https://github.com/inematds/HG1/blob/main/CONTRIBUTING.md',
+              href: 'https://github.com/linnoff88-dev/HG1/blob/main/CONTRIBUTING.md',
             },
           ],
         },

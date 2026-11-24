@@ -205,4 +205,4 @@ colors: {
 
 **Criado por:** Claude Code
 **Projeto:** HG1 - Academia de Humanoides
-**Baseado em:** FETD, FEI, FEP (inematds.github.io)
+**Baseado em:** FETD, FEI, FEP (linnoff88-dev.github.io)
