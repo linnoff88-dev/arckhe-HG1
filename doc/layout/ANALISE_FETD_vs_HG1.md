@@ -1,7 +1,7 @@
 # 📊 Análise Comparativa: FETD vs HG1
 
 **Data:** 2025-11-23
-**Objetivo:** Entender vantagens do padrão FETD/FEI/FEP e aplicar ao HG1
+**Objetivo:** Entender vantagens do padrêo FETD/FEI/FEP e aplicar ao HG1
 
 ---
 
@@ -10,8 +10,8 @@
 ### 1. **Homepage com Quiz Interativo**
 - ✅ Engaja o usuário imediatamente
 - ✅ Personaliza a experiência (descobre qual trilha é ideal)
-- ✅ Maior conversão (usuário não fica perdido)
-- ✅ Gamificação desde o início
+- ✅ Maior conversêo (usuário nêo fica perdido)
+- ✅ Gamificaçêo desde o início
 
 ### 2. **Cards de Trilha Mais Simples e Visuais**
 
@@ -33,13 +33,13 @@
 ┌─────────────────────┐
 │ Badge: Módulo 1     │
 │ Título              │
-│ Descrição           │
+│ Descriçêo           │
 │ [3 botões]          │
 │ Topics expandíveis  │
 └─────────────────────┘
 ```
 
-**Conclusão:** FETD é mais limpo, visual e direto!
+**Conclusêo:** FETD é mais limpo, visual e direto!
 
 ### 3. **Menos Cliques para Conteúdo**
 - **FETD:** Homepage → Trilha → Conteúdo (2 cliques)
@@ -47,8 +47,8 @@
 
 ### 4. **Design Mais "Landing Page"**
 - Hero com 2 CTAs claros ("Descobrir" e "Ver Todas")
-- Seção de benefícios/diferenciais
-- Foco em conversão (fazer usuário começar)
+- Seçêo de benefícios/diferenciais
+- Foco em conversêo (fazer usuário começar)
 - Quiz como elemento de engajamento
 
 ### 5. **Estrutura Mais Simples**
@@ -94,15 +94,15 @@
 1. Ícone circular colorido (grande)
 2. Título em negrito
 3. Slogan entre aspas (itálico)
-4. Descrição do público-alvo
+4. Descriçêo do público-alvo
 5. Lista de 4 benefícios com ✓
-6. Botão CTA com seta →
+6. Botêo CTA com seta →
 
 ---
 
-## 💡 Decisão para HG1
+## 💡 Decisêo para HG1
 
-### **Opção Escolhida: Adaptar Homepage para padrão FETD**
+### **Opçêo Escolhida: Adaptar Homepage para padrêo FETD**
 
 **Mudanças:**
 1. ✅ **Homepage:** Adicionar quiz "Qual tier começar?" (3 perguntas)
@@ -116,7 +116,7 @@
 - ✅ Quiz ajuda usuário a escolher tier certo
 - ✅ Mais engajamento
 - ✅ Design mais moderno e limpo
-- ✅ Menor manutenção (menos páginas)
+- ✅ Menor manutençêo (menos páginas)
 
 ---
 
@@ -131,7 +131,7 @@
 │ "Domine Robôs Humanoides"          │
 │ [Descobrir Meu Tier] [Ver Tiers]   │
 ├─────────────────────────────────────┤
-│ SEÇÃO DE BENEFÍCIOS                 │
+│ SEÇêO DE BENEFÍCIOS                 │
 │ 4 cards: Gratuito, Open Source,    │
 │ Prático, Progressivo                │
 ├─────────────────────────────────────┤
@@ -146,7 +146,7 @@
 │ ┌──────────┐ ┌──────────┐ ┌───────┐│
 │ │ 🔵       │ │ 🟣       │ │ 🟢    ││
 │ │ Tier 1   │ │ Tier 2   │ │ Tier 3││
-│ │ "Fundame"│ │ "Operação│ │ "Prog"││
+│ │ "Fundame"│ │ "Operaçêo│ │ "Prog"││
 │ │ ✓ O que  │ │ ✓ Contro │ │ ✓ Pyth││
 │ │ ✓ Histór │ │ ✓ Seguran│ │ ✓ ROS2││
 │ │ ✓ Models │ │ ✓ Manutn │ │ ✓ IA  ││
@@ -168,13 +168,13 @@
 3. `static/js/quiz.js` - Lógica do quiz (se necessário)
 
 ### Remover:
-1. `static/tiers/tier1.html` (não mais necessário)
+1. `static/tiers/tier1.html` (nêo mais necessário)
 2. `static/tiers/tier2.html` (se existir)
 3. `static/tiers/tier3.html` (se existir)
 
 ### Manter:
 1. `docs/tier1/introducao.mdx` - Conteúdo dos módulos
-2. `docusaurus.config.ts` - Configuração
+2. `docusaurus.config.ts` - Configuraçêo
 3. Estrutura de docs existente
 
 ---
@@ -184,8 +184,8 @@
 ```javascript
 colors: {
   'tier-1': '#3B82F6',    // Azul (Fundamentos)
-  'tier-2': '#9b59b6',    // Roxo (Operação)
-  'tier-3': '#10B981',    // Verde (Programação)
+  'tier-2': '#9b59b6',    // Roxo (Operaçêo)
+  'tier-3': '#10B981',    // Verde (Programaçêo)
   'success': '#22C55E',
   'warning': '#F59E0B',
   'error': '#EF4444',
@@ -194,7 +194,7 @@ colors: {
 
 ---
 
-## ✅ Implementação
+## ✅ Implementaçêo
 
 **Status:** Aprovado
 **Próximo passo:** Refazer homepage no estilo FETD

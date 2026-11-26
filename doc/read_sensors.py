@@ -5,7 +5,7 @@ import unitree_sdk2_python as unitree_sdk
 import time
 
 def main():
-    # Inicializa a comunicação com o robô
+    # Inicializa a comunicaçêo com o robô
     # O endereço IP 192.168.123.164 é o do PC2 do G1 EDU
     channel = unitree_sdk.Channel("192.168.123.164")
 
@@ -19,14 +19,14 @@ def main():
             # Solicita o estado atual do robô
             state = state_client.service()
 
-            # Imprime a posição e velocidade de uma das juntas do braço (exemplo)
-            # A sequência e os índices das juntas podem ser encontrados na documentação
+            # Imprime a posiçêo e velocidade de uma das juntas do braço (exemplo)
+            # A sequência e os índices das juntas podem ser encontrados na documentaçêo
             if state.arm_state:
                 joint_name = "Elbow_l" # Exemplo com o cotovelo esquerdo
                 joint_index = 2 # Índice de exemplo
                 position = state.arm_state.q[joint_index]
                 velocity = state.arm_state.dq[joint_index]
-                print(f"Junta: {joint_name}, Posição: {position:.4f} rad, Velocidade: {velocity:.4f} rad/s")
+                print(f"Junta: {joint_name}, Posiçêo: {position:.4f} rad, Velocidade: {velocity:.4f} rad/s")
 
             # Imprime dados do IMU
             if state.imu_state:
@@ -41,9 +41,9 @@ def main():
     except KeyboardInterrupt:
         print("\nPrograma encerrado pelo usuário.")
     finally:
-        # Encerra a comunicação
+        # Encerra a comunicaçêo
         channel.release()
-        print("Comunicação com o robô encerrada.")
+        print("Comunicaçêo com o robô encerrada.")
 
 if __name__ == "__main__":
     main()

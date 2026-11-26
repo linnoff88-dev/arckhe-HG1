@@ -1,103 +1,103 @@
-# ðŸ¤– Academia de Humanoides (HG1)
+# ê°Å¸Â¤â Academia de Humanoides (HG1)
 
-> **Domine RobÃ´s Humanoides do Zero ao AvanÃ§ado**
-> Plataforma educacional 100% gratuita e open-source sobre robÃ³tica humanoide
+> **Domine RobêÂ´s Humanoides do Zero ao AvanêÂ§ado**
+> Plataforma educacional 100% gratuita e open-source sobre robêÂ³tica humanoide
 
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Built with Docusaurus](https://img.shields.io/badge/Built%20with-Docusaurus%203-brightgreen.svg)](https://docusaurus.io/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue.svg)](https://www.typescriptlang.org/)
 [![Deploy Status](https://github.com/linnoff88-dev/HG1/actions/workflows/deploy.yml/badge.svg)](https://github.com/linnoff88-dev/HG1/actions)
 
-ðŸŒ **[Acesse o site](https://linnoff88-dev.github.io/
+ê°Å¸ÅÂ **[Acesse o site](https://linnoff88-dev.github.io/
 
 ---
 
-## ðŸ“š Sobre o Projeto
+## ê°Å¸âÅ¡ Sobre o Projeto
 
-A **Academia de Humanoides (HG1)** Ã© uma jornada de aprendizagem progressiva sobre robÃ´s humanoides, desde fundamentos teÃ³ricos atÃ© programaÃ§Ã£o avanÃ§ada com ROS2 e IA.
+A **Academia de Humanoides (HG1)** êÂ© uma jornada de aprendizagem progressiva sobre robêÂ´s humanoides, desde fundamentos teêÂ³ricos atêÂ© programaêÂ§êÂ£o avanêÂ§ada com ROS2 e IA.
 
-Inspirada no padrÃ£o **FETD (FormaÃ§Ã£o em Engenharia de Tecnologia Digital)**, a plataforma oferece:
+Inspirada no padrêÂ£o **FETD (FormaêÂ§êÂ£o em Engenharia de Tecnologia Digital)**, a plataforma oferece:
 
-- âœ… **100% Gratuito** - Todo conteÃºdo livre e acessÃ­vel
-- âœ… **Open Source** - CÃ³digo aberto no GitHub
-- âœ… **Progressivo** - Do bÃ¡sico ao avanÃ§ado, passo a passo
-- âœ… **PrÃ¡tico** - AplicaÃ§Ãµes reais, simuladores e exemplos de cÃ³digo
-- âœ… **Atualizado** - ConteÃºdo sobre modelos 2024 (Tesla Optimus, Unitree H1, Figure 02)
+- ê¢Åâ¦ **100% Gratuito** - Todo conteêÂºdo livre e acessêÂ­vel
+- ê¢Åâ¦ **Open Source** - CêÂ³digo aberto no GitHub
+- ê¢Åâ¦ **Progressivo** - Do bêÂ¡sico ao avanêÂ§ado, passo a passo
+- ê¢Åâ¦ **PrêÂ¡tico** - AplicaêÂ§êÂµes reais, simuladores e exemplos de cêÂ³digo
+- ê¢Åâ¦ **Atualizado** - ConteêÂºdo sobre modelos 2024 (Tesla Optimus, Unitree H1, Figure 02)
 
 ---
 
-## ðŸŽ¯ Estrutura de Aprendizagem
+## ê°Å¸Å½Â¯ Estrutura de Aprendizagem
 
-### ðŸ”µ **Tier 1: Conhecendo Humanoides** (Fundamentos)
+### ê°Å¸âÂµ **Tier 1: Conhecendo Humanoides** (Fundamentos)
 
-**10 mÃ³dulos completos** explorando os fundamentos da robÃ³tica humanoide:
+**10 mêÂ³dulos completos** explorando os fundamentos da robêÂ³tica humanoide:
 
-| # | MÃ³dulo | Tempo | ConteÃºdo |
+| # | MêÂ³dulo | Tempo | ConteêÂºdo |
 |---|--------|-------|----------|
-| 1 | ðŸ¤– IntroduÃ§Ã£o aos Humanoides | 10 min | O que sÃ£o, histÃ³ria, aplicaÃ§Ãµes |
-| 2 | ðŸ“œ HistÃ³ria e EvoluÃ§Ã£o | 15 min | WABOT-1 atÃ© Tesla Optimus (2024) |
-| 3 | ðŸ¤– Principais Modelos | 20 min | Unitree H1, Optimus, Figure 02, Atlas |
-| 4 | ðŸŽ¯ Sensores | 18 min | CÃ¢meras, LIDAR, IMU, forÃ§a, e-skin |
-| 5 | ðŸ¦¾ Atuadores e Controle | 20 min | Servos, QDD, hidrÃ¡ulica, controle de torque |
-| 6 | ðŸ’» ComputaÃ§Ã£o Embarcada | 16 min | Jetson, MCU, CANbus, arquitetura |
-| 7 | ðŸ”‹ Energia e Bateria | 14 min | Li-Ion, LFP, BMS, autonomia |
-| 8 | ðŸ§  Software e IA | 22 min | ROS2, RL, LLMs, SLAM, visÃ£o |
-| 9 | ðŸ­ AplicaÃ§Ãµes PrÃ¡ticas | 16 min | Tesla, BMW, Amazon (casos reais) |
-| 10 | ðŸ”® O Futuro dos Humanoides | 18 min | ProjeÃ§Ãµes 2025-2050 |
+| 1 | ê°Å¸Â¤â IntroduêÂ§êÂ£o aos Humanoides | 10 min | O que sêÂ£o, histêÂ³ria, aplicaêÂ§êÂµes |
+| 2 | ê°Å¸âÅ HistêÂ³ria e EvoluêÂ§êÂ£o | 15 min | WABOT-1 atêÂ© Tesla Optimus (2024) |
+| 3 | ê°Å¸Â¤â Principais Modelos | 20 min | Unitree H1, Optimus, Figure 02, Atlas |
+| 4 | ê°Å¸Å½Â¯ Sensores | 18 min | CêÂ¢meras, LIDAR, IMU, forêÂ§a, e-skin |
+| 5 | ê°Å¸Â¦Â¾ Atuadores e Controle | 20 min | Servos, QDD, hidrêÂ¡ulica, controle de torque |
+| 6 | ê°Å¸âÂ» ComputaêÂ§êÂ£o Embarcada | 16 min | Jetson, MCU, CANbus, arquitetura |
+| 7 | ê°Å¸ââ¹ Energia e Bateria | 14 min | Li-Ion, LFP, BMS, autonomia |
+| 8 | ê°Å¸Â§Â  Software e IA | 22 min | ROS2, RL, LLMs, SLAM, visêÂ£o |
+| 9 | ê°Å¸ÂÂ­ AplicaêÂ§êÂµes PrêÂ¡ticas | 16 min | Tesla, BMW, Amazon (casos reais) |
+| 10 | ê°Å¸âÂ® O Futuro dos Humanoides | 18 min | ProjeêÂ§êÂµes 2025-2050 |
 
-**Total:** ~3 horas de conteÃºdo rico com tabs interativos, tabelas comparativas e exemplos de cÃ³digo.
+**Total:** ~3 horas de conteêÂºdo rico com tabs interativos, tabelas comparativas e exemplos de cêÂ³digo.
 
 ---
 
-### ðŸŸ£ **Tier 2: Operando Humanoides** (Em breve)
+### ê°Å¸Å¸Â£ **Tier 2: Operando Humanoides** (Em breve)
 
-Aprenda a controlar robÃ´s humanoides:
+Aprenda a controlar robêÂ´s humanoides:
 - Interfaces de controle e telemetria
-- SeguranÃ§a e melhores prÃ¡ticas
-- CalibraÃ§Ã£o e manutenÃ§Ã£o
+- SeguranêÂ§a e melhores prêÂ¡ticas
+- CalibraêÂ§êÂ£o e manutenêÂ§êÂ£o
 - Simuladores virtuais (Gazebo, Isaac Sim)
 
 ---
 
-### ðŸŸ¢ **Tier 3: Programando Humanoides** (Em breve)
+### ê°Å¸Å¸Â¢ **Tier 3: Programando Humanoides** (Em breve)
 
-ProgramaÃ§Ã£o avanÃ§ada:
-- Python para robÃ³tica
+ProgramaêÂ§êÂ£o avanêÂ§ada:
+- Python para robêÂ³tica
 - ROS2 e frameworks
-- VisÃ£o computacional e IA
-- NavegaÃ§Ã£o autÃ´noma e manipulaÃ§Ã£o
+- VisêÂ£o computacional e IA
+- NavegaêÂ§êÂ£o autêÂ´noma e manipulaêÂ§êÂ£o
 
 ---
 
-## ðŸš€ Quick Start - Desenvolvimento Local
+## ê°Å¸Å¡â¬ Quick Start - Desenvolvimento Local
 
-### PrÃ©-requisitos
+### PrêÂ©-requisitos
 
 ```bash
 Node.js 18.0+
 pnpm 8.0+
 ```
 
-### InstalaÃ§Ã£o
+### InstalaêÂ§êÂ£o
 
 ```bash
-# Clone o repositÃ³rio
+# Clone o repositêÂ³rio
 git clone https://github.com/linnoff88-dev/HG1.git
 cd HG1
 
-# Instale as dependÃªncias
+# Instale as dependêÂªncias
 pnpm install
 
 # Inicie o servidor de desenvolvimento
 pnpm start
 ```
 
-O site estarÃ¡ disponÃ­vel em **`http://localhost:3000/HG1/`**
+O site estarêÂ¡ disponêÂ­vel em **`http://localhost:3000/HG1/`**
 
-### Build para ProduÃ§Ã£o
+### Build para ProduêÂ§êÂ£o
 
 ```bash
-# Gera build estÃ¡tico
+# Gera build estêÂ¡tico
 pnpm build
 
 # Serve o build localmente
@@ -106,42 +106,42 @@ pnpm serve
 
 ---
 
-## ðŸ“ Estrutura do Projeto
+## ê°Å¸âÂ Estrutura do Projeto
 
 ```
 HG1/
-â”œâ”€â”€ docs/                       # ConteÃºdo educacional (MDX)
-â”‚   â”œâ”€â”€ tier1/                 # âœ… 10 mÃ³dulos completos
-â”‚   â”‚   â”œâ”€â”€ introducao.mdx
-â”‚   â”‚   â”œâ”€â”€ 02-historia.mdx
-â”‚   â”‚   â”œâ”€â”€ 03-modelos.mdx
-â”‚   â”‚   â”œâ”€â”€ 04-sensores.mdx
-â”‚   â”‚   â”œâ”€â”€ 05-atuadores.mdx
-â”‚   â”‚   â”œâ”€â”€ 06-computacao.mdx
-â”‚   â”‚   â”œâ”€â”€ 07-energia.mdx
-â”‚   â”‚   â”œâ”€â”€ 08-software.mdx
-â”‚   â”‚   â”œâ”€â”€ 09-aplicacoes.mdx
-â”‚   â”‚   â””â”€â”€ 10-futuro.mdx
-â”‚   â”œâ”€â”€ tier2/                 # ðŸ”œ Em desenvolvimento
-â”‚   â””â”€â”€ tier3/                 # ðŸ”œ Roadmap planejado
-â”œâ”€â”€ src/
-â”‚   â”œâ”€â”€ components/            # Componentes React customizados
-â”‚   â”œâ”€â”€ pages/
-â”‚   â”‚   â””â”€â”€ index.tsx          # Homepage com quiz interativo
-â”‚   â””â”€â”€ css/
-â”‚       â”œâ”€â”€ custom.css         # Estilos customizados
-â”‚       â””â”€â”€ tier-pages.css     # Estilos especÃ­ficos dos tiers
-â”œâ”€â”€ static/                    # Assets estÃ¡ticos
-â”œâ”€â”€ .github/
-â”‚   â””â”€â”€ workflows/
-â”‚       â””â”€â”€ deploy.yml         # CI/CD para GitHub Pages
-â”œâ”€â”€ docusaurus.config.ts       # ConfiguraÃ§Ã£o principal
-â””â”€â”€ sidebars.ts                # NavegaÃ§Ã£o lateral
+ê¢âÅê¢ââ¬ê¢ââ¬ docs/                       # ConteêÂºdo educacional (MDX)
+ê¢ââ   ê¢âÅê¢ââ¬ê¢ââ¬ tier1/                 # ê¢Åâ¦ 10 mêÂ³dulos completos
+ê¢ââ   ê¢ââ   ê¢âÅê¢ââ¬ê¢ââ¬ introducao.mdx
+ê¢ââ   ê¢ââ   ê¢âÅê¢ââ¬ê¢ââ¬ 02-historia.mdx
+ê¢ââ   ê¢ââ   ê¢âÅê¢ââ¬ê¢ââ¬ 03-modelos.mdx
+ê¢ââ   ê¢ââ   ê¢âÅê¢ââ¬ê¢ââ¬ 04-sensores.mdx
+ê¢ââ   ê¢ââ   ê¢âÅê¢ââ¬ê¢ââ¬ 05-atuadores.mdx
+ê¢ââ   ê¢ââ   ê¢âÅê¢ââ¬ê¢ââ¬ 06-computacao.mdx
+ê¢ââ   ê¢ââ   ê¢âÅê¢ââ¬ê¢ââ¬ 07-energia.mdx
+ê¢ââ   ê¢ââ   ê¢âÅê¢ââ¬ê¢ââ¬ 08-software.mdx
+ê¢ââ   ê¢ââ   ê¢âÅê¢ââ¬ê¢ââ¬ 09-aplicacoes.mdx
+ê¢ââ   ê¢ââ   ê¢ââê¢ââ¬ê¢ââ¬ 10-futuro.mdx
+ê¢ââ   ê¢âÅê¢ââ¬ê¢ââ¬ tier2/                 # ê°Å¸âÅ Em desenvolvimento
+ê¢ââ   ê¢ââê¢ââ¬ê¢ââ¬ tier3/                 # ê°Å¸âÅ Roadmap planejado
+ê¢âÅê¢ââ¬ê¢ââ¬ src/
+ê¢ââ   ê¢âÅê¢ââ¬ê¢ââ¬ components/            # Componentes React customizados
+ê¢ââ   ê¢âÅê¢ââ¬ê¢ââ¬ pages/
+ê¢ââ   ê¢ââ   ê¢ââê¢ââ¬ê¢ââ¬ index.tsx          # Homepage com quiz interativo
+ê¢ââ   ê¢ââê¢ââ¬ê¢ââ¬ css/
+ê¢ââ       ê¢âÅê¢ââ¬ê¢ââ¬ custom.css         # Estilos customizados
+ê¢ââ       ê¢ââê¢ââ¬ê¢ââ¬ tier-pages.css     # Estilos especêÂ­ficos dos tiers
+ê¢âÅê¢ââ¬ê¢ââ¬ static/                    # Assets estêÂ¡ticos
+ê¢âÅê¢ââ¬ê¢ââ¬ .github/
+ê¢ââ   ê¢ââê¢ââ¬ê¢ââ¬ workflows/
+ê¢ââ       ê¢ââê¢ââ¬ê¢ââ¬ deploy.yml         # CI/CD para GitHub Pages
+ê¢âÅê¢ââ¬ê¢ââ¬ docusaurus.config.ts       # ConfiguraêÂ§êÂ£o principal
+ê¢ââê¢ââ¬ê¢ââ¬ sidebars.ts                # NavegaêÂ§êÂ£o lateral
 ```
 
 ---
 
-## ðŸ› ï¸ Tech Stack
+## ê°Å¸âºÂ ê¯Â¸Â Tech Stack
 
 | Categoria | Tecnologia |
 |-----------|-----------|
@@ -154,35 +154,35 @@ HG1/
 
 ---
 
-## ðŸŽ¨ Design e UX
+## ê°Å¸Å½Â¨ Design e UX
 
-### PadrÃ£o FETD/FEI
+### PadrêÂ£o FETD/FEI
 
-O projeto segue o padrÃ£o de design FETD (FormaÃ§Ã£o em Engenharia de Tecnologia Digital):
+O projeto segue o padrêÂ£o de design FETD (FormaêÂ§êÂ£o em Engenharia de Tecnologia Digital):
 
 - **Homepage Interativa:** Quiz de 3 perguntas que recomenda o tier ideal
-- **Cards Visuais:** Grandes Ã­cones, slogans motivadores, benefÃ­cios claros
-- **NavegaÃ§Ã£o Direta:** Homepage â†’ ConteÃºdo (mÃ¡ximo 2 cliques)
+- **Cards Visuais:** Grandes êÂ­cones, slogans motivadores, benefêÂ­cios claros
+- **NavegaêÂ§êÂ£o Direta:** Homepage ê¢â â ConteêÂºdo (mêÂ¡ximo 2 cliques)
 - **Sistema de Cores:**
-  - ðŸ”µ Tier 1: Azul `#3B82F6`
-  - ðŸŸ£ Tier 2: Roxo `#9b59b6`
-  - ðŸŸ¢ Tier 3: Verde `#10B981`
+  - ê°Å¸âÂµ Tier 1: Azul `#3B82F6`
+  - ê°Å¸Å¸Â£ Tier 2: Roxo `#9b59b6`
+  - ê°Å¸Å¸Â¢ Tier 3: Verde `#10B981`
 
 ### Componentes Interativos
 
-- âœ… Tabs (comparaÃ§Ãµes lado a lado)
-- âœ… Tabelas responsivas
-- âœ… Callouts (tips, info, warnings)
-- âœ… Code blocks com syntax highlighting
-- âœ… Quiz interativo com estado local
+- ê¢Åâ¦ Tabs (comparaêÂ§êÂµes lado a lado)
+- ê¢Åâ¦ Tabelas responsivas
+- ê¢Åâ¦ Callouts (tips, info, warnings)
+- ê¢Åâ¦ Code blocks com syntax highlighting
+- ê¢Åâ¦ Quiz interativo com estado local
 
 ---
 
-## ðŸ“œ Scripts DisponÃ­veis
+## ê°Å¸âÅ Scripts DisponêÂ­veis
 
 ```bash
 pnpm start          # Servidor de desenvolvimento (localhost:3000)
-pnpm build          # Build para produÃ§Ã£o (output: ./build)
+pnpm build          # Build para produêÂ§êÂ£o (output: ./build)
 pnpm serve          # Serve build localmente
 pnpm clear          # Limpa cache do Docusaurus
 pnpm swizzle        # Customiza componentes Docusaurus
@@ -191,107 +191,107 @@ pnpm deploy         # Deploy manual (use GitHub Actions)
 
 ---
 
-## ðŸŒ Deploy e CI/CD
+## ê°Å¸ÅÂ Deploy e CI/CD
 
-### AutomÃ¡tico via GitHub Actions
+### AutomêÂ¡tico via GitHub Actions
 
 Cada `git push` na branch `main` dispara:
 
-1. âœ… Build do Docusaurus
-2. âœ… Testes de compilaÃ§Ã£o
-3. âœ… Deploy para GitHub Pages
+1. ê¢Åâ¦ Build do Docusaurus
+2. ê¢Åâ¦ Testes de compilaêÂ§êÂ£o
+3. ê¢Åâ¦ Deploy para GitHub Pages
 
 **Workflow:** `.github/workflows/deploy.yml`
 
-### ConfiguraÃ§Ã£o do GitHub Pages
+### ConfiguraêÂ§êÂ£o do GitHub Pages
 
-1. VÃ¡ em **Settings** â†’ **Pages**
+1. VêÂ¡ em **Settings** ê¢â â **Pages**
 2. Source: **GitHub Actions**
 3. URL: `https://linnoff88-dev.github.io/
 
 ---
 
-## ðŸ“Š EstatÃ­sticas do Projeto
+## ê°Å¸âÅ  EstatêÂ­sticas do Projeto
 
 ```
-ðŸ“„ Arquivos MDX: 10 mÃ³dulos Tier 1
-ðŸ“ Linhas de cÃ³digo: ~6,000 (conteÃºdo educacional)
-â±ï¸ Tempo de leitura: ~3 horas (Tier 1)
-ðŸŽ¯ MÃ³dulos planejados: 25+ (todos os tiers)
-ðŸ“¦ Tamanho do build: ~8 MB
-ðŸš€ Performance: 95+ (Lighthouse)
+ê°Å¸ââ Arquivos MDX: 10 mêÂ³dulos Tier 1
+ê°Å¸âÂ Linhas de cêÂ³digo: ~6,000 (conteêÂºdo educacional)
+ê¢ÂÂ±ê¯Â¸Â Tempo de leitura: ~3 horas (Tier 1)
+ê°Å¸Å½Â¯ MêÂ³dulos planejados: 25+ (todos os tiers)
+ê°Å¸âÂ¦ Tamanho do build: ~8 MB
+ê°Å¸Å¡â¬ Performance: 95+ (Lighthouse)
 ```
 
 ---
 
-## ðŸ¤ Contribuindo
+## ê°Å¸Â¤Â Contribuindo
 
-ContribuiÃ§Ãµes sÃ£o muito bem-vindas! Para contribuir:
+ContribuiêÂ§êÂµes sêÂ£o muito bem-vindas! Para contribuir:
 
-1. **Fork** o repositÃ³rio
+1. **Fork** o repositêÂ³rio
 2. Crie uma **branch** para sua feature (`git checkout -b feature/MinhaFeature`)
-3. **Commit** suas mudanÃ§as (`git commit -m 'feat: adiciona nova seÃ§Ã£o sobre sensores'`)
+3. **Commit** suas mudanêÂ§as (`git commit -m 'feat: adiciona nova seêÂ§êÂ£o sobre sensores'`)
 4. **Push** para a branch (`git push origin feature/MinhaFeature`)
 5. Abra um **Pull Request**
 
 ### Guidelines
 
-- Use commits semÃ¢nticos (feat, fix, docs, style, refactor, test, chore)
-- MDX: Siga o padrÃ£o dos mÃ³dulos existentes (tabs, callouts, code blocks)
+- Use commits semêÂ¢nticos (feat, fix, docs, style, refactor, test, chore)
+- MDX: Siga o padrêÂ£o dos mêÂ³dulos existentes (tabs, callouts, code blocks)
 - Imagens: Otimize antes de adicionar (< 200KB)
 - Links: Sempre use HTTPS
 
 ---
 
-## ðŸ“„ LicenÃ§a
+## ê°Å¸ââ LicenêÂ§a
 
-Este projeto estÃ¡ licenciado sob a **LicenÃ§a MIT** - veja o arquivo [LICENSE](LICENSE) para detalhes.
+Este projeto estêÂ¡ licenciado sob a **LicenêÂ§a MIT** - veja o arquivo [LICENSE](LICENSE) para detalhes.
 
 ---
 
-## ðŸ™ Agradecimentos e ReferÃªncias
+## ê°Å¸â¢Â Agradecimentos e ReferêÂªncias
 
 ### Projetos que Inspiraram
 
-- **FETD, FEI, FEP** - PadrÃ£o de design e estrutura de cursos (linnoff88-dev.github.io)
-- **Unitree Robotics** - DocumentaÃ§Ã£o tÃ©cnica e especificaÃ§Ãµes
-- **Boston Dynamics** - VÃ­deos e materiais educacionais
+- **FETD, FEI, FEP** - PadrêÂ£o de design e estrutura de cursos (linnoff88-dev.github.io)
+- **Unitree Robotics** - DocumentaêÂ§êÂ£o têÂ©cnica e especificaêÂ§êÂµes
+- **Boston Dynamics** - VêÂ­deos e materiais educacionais
 - **Tesla AI** - Blog e updates sobre Optimus
 
 ### Comunidade
 
-- [r/robotics](https://reddit.com/r/robotics) - DiscussÃµes e novidades
+- [r/robotics](https://reddit.com/r/robotics) - DiscussêÂµes e novidades
 - [ROS Discourse](https://discourse.ros.org/) - Comunidade ROS2
-- [Unitree Community](https://www.unitree.com/community) - FÃ³rum oficial
+- [Unitree Community](https://www.unitree.com/community) - FêÂ³rum oficial
 
 ---
 
-## ðŸ“ž Contato
+## ê°Å¸âÅ¾ Contato
 
 - **GitHub Issues:** [Reporte bugs ou sugira features](https://github.com/linnoff88-dev/HG1/issues)
-- **Discussions:** [Perguntas e discussÃµes](https://github.com/linnoff88-dev/HG1/discussions)
+- **Discussions:** [Perguntas e discussêÂµes](https://github.com/linnoff88-dev/HG1/discussions)
 - **Email:** [nmaldaner@example.com](mailto:nmaldaner@example.com)
 
 ---
 
-## ðŸ—ºï¸ Roadmap
+## ê°Å¸âÂºê¯Â¸Â Roadmap
 
-- [x] **Q4 2024:** Tier 1 completo (10 mÃ³dulos)
-- [ ] **Q1 2025:** Tier 2 - OperaÃ§Ã£o e Simuladores
-- [ ] **Q2 2025:** Tier 3 - ProgramaÃ§Ã£o ROS2
-- [ ] **Q3 2025:** Projetos prÃ¡ticos e certificados
-- [ ] **Q4 2025:** IntegraÃ§Ã£o com simuladores online
+- [x] **Q4 2024:** Tier 1 completo (10 mêÂ³dulos)
+- [ ] **Q1 2025:** Tier 2 - OperaêÂ§êÂ£o e Simuladores
+- [ ] **Q2 2025:** Tier 3 - ProgramaêÂ§êÂ£o ROS2
+- [ ] **Q3 2025:** Projetos prêÂ¡ticos e certificados
+- [ ] **Q4 2025:** IntegraêÂ§êÂ£o com simuladores online
 
 ---
 
 <div align="center">
 
-**ðŸ¤– Feito com â¤ï¸ pela comunidade de robÃ³tica**
+**ê°Å¸Â¤â Feito com ê¢ÂÂ¤ê¯Â¸Â pela comunidade de robêÂ³tica**
 
-[ðŸŒŸ Star no GitHub](https://github.com/linnoff88-dev/HG1) â€¢ [ðŸ› Reportar Bug](https://github.com/linnoff88-dev/HG1/issues) â€¢ [ðŸ’¡ Sugerir Feature](https://github.com/linnoff88-dev/HG1/issues/new)
+[ê°Å¸ÅÅ¸ Star no GitHub](https://github.com/linnoff88-dev/HG1) ê¢â¬Â¢ [ê°Å¸Ââº Reportar Bug](https://github.com/linnoff88-dev/HG1/issues) ê¢â¬Â¢ [ê°Å¸âÂ¡ Sugerir Feature](https://github.com/linnoff88-dev/HG1/issues/new)
 
 </div>
 
 ---
 
-Projeto adaptado da comunidade ARCKHÉ TDS - Marca Arckhe
+Projeto adaptado da comunidade ARCKHê TDS - ARCKHÉe

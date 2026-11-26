@@ -1,4 +1,4 @@
-# Guia de Contribuição
+# Guia de Contribuiçêo
 
 Obrigado por considerar contribuir com a Academia de Humanoides! 🎉
 
@@ -8,18 +8,18 @@ Obrigado por considerar contribuir com a Academia de Humanoides! 🎉
 
 Se você encontrou um bug, por favor [abra uma issue](https://github.com/nmaldaner/MindON/issues/new) com:
 
-- Descrição clara do problema
+- Descriçêo clara do problema
 - Passos para reproduzir
 - Comportamento esperado vs. atual
 - Screenshots (se aplicável)
-- Ambiente (navegador, OS, versão do Node)
+- Ambiente (navegador, OS, versêo do Node)
 
 ### Sugerir Melhorias
 
 Tem uma ideia para melhorar a plataforma? [Abra uma issue](https://github.com/nmaldaner/MindON/issues/new) descrevendo:
 
 - Qual problema você está tentando resolver?
-- Qual é sua solução proposta?
+- Qual é sua soluçêo proposta?
 - Alternativas que você considerou
 
 ### Contribuir com Código
@@ -45,7 +45,7 @@ Tem uma ideia para melhorar a plataforma? [Abra uma issue](https://github.com/nm
 4. **Faça suas Mudanças**
    - Siga os [padrões de código](#padrões-de-código)
    - Adicione testes se necessário
-   - Atualize documentação se necessário
+   - Atualize documentaçêo se necessário
 
 5. **Teste suas Mudanças**
    ```bash
@@ -61,12 +61,12 @@ Tem uma ideia para melhorar a plataforma? [Abra uma issue](https://github.com/nm
 
    Usamos [Conventional Commits](https://www.conventionalcommits.org/):
    - `feat:` Nova funcionalidade
-   - `fix:` Correção de bug
-   - `docs:` Mudanças na documentação
-   - `style:` Formatação, sem mudança de código
-   - `refactor:` Refatoração de código
-   - `test:` Adição ou correção de testes
-   - `chore:` Tarefas de manutenção
+   - `fix:` Correçêo de bug
+   - `docs:` Mudanças na documentaçêo
+   - `style:` Formataçêo, sem mudança de código
+   - `refactor:` Refatoraçêo de código
+   - `test:` Adiçêo ou correçêo de testes
+   - `chore:` Tarefas de manutençêo
 
 7. **Push e Crie Pull Request**
    ```bash
@@ -110,7 +110,7 @@ Você pode melhorar o conteúdo educacional:
 - Use ARIA labels apropriados
 - Mantenha contraste 4.5:1 (WCAG AA)
 
-#### Documentação
+#### Documentaçêo
 - Documente componentes com JSDoc
 - README atualizado para novas features
 - Exemplos de uso para componentes

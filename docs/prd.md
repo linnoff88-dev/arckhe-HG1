@@ -552,7 +552,7 @@ The platform will be built using **Docusaurus 3**, a React-based static site gen
 6. Content guidelines documented (`/CONTENT_GUIDELINES.md`) for contributors
 7. Module metadata automatically displayed on detail pages (reading time, tier/number)
 
-### Story 2.2: Tier 1 Module 1 - Introdução aos Humanoides
+### Story 2.2: Tier 1 Module 1 - Introduçêo aos Humanoides
 
 **As a** learner,
 **I want** to understand what humanoid robots are and why they matter,
@@ -568,7 +568,7 @@ The platform will be built using **Docusaurus 3**, a React-based static site gen
 7. Links to glossary for any technical terms introduced
 8. Module accessible at `/tier1/introducao` URL
 
-### Story 2.3: Tier 1 Module 2 - História e Evolução
+### Story 2.3: Tier 1 Module 2 - História e Evoluçêo
 
 **As a** learner,
 **I want** to learn the history of humanoid robotics,
@@ -608,7 +608,7 @@ The platform will be built using **Docusaurus 3**, a React-based static site gen
 **Acceptance Criteria:**
 1. Module 4: Sensores (cameras, LiDAR, IMU, force sensors, microphones) at `/tier1/sensores`
 2. Module 5: Atuadores e Controle de Movimento (motors, joints, actuators, control systems) at `/tier1/atuadores`
-3. Module 6: Computação Embarcada (CPUs, GPUs, edge computing, examples like Jetson Orin) at `/tier1/computacao`
+3. Module 6: Computaçêo Embarcada (CPUs, GPUs, edge computing, examples like Jetson Orin) at `/tier1/computacao`
 4. Module 7: Energia e Bateria (power systems, battery types, runtime considerations) at `/tier1/energia`
 5. Each module includes labeled diagrams showing component locations on humanoid
 6. Real-world examples (e.g., Unitree G1's sensor suite)
@@ -708,8 +708,8 @@ The platform will be built using **Docusaurus 3**, a React-based static site gen
 **so that** I can effectively operate and maintain humanoid systems.
 
 **Acceptance Criteria:**
-1. Module 3: Calibração e Inicialização (startup procedures, calibration, system checks) at `/tier2/calibracao`
-2. Module 4: Manutenção Básica (cleaning, battery care, software updates, diagnostics) at `/tier2/manutencao`
+1. Module 3: Calibraçêo e Inicializaçêo (startup procedures, calibration, system checks) at `/tier2/calibracao`
+2. Module 4: Manutençêo Básica (cleaning, battery care, software updates, diagnostics) at `/tier2/manutencao`
 3. Module 5: Simuladores e Ambientes Virtuais (Gazebo, Webots, Isaac Sim overview, why simulate) at `/tier2/simuladores`
 4. Module 3 includes step-by-step calibration guide (generic + Unitree G1 specific)
 5. Module 4 includes maintenance schedule table

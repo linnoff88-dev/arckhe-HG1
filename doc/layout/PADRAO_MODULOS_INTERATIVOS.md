@@ -1,16 +1,16 @@
-# 📋 Padrão de Módulos Interativos
+# 📋 Padrêo de Módulos Interativos
 
-**Versão:** 1.0
-**Última atualização:** Janeiro 2025
-**Aplicável a:** Páginas de níveis, cursos, documentação educacional
+**Versêo:** 1.0
+**Última atualizaçêo:** Janeiro 2025
+**Aplicável a:** Páginas de níveis, cursos, documentaçêo educacional
 
 ---
 
-## 🎯 Visão Geral
+## 🎯 Visêo Geral
 
-Este documento define o **padrão completo** para criar páginas de módulos educacionais interativos com tópicos expandíveis, modais, links para conteúdo completo e downloads.
+Este documento define o **padrêo completo** para criar páginas de módulos educacionais interativos com tópicos expandíveis, modais, links para conteúdo completo e downloads.
 
-Use esta especificação sempre que precisar criar uma página de nível/curso com múltiplos módulos.
+Use esta especificaçêo sempre que precisar criar uma página de nível/curso com múltiplos módulos.
 
 ## 📌 Resumo Executivo (TL;DR)
 
@@ -23,8 +23,8 @@ Use esta especificação sempre que precisar criar uma página de nível/curso c
 **Na página completa do módulo (ex: nivel-2-modulo-1.html) - DEVE ter:**
 - ✅ Navbar no topo (com link para início e nível)
 - ✅ Breadcrumb (Início / Nível X / Módulo Y)
-- ✅ Botão "Download MD" no topo do conteúdo
-- ✅ Navegação no rodapé: "← Voltar ao Nível" + "Próximo Módulo →"
+- ✅ Botêo "Download MD" no topo do conteúdo
+- ✅ Navegaçêo no rodapé: "← Voltar ao Nível" + "Próximo Módulo →"
 - ✅ Footer com links para todos os níveis
 
 ---
@@ -48,9 +48,9 @@ Cada módulo deve ser apresentado como um **card completo** com:
 - `shadow-lg` - Sombra
 - `p-8` - Padding interno
 - `mb-8` - Margem inferior entre cards
-- `border-2 border-transparent` - Borda transparente por padrão
+- `border-2 border-transparent` - Borda transparente por padrêo
 - `hover:border-[COR]` - Borda colorida no hover
-- `transition-all` - Transição suave
+- `transition-all` - Transiçêo suave
 
 **Cores por nível:**
 - Nível 1: `hover:border-nivel-1` (#3B82F6 - azul)
@@ -77,7 +77,7 @@ Cada card deve ter:
     📘 [Título do Módulo]
   </h2>
   <p class="text-neutral-600 dark:text-neutral-400">
-    [Subtítulo/Descrição]
+    [Subtítulo/Descriçêo]
   </p>
 </div>
 ```
@@ -87,11 +87,11 @@ Cada card deve ter:
 
 ---
 
-## 🔘 Botões de Ação (3 obrigatórios)
+## 🔘 Botões de Açêo (3 obrigatórios)
 
 Cada módulo DEVE ter exatamente **3 botões**:
 
-### 1. Botão "Ver em Modal" (PRIMARY)
+### 1. Botêo "Ver em Modal" (PRIMARY)
 
 ```html
 <button onclick="openModal('modulo-X')" class="px-6 py-3 bg-[COR] text-white rounded-lg font-semibold hover:opacity-90 transition-all flex items-center gap-2">
@@ -100,12 +100,12 @@ Cada módulo DEVE ter exatamente **3 botões**:
 </button>
 ```
 
-**Função:** Abre modal com resumo do módulo
+**Funçêo:** Abre modal com resumo do módulo
 **Cor:** Background na cor do nível
 **Texto:** Branco sempre
 **Ícone:** 📖 (livro aberto)
 
-### 2. Botão "Abrir Página Completa" (SECONDARY)
+### 2. Botêo "Abrir Página Completa" (SECONDARY)
 
 ```html
 <a href="../modulos/[nivel]-modulo-X.html" class="px-6 py-3 bg-transparent border-2 border-[COR] text-[COR] dark:text-[COR] rounded-lg font-semibold hover:bg-[COR] hover:text-white transition-all flex items-center gap-2">
@@ -114,12 +114,12 @@ Cada módulo DEVE ter exatamente **3 botões**:
 </a>
 ```
 
-**Função:** Link para HTML expandido do módulo
+**Funçêo:** Link para HTML expandido do módulo
 **Estilo:** Borda colorida, background transparente
 **Hover:** Inverte para background colorido com texto branco
 **Ícone:** 📄 (documento)
 
-### 3. Botão "Download MD" (TERTIARY)
+### 3. Botêo "Download MD" (TERTIARY)
 
 ```html
 <a href="../downloads/[nivel]-modulo-X.md" download class="px-6 py-3 bg-transparent border-2 border-neutral-300 dark:border-neutral-600 text-neutral-700 dark:text-neutral-300 rounded-lg font-semibold hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-all flex items-center gap-2">
@@ -128,7 +128,7 @@ Cada módulo DEVE ter exatamente **3 botões**:
 </a>
 ```
 
-**Função:** Download do arquivo Markdown
+**Funçêo:** Download do arquivo Markdown
 **Estilo:** Cinza neutro, sem cor do nível
 **Atributo:** `download` para forçar download
 **Ícone:** 📥 (seta para baixo)
@@ -175,7 +175,7 @@ Cada módulo deve ter **mínimo 5 a 10 tópicos** principais:
   </button>
   <div class="topic-explanation hidden ml-6 mt-2 p-4 bg-[COR]-50 dark:bg-[COR]-900/20 rounded-lg border-l-4 border-[COR]">
     <p class="text-sm mb-1.5 text-neutral-700 dark:text-neutral-300">
-      <strong class="text-[COR]">O que é:</strong> [Definição clara do conceito]
+      <strong class="text-[COR]">O que é:</strong> [Definiçêo clara do conceito]
     </p>
     <p class="text-sm mb-1.5 text-neutral-700 dark:text-neutral-300">
       <strong class="text-[COR]">Por que aprender:</strong> [Relevância prática]
@@ -213,32 +213,32 @@ Cada módulo deve ter **mínimo 5 a 10 tópicos** principais:
 - `🔥 Exemplo: Criar um plano de marketing`
 - `📅 A história completa: De GPT-3 a GPT-5`
 - `🧠 O que mudou nos modelos modernos`
-- `❌ Técnicas obsoletas que não funcionam`
-- `📊 Agentes de Informação (3 tipos)`
+- `❌ Técnicas obsoletas que nêo funcionam`
+- `📊 Agentes de Informaçêo (3 tipos)`
 - `🎯 Elemento 1: Objetivo Primário`
 - `💻 Seus Primeiros Agentes na Prática`
 - `🚀 Multiagentes > Agente Único`
 
 **❌ Exemplos ERRADOS (muito longos):**
 
-- ❌ `A Evolução da IA: Do Respondente ao Autônomo` (muito longo!)
+- ❌ `A Evoluçêo da IA: Do Respondente ao Autônomo` (muito longo!)
 - ❌ `Taxonomia: Chatbots vs Assistentes vs Agentes vs Sistemas` (muito longo!)
-- ❌ `Por Que Especialização Importa em Sistemas de Agentes` (muito longo!)
-- ❌ `Elementos 4-8: Validação, Ações, Comunicação com Usuário e Comunicação Inter-agentes` (muito longo!)
+- ❌ `Por Que Especializaçêo Importa em Sistemas de Agentes` (muito longo!)
+- ❌ `Elementos 4-8: Validaçêo, Ações, Comunicaçêo com Usuário e Comunicaçêo Inter-agentes` (muito longo!)
 
 **Regra de ouro:** Se o título tem mais de 50 caracteres, está muito longo. Encurte!
 
 **Dica:** Use abreviações, símbolos ou agrupe conceitos:
-- Em vez de: "A Evolução da IA: Do Respondente ao Autônomo"
+- Em vez de: "A Evoluçêo da IA: Do Respondente ao Autônomo"
 - Use: "📅 Da IA Respondente à IA Autônoma"
 
 - Em vez de: "Taxonomia: Chatbots vs Assistentes vs Agentes"
 - Use: "🏷️ Chatbots vs Assistentes vs Agentes"
 
-- Em vez de: "Por Que Especialização Importa em Sistemas"
+- Em vez de: "Por Que Especializaçêo Importa em Sistemas"
 - Use: "🎭 Especialista vs Generalista"
 
-### Cores de Fundo da Explicação
+### Cores de Fundo da Explicaçêo
 
 **Para cada nível, use:**
 - Nível 1: `bg-blue-50 dark:bg-blue-900/20` + `border-nivel-1`
@@ -248,16 +248,16 @@ Cada módulo deve ter **mínimo 5 a 10 tópicos** principais:
 
 ### Conteúdo Obrigatório em Cada Tópico
 
-Cada explicação DEVE ter exatamente **3 parágrafos**:
+Cada explicaçêo DEVE ter exatamente **3 parágrafos**:
 
-1. **"O que é:"** - Definição clara e objetiva (1-2 linhas)
+1. **"O que é:"** - Definiçêo clara e objetiva (1-2 linhas)
 2. **"Por que aprender:"** - Relevância prática/profissional (1-2 linhas)
 3. **"Conceitos chave:"** - Lista de termos separados por vírgula
 
-### Comportamento de Expansão
+### Comportamento de Expansêo
 
-- Por padrão: explicação `.hidden` (escondida)
-- Ao clicar no botão: remove `.hidden` da explicação
+- Por padrêo: explicaçêo `.hidden` (escondida)
+- Ao clicar no botêo: remove `.hidden` da explicaçêo
 - Sistema **accordion**: fecha outros tópicos do mesmo módulo
 - JavaScript necessário (já incluído em `app.js`)
 
@@ -282,7 +282,7 @@ Cada módulo DEVE ter um modal correspondente:
     <div class="modal-body">
       <!-- Conteúdo resumido do módulo -->
       <h3 class="text-xl font-bold text-neutral-900 dark:text-neutral-100 mb-3">
-        [Subtítulo da Seção]
+        [Subtítulo da Seçêo]
       </h3>
       <p class="text-neutral-700 dark:text-neutral-300 mb-4">
         [Parágrafo explicativo]
@@ -428,9 +428,9 @@ document.addEventListener('keydown', function(e) {
 
 ---
 
-## 🧭 Navegação nas Páginas Completas dos Módulos
+## 🧭 Navegaçêo nas Páginas Completas dos Módulos
 
-Cada página completa de módulo (ex: `nivel-2-modulo-1.html`) DEVE ter navegação completa.
+Cada página completa de módulo (ex: `nivel-2-modulo-1.html`) DEVE ter navegaçêo completa.
 
 ### 1. Navbar no Topo
 
@@ -458,10 +458,10 @@ Cada página completa de módulo (ex: `nivel-2-modulo-1.html`) DEVE ter navegaç
 **Obrigatório:**
 - Link para `../index.html` (Início)
 - Link para `../niveis/nivel-X.html` (Nível atual)
-- Botão de dark mode toggle
+- Botêo de dark mode toggle
 - Sticky no topo (position sticky)
 
-### 2. Breadcrumb (Migalhas de Pão)
+### 2. Breadcrumb (Migalhas de Pêo)
 
 ```html
 <div class="bg-white dark:bg-neutral-800 border-b border-neutral-200 dark:border-neutral-700">
@@ -480,9 +480,9 @@ Cada página completa de módulo (ex: `nivel-2-modulo-1.html`) DEVE ter navegaç
 **Caminho obrigatório:**
 1. Início (clicável)
 2. Nível X (clicável)
-3. Módulo Y (não clicável - página atual)
+3. Módulo Y (nêo clicável - página atual)
 
-### 3. Botão de Download no Topo do Conteúdo
+### 3. Botêo de Download no Topo do Conteúdo
 
 Logo após o hero/cabeçalho do módulo:
 
@@ -496,7 +496,7 @@ Logo após o hero/cabeçalho do módulo:
 
 **Posicionamento:** Canto superior direito, antes do conteúdo principal
 
-### 4. Navegação Entre Módulos (Rodapé do Conteúdo)
+### 4. Navegaçêo Entre Módulos (Rodapé do Conteúdo)
 
 Após todo o conteúdo, antes do footer:
 
@@ -517,19 +517,19 @@ Após todo o conteúdo, antes do footer:
 </div>
 ```
 
-**Regras de navegação:**
+**Regras de navegaçêo:**
 
 **Para o primeiro módulo (módulo 1):**
-- Botão esquerdo: "← Voltar ao Nível X" (link para página do nível)
-- Botão direito: "Módulo 2 →" (próximo módulo)
+- Botêo esquerdo: "← Voltar ao Nível X" (link para página do nível)
+- Botêo direito: "Módulo 2 →" (próximo módulo)
 
 **Para módulos intermediários (2 até N-1):**
-- Botão esquerdo: "← Módulo X" (módulo anterior)
-- Botão direito: "Módulo Y →" (próximo módulo)
+- Botêo esquerdo: "← Módulo X" (módulo anterior)
+- Botêo direito: "Módulo Y →" (próximo módulo)
 
 **Para o último módulo (módulo N):**
-- Botão esquerdo: "← Módulo X" (módulo anterior)
-- Botão direito: "Voltar ao Nível →" (link para página do nível)
+- Botêo esquerdo: "← Módulo X" (módulo anterior)
+- Botêo direito: "Voltar ao Nível →" (link para página do nível)
 
 ### 5. Footer com Links para Todos os Níveis
 
@@ -570,14 +570,14 @@ Após todo o conteúdo, antes do footer:
 - Link "Voltar ao Nível X" específico
 - Copyright e ano atual
 
-### Resumo dos Pontos de Navegação
+### Resumo dos Pontos de Navegaçêo
 
-Uma página completa de módulo tem **5 pontos de navegação**:
+Uma página completa de módulo tem **5 pontos de navegaçêo**:
 
 1. **Navbar** → Início + Nível atual
 2. **Breadcrumb** → Início / Nível / Módulo
 3. **Download MD** → Download do conteúdo
-4. **Navegação entre módulos** → Anterior ← | → Próximo
+4. **Navegaçêo entre módulos** → Anterior ← | → Próximo
 5. **Footer** → Links para todos os níveis
 
 ---
@@ -617,7 +617,7 @@ Para que tudo funcione, você precisa ter:
 ```
 projeto/
 ├── niveis/
-│   └── nivel-X.html          ← Página principal (esta especificação)
+│   └── nivel-X.html          ← Página principal (esta especificaçêo)
 ├── modulos/
 │   ├── nivel-X-modulo-1.html ← Páginas completas dos módulos
 │   ├── nivel-X-modulo-2.html
@@ -638,7 +638,7 @@ projeto/
 
 ---
 
-## ✅ Checklist de Implementação
+## ✅ Checklist de Implementaçêo
 
 Use este checklist ao criar uma nova página de nível:
 
@@ -648,18 +648,18 @@ Use este checklist ao criar uma nova página de nível:
 - [ ] Badge do módulo com número
 - [ ] Título principal (h2) com emoji 📘
 - [ ] Subtítulo descritivo
-- [ ] **3 botões de ação:**
-  - [ ] Botão "Ver em Modal" (onclick)
-  - [ ] Botão "Abrir Página Completa" (link HTML)
-  - [ ] Botão "Download MD" (link com download)
+- [ ] **3 botões de açêo:**
+  - [ ] Botêo "Ver em Modal" (onclick)
+  - [ ] Botêo "Abrir Página Completa" (link HTML)
+  - [ ] Botêo "Download MD" (link com download)
 - [ ] **5-10 tópicos clicáveis:**
   - [ ] Cada tópico com emoji relevante
-  - [ ] Sistema de expansão/accordion
-  - [ ] 3 parágrafos por explicação (O que é, Por que, Conceitos)
+  - [ ] Sistema de expansêo/accordion
+  - [ ] 3 parágrafos por explicaçêo (O que é, Por que, Conceitos)
   - [ ] Cores corretas do nível
 - [ ] **Modal correspondente:**
   - [ ] ID correto (`modulo-X`)
-  - [ ] Header com título e botão fechar
+  - [ ] Header com título e botêo fechar
   - [ ] Body com conteúdo resumido (300-500 palavras)
   - [ ] Seções com h3 e parágrafos
 
@@ -678,11 +678,11 @@ Use este checklist ao criar uma nova página de nível:
 
 ## 🎯 Regras de Ouro
 
-1. **Consistência Visual:** Todos os módulos devem seguir exatamente o mesmo padrão
+1. **Consistência Visual:** Todos os módulos devem seguir exatamente o mesmo padrêo
 2. **Sempre 3 Botões:** Nunca menos, nunca mais
 3. **Mínimo 5 Tópicos:** Cada módulo deve ter pelo menos 5 tópicos clicáveis
-4. **Explicação Tripla:** Sempre "O que é" + "Por que" + "Conceitos chave"
-5. **Modal Resumido:** 300-500 palavras, não o conteúdo completo
+4. **Explicaçêo Tripla:** Sempre "O que é" + "Por que" + "Conceitos chave"
+5. **Modal Resumido:** 300-500 palavras, nêo o conteúdo completo
 6. **Cores do Nível:** Use consistentemente a cor definida para o nível
 7. **Dark Mode:** Sempre incluir variantes dark: para todos os componentes
 8. **Responsivo:** Layout deve funcionar em mobile (flex-wrap nos botões)
@@ -695,12 +695,12 @@ Use este checklist ao criar uma nova página de nível:
 
 - `.chapter-card` - Container do módulo
 - `.topic-item` - Item da lista de tópicos
-- `.topic-button` - Botão clicável do tópico
-- `.topic-explanation` - Div da explicação (inicialmente hidden)
+- `.topic-button` - Botêo clicável do tópico
+- `.topic-explanation` - Div da explicaçêo (inicialmente hidden)
 - `.topics-list` - Lista (ul) de tópicos
 - `.modal` - Container do modal
 - `.modal-content` - Conteúdo interno do modal
-- `.close-modal` - Botão X de fechar
+- `.close-modal` - Botêo X de fechar
 
 ### Atributos Data
 
@@ -716,7 +716,7 @@ Use este checklist ao criar uma nova página de nível:
 
 ## 💡 Exemplo Completo de Referência
 
-Ver arquivo: `/niveis/nivel-1.html` ou `/niveis/nivel-2.html` para implementação completa seguindo este padrão.
+Ver arquivo: `/niveis/nivel-1.html` ou `/niveis/nivel-2.html` para implementaçêo completa seguindo este padrêo.
 
 ---
 
@@ -734,7 +734,7 @@ Ver arquivo: `/niveis/nivel-1.html` ou `/niveis/nivel-2.html` para implementaç�
 4. Valide com o checklist acima
 5. Teste:
    - Clique em cada tópico (deve expandir/recolher)
-   - Abra cada modal (botão, backdrop, ESC devem fechar)
+   - Abra cada modal (botêo, backdrop, ESC devem fechar)
    - Teste dark mode
    - Teste em mobile
 
@@ -744,7 +744,7 @@ Diga: *"Implemente a estrutura conforme o documento PADRAO_MODULOS_INTERATIVOS.m
 
 ---
 
-**Versão:** 1.0
+**Versêo:** 1.0
 **Criado por:** Claude Code
-**Projeto:** FEI - Formação em Engenharia de Intenção
+**Projeto:** FEI - Formaçêo em Engenharia de Intençêo
 **Data:** Janeiro 2025

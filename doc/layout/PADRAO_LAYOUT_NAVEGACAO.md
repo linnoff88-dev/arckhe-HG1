@@ -1,16 +1,16 @@
-# 🎨 Padrão de Layout e Navegação - FEI
+# 🎨 Padrêo de Layout e Navegaçêo - FEI
 
-**Versão:** 1.0
-**Última atualização:** Janeiro 2025
+**Versêo:** 1.0
+**Última atualizaçêo:** Janeiro 2025
 **Aplicável a:** Todas as páginas do site FEI (Home, Níveis, Módulos)
 
 ---
 
-## 🎯 Visão Geral
+## 🎯 Visêo Geral
 
-Este documento define a **estrutura global de layout, navegação e componentes visuais** usados em todo o site FEI - Formação em Engenharia de Intenção.
+Este documento define a **estrutura global de layout, navegaçêo e componentes visuais** usados em todo o site FEI - Formaçêo em Engenharia de Intençêo.
 
-Use esta especificação para manter **consistência visual e funcional** em todas as páginas do projeto.
+Use esta especificaçêo para manter **consistência visual e funcional** em todas as páginas do projeto.
 
 ---
 
@@ -74,9 +74,9 @@ Toda página deve seguir esta estrutura:
 
 ## 🧩 Componentes Globais
 
-### 1. Navbar (Navegação Principal)
+### 1. Navbar (Navegaçêo Principal)
 
-**Posição:** Fixo no topo (sticky)
+**Posiçêo:** Fixo no topo (sticky)
 **Altura:** 64px (h-16)
 **Background:** Branco semi-transparente com blur
 
@@ -88,7 +88,7 @@ Toda página deve seguir esta estrutura:
       <!-- Logo -->
       <div class="flex items-center">
         <a href="/index.html" class="text-2xl font-bold bg-gradient-to-r from-nivel-1 to-nivel-2 bg-clip-text text-transparent">
-          🎓 FEI - Engenharia de Intenção
+          🎓 FEI - Engenharia de Intençêo
         </a>
       </div>
 
@@ -117,7 +117,7 @@ Toda página deve seguir esta estrutura:
     </div>
   </div>
 
-  <!-- Menu Mobile (escondido por padrão) -->
+  <!-- Menu Mobile (escondido por padrêo) -->
   <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-neutral-800 border-t border-neutral-200 dark:border-neutral-700">
     <div class="px-4 py-2 space-y-1">
       <a href="/index.html" class="block px-3 py-2 rounded-md hover:bg-neutral-100 dark:hover:bg-neutral-700">Início</a>
@@ -133,7 +133,7 @@ Toda página deve seguir esta estrutura:
 - ✅ Backdrop blur: `backdrop-blur-sm`
 - ✅ Logo com gradiente: `from-nivel-1 to-nivel-2`
 - ✅ Links com hover effect
-- ✅ Botão de dark mode
+- ✅ Botêo de dark mode
 - ✅ Menu mobile responsivo
 - ✅ Largura máxima: `max-w-7xl`
 
@@ -144,10 +144,10 @@ Toda página deve seguir esta estrutura:
 
 ---
 
-### 2. Breadcrumb (Migalhas de Pão)
+### 2. Breadcrumb (Migalhas de Pêo)
 
 **Quando usar:** Em todas as páginas EXCETO homepage
-**Posição:** Logo abaixo do navbar
+**Posiçêo:** Logo abaixo do navbar
 
 ```html
 <div class="bg-white dark:bg-neutral-800 border-b border-neutral-200 dark:border-neutral-700">
@@ -166,7 +166,7 @@ Toda página deve seguir esta estrutura:
 **Regras:**
 - Sempre começa com "Início"
 - Separador: `/` com cor neutra
-- Último item (página atual): não clicável, cor mais suave
+- Último item (página atual): nêo clicável, cor mais suave
 - Links anteriores: cor do nível com hover
 - Máximo 4 níveis de profundidade recomendado
 
@@ -179,7 +179,7 @@ Toda página deve seguir esta estrutura:
 
 ### 3. Hero Section
 
-**Posição:** Logo após navbar/breadcrumb
+**Posiçêo:** Logo após navbar/breadcrumb
 **Background:** Gradiente na cor do nível
 **Altura:** Variável (mínimo py-16)
 
@@ -204,7 +204,7 @@ Toda página deve seguir esta estrutura:
 
     <!-- Subtítulo -->
     <p class="text-xl text-white/90 mb-6">
-      Descrição ou subtítulo da página
+      Descriçêo ou subtítulo da página
     </p>
 
     <!-- Estatísticas (opcional) -->
@@ -265,7 +265,7 @@ Toda página deve seguir esta estrutura:
 
 ### 5. Footer (Rodapé)
 
-**Posição:** Final de todas as páginas
+**Posiçêo:** Final de todas as páginas
 **Background:** Escuro (`bg-neutral-900 dark:bg-black`)
 **Estrutura:** 3 colunas em desktop, empilhadas em mobile
 
@@ -278,8 +278,8 @@ Toda página deve seguir esta estrutura:
 
       <!-- Coluna 1: Sobre -->
       <div>
-        <h3 class="text-xl font-bold text-white mb-4">FEI - Engenharia de Intenção</h3>
-        <p class="text-sm">Formação completa para dominar a nova era da IA</p>
+        <h3 class="text-xl font-bold text-white mb-4">FEI - Engenharia de Intençêo</h3>
+        <p class="text-sm">Formaçêo completa para dominar a nova era da IA</p>
       </div>
 
       <!-- Coluna 2: Níveis -->
@@ -305,7 +305,7 @@ Toda página deve seguir esta estrutura:
 
     <!-- Copyright -->
     <div class="border-t border-neutral-800 mt-8 pt-8 text-center text-sm">
-      <p>&copy; 2025 FEI - Formação em Engenharia de Intenção.</p>
+      <p>&copy; 2025 FEI - Formaçêo em Engenharia de Intençêo.</p>
     </div>
   </div>
 </footer>
@@ -339,7 +339,7 @@ colors: {
 }
 ```
 
-### Cores Neutras (Tailwind Padrão)
+### Cores Neutras (Tailwind Padrêo)
 
 - **Backgrounds claros:** `bg-neutral-50`, `bg-neutral-100`
 - **Backgrounds escuros:** `bg-neutral-800`, `bg-neutral-900`, `bg-black`
@@ -395,7 +395,7 @@ colors: {
 - Tablet: `sm:px-6`
 - Desktop: `lg:px-8`
 
-### Container Padrão
+### Container Padrêo
 
 ```html
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -412,7 +412,7 @@ colors: {
 
 ## 🌓 Dark Mode
 
-### Implementação
+### Implementaçêo
 
 **Sistema:** Class-based (`.dark` no `<html>`)
 **Storage:** localStorage (`theme`)
@@ -507,7 +507,7 @@ themeToggle.addEventListener('click', function() {
 
 ## 🎯 Componentes Reutilizáveis
 
-### Card Padrão
+### Card Padrêo
 
 ```html
 <div class="bg-white dark:bg-neutral-800 rounded-xl shadow-lg p-8 border-2 border-transparent hover:border-[COR] transition-all">
@@ -523,19 +523,19 @@ themeToggle.addEventListener('click', function() {
 - Hover com borda colorida
 - Transições suaves
 
-### Botão Primário
+### Botêo Primário
 
 ```html
 <button class="px-6 py-3 bg-[COR] text-white rounded-lg font-semibold hover:opacity-90 transition-all">
-  Texto do Botão
+  Texto do Botêo
 </button>
 ```
 
-### Botão Secundário (Outline)
+### Botêo Secundário (Outline)
 
 ```html
 <button class="px-6 py-3 bg-transparent border-2 border-[COR] text-[COR] rounded-lg font-semibold hover:bg-[COR] hover:text-white transition-all">
-  Texto do Botão
+  Texto do Botêo
 </button>
 ```
 
@@ -558,7 +558,7 @@ themeToggle.addEventListener('click', function() {
 
 ---
 
-## 🔧 Configuração Obrigatória
+## 🔧 Configuraçêo Obrigatória
 
 ### Tailwind CSS CDN + Config
 
@@ -611,7 +611,7 @@ themeToggle.addEventListener('click', function() {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>[Título da Página] | FEI</title>
-  <meta name="description" content="[Descrição da página]">
+  <meta name="description" content="[Descriçêo da página]">
 </head>
 ```
 
@@ -641,7 +641,7 @@ projeto/
 
 ---
 
-## ✅ Checklist de Implementação
+## ✅ Checklist de Implementaçêo
 
 Use ao criar uma nova página:
 
@@ -657,11 +657,11 @@ Use ao criar uma nova página:
 
 ### Componentes
 - [ ] Navbar sticky com logo e links
-- [ ] Botão de dark mode funcionando
+- [ ] Botêo de dark mode funcionando
 - [ ] Menu mobile responsivo
 - [ ] Breadcrumb (se aplicável)
 - [ ] Hero section com gradiente correto
-- [ ] Content area com container padrão
+- [ ] Content area com container padrêo
 - [ ] Footer com 3 colunas e copyright
 - [ ] JavaScript incluído (app.js)
 
@@ -674,7 +674,7 @@ Use ao criar uma nova página:
 - [ ] Grid responsivo
 
 ### Acessibilidade
-- [ ] aria-label nos componentes de navegação
+- [ ] aria-label nos componentes de navegaçêo
 - [ ] Links com hover states
 - [ ] Contraste adequado (WCAG AA)
 - [ ] Scroll suave (scroll-smooth)
@@ -692,7 +692,7 @@ Use ao criar uma nova página:
 1. **Consistência Visual:** Mesma estrutura em todas as páginas
 2. **Mobile-First:** Sempre desenvolver para mobile primeiro
 3. **Dark Mode:** Sempre incluir variante `dark:`
-4. **Container Padrão:** Sempre `max-w-7xl mx-auto`
+4. **Container Padrêo:** Sempre `max-w-7xl mx-auto`
 5. **Cores do Nível:** Use a cor específica do nível
 6. **Navbar Sticky:** Sempre fixo no topo
 7. **Footer Completo:** Sempre com links para todos os níveis
@@ -720,7 +720,7 @@ Ver arquivos de referência:
 3. Implemente navbar, hero, content, footer
 4. Valide com o checklist acima
 5. Teste responsividade e dark mode
-6. Teste navegação mobile
+6. Teste navegaçêo mobile
 
 **Para dar instruções:**
 
@@ -728,7 +728,7 @@ Ver arquivos de referência:
 
 ---
 
-**Versão:** 1.0
+**Versêo:** 1.0
 **Criado por:** Claude Code
-**Projeto:** FEI - Formação em Engenharia de Intenção
+**Projeto:** FEI - Formaçêo em Engenharia de Intençêo
 **Data:** Janeiro 2025

@@ -607,7 +607,7 @@ const sidebars: SidebarsConfig = {
     {
       type: 'doc',
       id: 'tier3/roadmap',
-      label: 'Tier 3: Roadmap de Programação',
+      label: 'Tier 3: Roadmap de Programaçêo',
     },
   ],
 };

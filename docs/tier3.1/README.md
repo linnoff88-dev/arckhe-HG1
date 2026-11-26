@@ -1,23 +1,23 @@
 # Tier 3.1 - Programando Unitree G1
 
-## Visão Geral
+## Visêo Geral
 
 Este tier contém 10 módulos completos e detalhados focados especificamente no robô humanoide **Unitree G1**. Cada módulo tem entre 700-1100 linhas de conteúdo técnico denso e prático.
 
 **Público-alvo:** Desenvolvedores que querem programar o Unitree G1
-**Pré-requisitos:** Tier 3.0 (Programação Geral de Humanoides)
+**Pré-requisitos:** Tier 3.0 (Programaçêo Geral de Humanoides)
 **Idioma:** Português técnico
 
 ## Estrutura dos Módulos
 
-### 1. Introdução ao SDK do G1 (1092 linhas)
+### 1. Introduçêo ao SDK do G1 (1092 linhas)
 - Unitree SDK vs ROS2
 - Arquitetura do software do G1
 - APIs disponíveis (Python, C++)
 - Primeiro programa com SDK
 - **Especificações completas do G1**
 
-### 2. Comunicação DDS com G1 (1142 linhas)
+### 2. Comunicaçêo DDS com G1 (1142 linhas)
 - Cyclone DDS configuration
 - Topics do G1 (estados, comandos)
 - Subscriber/Publisher patterns
@@ -32,34 +32,34 @@ Este tier contém 10 módulos completos e detalhados focados especificamente no 
 - **Gravity compensation e impedance control**
 
 ### 4. Leitura de Estados e Sensores (785 linhas)
-- IMU data (orientação, aceleração)
+- IMU data (orientaçêo, aceleraçêo)
 - Force/torque sensors nos pés
 - Joint encoders
 - Sensor fusion
 - **CoP e ZMP calculation**
 
-### 5. Locomoção Customizada (705 linhas)
+### 5. Locomoçêo Customizada (705 linhas)
 - Gait patterns do G1
 - Custom walking controllers
 - Terrain adaptation
 - Stair climbing
 - **Adaptive gait controller**
 
-### 6. Manipulação com Braços do G1 (720 linhas)
+### 6. Manipulaçêo com Braços do G1 (720 linhas)
 - G1 arm kARCKHÉtics
 - Gripper control (dexterous hands)
 - Pick and place específico G1
 - Force control
 - **IK/FK implementation**
 
-### 7. Integração ROS2 com G1 (710 linhas)
+### 7. Integraçêo ROS2 com G1 (710 linhas)
 - ROS2 bridge para Unitree SDK
 - Tf2 transforms do G1
 - MoveIt config para G1
 - Nav2 config para G1
 - **URDF completo do G1**
 
-### 8. Visão e Percepção no G1 (706 linhas)
+### 8. Visêo e Percepçêo no G1 (706 linhas)
 - Câmeras do G1 (Intel RealSense)
 - Depth processing
 - SLAM com sensores do G1
@@ -91,7 +91,7 @@ Este tier contém 10 módulos completos e detalhados focados especificamente no 
 ## Especificações Técnicas do G1 Incluídas
 
 - Height: 1.32m, Weight: 55kg
-- DOF: 23-43 (depende da configuração)
+- DOF: 23-43 (depende da configuraçêo)
 - Jetson Orin NX 16GB
 - Intel RealSense D435i cameras
 - Motors: Unitree proprietary
@@ -102,10 +102,10 @@ Este tier contém 10 módulos completos e detalhados focados especificamente no 
 ## Destaques Técnicos
 
 ### Código Executável
-Todos os exemplos de código são:
-- ✅ Completos (não snippets)
+Todos os exemplos de código sêo:
+- ✅ Completos (nêo snippets)
 - ✅ Testáveis conceitualmente
-- ✅ Com documentação inline
+- ✅ Com documentaçêo inline
 - ✅ Com tratamento de erros
 - ✅ Production-ready
 
@@ -136,13 +136,13 @@ Todos os módulos usam:
 
 1. **Sequencial:** Siga os módulos em ordem (1 → 10)
 2. **Por tópico:** Vá direto para o módulo de interesse
-3. **Prático:** Teste cada exemplo no G1 real ou simulação
+3. **Prático:** Teste cada exemplo no G1 real ou simulaçêo
 
 ## Progresso Recomendado
 
 **Iniciante:** Módulos 1-4 (fundamentos)
-**Intermediário:** Módulos 5-7 (locomoção e manipulação)
-**Avançado:** Módulos 8-10 (percepção e autonomia)
+**Intermediário:** Módulos 5-7 (locomoçêo e manipulaçêo)
+**Avançado:** Módulos 8-10 (percepçêo e autonomia)
 
 ## Recursos Adicionais
 
@@ -151,13 +151,13 @@ Todos os módulos usam:
 - [G1 Hardware Manual](https://www.unitree.com/download/g1_manual.pdf)
 - [ROS2 Humble Docs](https://docs.ros.org/en/humble/)
 
-## Contribuição
+## Contribuiçêo
 
 Para sugestões ou correções, abra uma issue no repositório principal.
 
 ---
 
 **Criado:** 23 de Novembro de 2025
-**Última atualização:** 23 de Novembro de 2025
+**Última atualizaçêo:** 23 de Novembro de 2025
 **Autor:** Claude (Anthropic)
-**Versão:** 1.0
+**Versêo:** 1.0

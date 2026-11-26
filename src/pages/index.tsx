@@ -50,9 +50,9 @@ export default function Home(): JSX.Element {
       link: '/docs/tier1/introducao',
       slogan: '"Descubra o futuro da robótica"',
       benefits: [
-        'História e evolução dos humanoides',
+        'História e evoluçêo dos humanoides',
         'Principais modelos (Unitree, Tesla, Figure)',
-        'Sensores, atuadores e computação',
+        'Sensores, atuadores e computaçêo',
         'Aplicações práticas no mundo real'
       ],
     },
@@ -76,7 +76,7 @@ export default function Home(): JSX.Element {
       benefits: [
         'Interfaces de controle',
         'Segurança e melhores práticas',
-        'Calibração e manutenção',
+        'Calibraçêo e manutençêo',
         'Simuladores (Gazebo, Isaac Sim)'
       ],
     },
@@ -88,7 +88,7 @@ export default function Home(): JSX.Element {
       benefits: [
         'Startup e primeiros passos',
         'Controle remoto e app móvel',
-        'Caminhada e manipulação',
+        'Caminhada e manipulaçêo',
         'Troubleshooting específico'
       ],
     },
@@ -99,9 +99,9 @@ export default function Home(): JSX.Element {
       slogan: '"IA autônoma de verdade"',
       benefits: [
         'Autonomia completa sem controle',
-        'LLM e compreensão de linguagem',
+        'LLM e compreensêo de linguagem',
         'Aprendizado contínuo',
-        'Integração casa inteligente'
+        'Integraçêo casa inteligente'
       ],
     },
     '3.0': {
@@ -111,9 +111,9 @@ export default function Home(): JSX.Element {
       slogan: '"Code o futuro"',
       benefits: [
         'Python e ROS2 avançado',
-        'Visão computacional e IA',
-        'Navegação autônoma (Nav2)',
-        'Manipulação (MoveIt)'
+        'Visêo computacional e IA',
+        'Navegaçêo autônoma (Nav2)',
+        'Manipulaçêo (MoveIt)'
       ],
     },
     '3.1': {
@@ -124,7 +124,7 @@ export default function Home(): JSX.Element {
       benefits: [
         'SDK e API do G1',
         'Controle de baixo nível',
-        'Integração ROS2',
+        'Integraçêo ROS2',
         'Projetos customizados'
       ],
     },
