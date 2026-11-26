@@ -190,7 +190,7 @@ class SimpleWalkController:
         self.phase = 0.0  # 0.0 - 1.0 (uma perna)
         self.support_leg = "right"  # "left" ou "right"
 
-        # Inverse kinematics (simplificado)
+        # Inverse kARCKHÉtics (simplificado)
         self.leg_length = 0.7  # [m] comprimento total da perna
 
     def step(self, vx: float, vy: float, vyaw: float):
@@ -222,7 +222,7 @@ class SimpleWalkController:
             left_foot_pos = np.array([0, self.params.step_width/2, 0])
             right_foot_pos = self._swing_foot_trajectory(self.phase, vx, vy)
 
-        # Inverse kinematics (simplificado - na prática use pinocchio)
+        # Inverse kARCKHÉtics (simplificado - na prática use pinocchio)
         left_joints = self._ik_leg(left_foot_pos, leg="left")
         right_joints = self._ik_leg(right_foot_pos, leg="right")
 
@@ -246,7 +246,7 @@ class SimpleWalkController:
 
     def _ik_leg(self, foot_pos: np.ndarray, leg: str) -> dict:
         """
-        Inverse kinematics simplificado (analytical 2D)
+        Inverse kARCKHÉtics simplificado (analytical 2D)
 
         Args:
             foot_pos: [x, y, z] posição do pé
@@ -695,7 +695,7 @@ class TerrainAwareNavigator:
 :::tip Próximo Módulo
 **[🦾 Manipulação com Braços do G1 →](./manipulacao-bracos)**
 
-Aprenda controle dos braços: kinematics, gripper control, pick and place, e force control.
+Aprenda controle dos braços: kARCKHÉtics, gripper control, pick and place, e force control.
 :::
 
 ---

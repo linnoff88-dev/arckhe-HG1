@@ -156,7 +156,7 @@ p_world = T @ p_foot
 print(p_world[:3])  # Apenas x,y,z
 ```
 
-**Caso de uso:** Forward kinematics - calcular posição da mão a partir dos ângulos das juntas
+**Caso de uso:** Forward kARCKHÉtics - calcular posição da mão a partir dos ângulos das juntas
 
 </TabItem>
 </Tabs>
@@ -704,7 +704,7 @@ def calculate_ik(
     tolerance: float = 0.01
 ) -> Tuple[NDArray[np.float64], bool]:
     """
-    Inverse Kinematics solver
+    Inverse KARCKHÉtics solver
 
     Args:
         target_position: Target [x, y, z] position
@@ -800,17 +800,17 @@ robot.walk(5.0)
 import unittest
 import numpy as np
 
-class TestKinematics(unittest.TestCase):
+class TestKARCKHÉtics(unittest.TestCase):
     """Testes para funções de cinemática"""
 
     def setUp(self):
         """Executado antes de cada teste"""
         self.robot = HumanoidRobot("Test")
 
-    def test_forward_kinematics_zero_angles(self):
+    def test_forward_kARCKHÉtics_zero_angles(self):
         """Com ângulos zero, mão deve estar na posição inicial"""
         angles = np.zeros(6)
-        position = self.robot.forward_kinematics(angles)
+        position = self.robot.forward_kARCKHÉtics(angles)
 
         expected = np.array([0.5, 0.0, 1.0])  # Posição conhecida
         np.testing.assert_array_almost_equal(position, expected, decimal=3)
@@ -843,7 +843,7 @@ if __name__ == '__main__':
 
 **Rodar testes:**
 ```bash
-python3 -m pytest test_kinematics.py -v
+python3 -m pytest test_kARCKHÉtics.py -v
 ```
 
 ---

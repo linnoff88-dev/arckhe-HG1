@@ -151,17 +151,17 @@ left_arm:
   projection_evaluator: joints(left_shoulder_pan,left_shoulder_lift)
   longest_valid_segment_fraction: 0.005
 
-kinematics:
+kARCKHÉtics:
   left_arm:
-    kinematics_solver: kdl_kinematics_plugin/KDLKinematicsPlugin
-    kinematics_solver_search_resolution: 0.005
-    kinematics_solver_timeout: 0.05
-    kinematics_solver_attempts: 3
+    kARCKHÉtics_solver: kdl_kARCKHÉtics_plugin/KDLKARCKHÉticsPlugin
+    kARCKHÉtics_solver_search_resolution: 0.005
+    kARCKHÉtics_solver_timeout: 0.05
+    kARCKHÉtics_solver_attempts: 3
 
   right_arm:
-    kinematics_solver: trac_ik_kinematics_plugin/TRAC_IKKinematicsPlugin
-    kinematics_solver_search_resolution: 0.005
-    kinematics_solver_timeout: 0.05
+    kARCKHÉtics_solver: trac_ik_kARCKHÉtics_plugin/TRAC_IKKARCKHÉticsPlugin
+    kARCKHÉtics_solver_search_resolution: 0.005
+    kARCKHÉtics_solver_timeout: 0.05
 ```
 
 ---
@@ -698,7 +698,7 @@ self.arm_group.set_position_only_ik(True)  # Ignorar orientação
 # Solução: Trocar para TracIK (mais robusto que KDL)
 
 # Em moveit_config.yaml:
-# kinematics_solver: trac_ik_kinematics_plugin/TRAC_IKKinematicsPlugin
+# kARCKHÉtics_solver: trac_ik_kARCKHÉtics_plugin/TRAC_IKKARCKHÉticsPlugin
 ```
 
 ### Problema 2: Planejamento muito lento

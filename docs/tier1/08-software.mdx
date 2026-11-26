@@ -188,7 +188,7 @@ subscription = node.create_subscription(
 **Exemplo:**
 ```python
 # Servidor: Calcula cinemática inversa
-from robot_interfaces.srv import InverseKinematics
+from robot_interfaces.srv import InverseKARCKHÉtics
 
 def handle_ik_request(request, response):
     # request.target_position = [x, y, z]
@@ -197,15 +197,15 @@ def handle_ik_request(request, response):
     return response
 
 service = node.create_service(
-    InverseKinematics,
-    'inverse_kinematics',
+    InverseKARCKHÉtics,
+    'inverse_kARCKHÉtics',
     handle_ik_request
 )
 
 
 # Cliente: Solicita cinemática
-client = node.create_client(InverseKinematics, 'inverse_kinematics')
-request = InverseKinematics.Request()
+client = node.create_client(InverseKARCKHÉtics, 'inverse_kARCKHÉtics')
+request = InverseKARCKHÉtics.Request()
 request.target_position = [0.5, 0.2, 0.8]  # x, y, z em metros
 
 future = client.call_async(request)
